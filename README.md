@@ -30,3 +30,15 @@ devops-journey-from-code-to-cloud/
   │   └── project-*.jpg       # Project/tool images
   └── README.md               # This file
 ```
+
+---
+
+## Sources / Assets
+
+All visuals in this project were created by me (for example using Canva or LottieFiles) specifically
+for this assignment and are **not copied from copyrighted third‑party sources**:
+
+- `img/hero-devops.jpg`
+- `img/devops-loop.gif`
+- `img/project-ci.jpg`
+- `img/project-monitoring.jpg`

@@ -135,14 +135,150 @@
           </form>
         </section>
 
-        <!-- DevOps readiness checklist (Form #2) placeholder -->
+        <!-- DevOps readiness checklist (Form #2) -->
         <section>
           <h2 class="h4 fw-bold mb-3">DevOps Readiness Checklist</h2>
           <p class="text-muted">
-            A checklist form with statements about version control, testing, CI/CD, and monitoring,
-            plus a role selection, will be implemented here in a later step.
+            Check the statements that are true for your current team or project, then select your
+            role. This is not a graded quiz, just a quick self-assessment.
           </p>
-          <!-- Checklist form markup will be added in a later, focused step -->
+
+          <form>
+            <div class="row g-3 mb-3">
+              <div class="col-12">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value="version-control"
+                    id="readinessVersionControl"
+                    name="readiness[]"
+                  />
+                  <label class="form-check-label" for="readinessVersionControl">
+                    We use version control (Git) for all code changes.
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value="automated-tests"
+                    id="readinessTests"
+                    name="readiness[]"
+                  />
+                  <label class="form-check-label" for="readinessTests">
+                    We have automated tests that run on every change.
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value="ci-cd"
+                    id="readinessCiCd"
+                    name="readiness[]"
+                  />
+                  <label class="form-check-label" for="readinessCiCd">
+                    We use CI/CD pipelines to build and deploy our applications.
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value="monitoring"
+                    id="readinessMonitoring"
+                    name="readiness[]"
+                  />
+                  <label class="form-check-label" for="readinessMonitoring">
+                    We monitor our applications in production (logs, metrics, or dashboards).
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value="infrastructure-as-code"
+                    id="readinessIac"
+                    name="readiness[]"
+                  />
+                  <label class="form-check-label" for="readinessIac">
+                    We define at least some infrastructure using code (e.g., Terraform, templates).
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <h3 class="h5 mb-2">Your current role</h3>
+              <div class="row g-2">
+                <div class="col-md-3 col-6">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="role"
+                      id="roleStudent"
+                      value="student"
+                    />
+                    <label class="form-check-label" for="roleStudent">Student</label>
+                  </div>
+                </div>
+                <div class="col-md-3 col-6">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="role"
+                      id="roleDeveloper"
+                      value="developer"
+                    />
+                    <label class="form-check-label" for="roleDeveloper">Developer</label>
+                  </div>
+                </div>
+                <div class="col-md-3 col-6">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="role"
+                      id="roleOps"
+                      value="ops"
+                    />
+                    <label class="form-check-label" for="roleOps">Ops / SRE</label>
+                  </div>
+                </div>
+                <div class="col-md-3 col-6">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="role"
+                      id="roleOther"
+                      value="other"
+                    />
+                    <label class="form-check-label" for="roleOther">Other</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-outline-primary">
+              Submit Readiness Check
+            </button>
+          </form>
         </section>
       </div>
     </main>

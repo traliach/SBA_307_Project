@@ -1,0 +1,47 @@
+/* Global styles */
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background-color: #f8fafc;
+  color: #212529;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Hero animation */
+.hero-section {
+  animation: heroFadeIn 0.9s ease-out both;
+}
+
+@keyframes heroFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Card hover animation */
+.skill-card,
+.tool-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.skill-card:hover,
+.tool-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0.75rem 1.5rem rgba(15, 23, 42, 0.15);
+}
+
+/* Footer tweaks */
+footer a:hover {
+  opacity: 0.85;
+}

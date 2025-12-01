@@ -157,13 +157,57 @@
           </div>
         </section>
 
-        <!-- Placeholder: tool cards / project cards will go here -->
+        <!-- Tool cards / project cards -->
         <section>
           <h2 class="h4 fw-bold mb-3">Tool Highlights &amp; Sample Pipelines</h2>
-          <p class="text-muted mb-0">
-            This section will use Bootstrap cards to highlight individual tools and small DevOps
-            pipeline examples.
-          </p>
+          <div class="row g-4">
+            <div class="col-md-4">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                  <h3 class="h5 card-title">CI Pipeline for Java Service</h3>
+                  <p class="card-text">
+                    A simple pipeline that uses GitHub, Maven, Jenkins, and SonarQube to build,
+                    test, and analyze a Java service on every push.
+                  </p>
+                  <p class="mb-0">
+                    <strong>Tools:</strong> Git, GitHub, Maven, Jenkins, SonarQube, Nexus Repository
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                  <h3 class="h5 card-title">Containerized Web App</h3>
+                  <p class="card-text">
+                    A small web application packaged as a Docker image, deployed to a Kubernetes
+                    cluster running in the cloud.
+                  </p>
+                  <p class="mb-0">
+                    <strong>Tools:</strong> Docker, Kubernetes, AWS / Azure / GCP, Prometheus,
+                    Grafana
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                  <h3 class="h5 card-title">Infrastructure as Code Stack</h3>
+                  <p class="card-text">
+                    A basic infrastructure stack defined in code, including networking and a compute
+                    instance, managed via version control.
+                  </p>
+                  <p class="mb-0">
+                    <strong>Tools:</strong> Terraform, AWS CloudFormation, Azure Resource Manager,
+                    Ansible
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
       </div>
     </main>

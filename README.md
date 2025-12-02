@@ -43,4 +43,6 @@ for this assignment and are **not copied from copyrighted third‑party sources*
 - `img/project-ci.jpg`
 - `img/project-monitoring.jpg`
 
-https://gist.github.com/traliach/9697f9388330d4d4bfe3a3abf86f6f8a
+## License: 
+
+ MIT — free to use, modify, and share with attribution. Provided “as is.”

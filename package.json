@@ -1,0 +1,20 @@
+{
+  "name": "resume-platform",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev:client": "npm --workspace client run dev",
+    "build:client": "npm --workspace client run build",
+    "lint:client": "npm --workspace client run lint",
+    "dev:server": "npm --workspace server run dev",
+    "build:server": "npm --workspace server run build",
+    "start:server": "npm --workspace server run start"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  }
+}

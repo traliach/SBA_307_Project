@@ -1,2 +1,9 @@
+.env
+.env.*
+node_modules/
+client/dist/
+server/dist/
+server/node_modules/
+*.log
 .tmp_resume_gcp.txt
 .tmp_homepage_docs.txt

@@ -68,6 +68,33 @@ function mergeProjects(projects: ProjectSummary[]): ProjectSummary[] {
   })
 }
 
+function mergeSkills(skills: SkillGroup[]): SkillGroup[] {
+  return skills.map((skill, index) => {
+    const fallbackSkillGroup = fallbackSkillGroups[index]
+
+    return {
+      ...fallbackSkillGroup,
+      ...skill,
+      items: skill.items ?? fallbackSkillGroup?.items ?? [],
+    }
+  })
+}
+
+function mergeTestimonials(testimonials: Testimonial[]): Testimonial[] {
+  return testimonials.map((testimonial, index) => {
+    const fallbackTestimonial = fallbackTestimonials[index]
+
+    return {
+      ...fallbackTestimonial,
+      ...testimonial,
+      quote: testimonial.quote ?? fallbackTestimonial?.quote ?? '',
+      author: testimonial.author ?? fallbackTestimonial?.author ?? 'Anonymous',
+      role: testimonial.role ?? fallbackTestimonial?.role ?? 'Unknown role',
+      company: testimonial.company ?? fallbackTestimonial?.company ?? 'Unknown company',
+    }
+  })
+}
+
 export function usePortfolioData() {
   const [apiState, setApiState] = useState<ApiState>('loading')
   const [health, setHealth] = useState<ApiHealth | null>(null)
@@ -149,11 +176,11 @@ export function usePortfolioData() {
         }
 
         if (skillResult.status === 'fulfilled') {
-          setSkills(skillResult.value)
+          setSkills(mergeSkills(skillResult.value))
         }
 
         if (testimonialResult.status === 'fulfilled') {
-          setTestimonials(testimonialResult.value)
+          setTestimonials(mergeTestimonials(testimonialResult.value))
         }
       })
 

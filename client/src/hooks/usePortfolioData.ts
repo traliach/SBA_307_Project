@@ -31,23 +31,45 @@ import type {
   Testimonial,
 } from '../types/site'
 
-function mergeProfileContent(profile: ProfileContent): ProfileContent {
+function isObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null
+}
+
+function mergeProfileContent(profile: unknown): ProfileContent {
+  if (!isObject(profile)) {
+    return fallbackProfile
+  }
+
   return {
     ...fallbackProfile,
     ...profile,
-    about: profile.about ?? fallbackProfile.about,
-    availability: profile.availability ?? fallbackProfile.availability,
-    certifications: profile.certifications ?? fallbackProfile.certifications,
-    strengths: profile.strengths ?? fallbackProfile.strengths,
-    timeline: profile.timeline ?? fallbackProfile.timeline,
+    about:
+      typeof profile.about === 'string' ? profile.about : fallbackProfile.about,
+    availability:
+      typeof profile.availability === 'string'
+        ? profile.availability
+        : fallbackProfile.availability,
+    certifications: Array.isArray(profile.certifications)
+      ? profile.certifications
+      : fallbackProfile.certifications,
+    strengths: Array.isArray(profile.strengths)
+      ? profile.strengths
+      : fallbackProfile.strengths,
+    timeline: Array.isArray(profile.timeline)
+      ? profile.timeline
+      : fallbackProfile.timeline,
     links: {
       ...fallbackProfile.links,
-      ...profile.links,
+      ...(isObject(profile.links) ? profile.links : {}),
     },
   }
 }
 
-function mergeProjects(projects: ProjectSummary[]): ProjectSummary[] {
+function mergeProjects(projects: unknown): ProjectSummary[] {
+  if (!Array.isArray(projects)) {
+    return fallbackProjects
+  }
+
   return projects.map((project, index) => {
     const fallbackProject = fallbackProjects[index]
 
@@ -68,7 +90,11 @@ function mergeProjects(projects: ProjectSummary[]): ProjectSummary[] {
   })
 }
 
-function mergeSkills(skills: SkillGroup[]): SkillGroup[] {
+function mergeSkills(skills: unknown): SkillGroup[] {
+  if (!Array.isArray(skills)) {
+    return fallbackSkillGroups
+  }
+
   return skills.map((skill, index) => {
     const fallbackSkillGroup = fallbackSkillGroups[index]
 
@@ -80,7 +106,11 @@ function mergeSkills(skills: SkillGroup[]): SkillGroup[] {
   })
 }
 
-function mergeTestimonials(testimonials: Testimonial[]): Testimonial[] {
+function mergeTestimonials(testimonials: unknown): Testimonial[] {
+  if (!Array.isArray(testimonials)) {
+    return fallbackTestimonials
+  }
+
   return testimonials.map((testimonial, index) => {
     const fallbackTestimonial = fallbackTestimonials[index]
 

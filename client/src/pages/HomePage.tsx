@@ -1,3 +1,4 @@
+import { AboutSection } from '../components/home/AboutSection'
 import {
   contactItems,
   highlightMetrics,
@@ -31,6 +32,7 @@ export function HomePage() {
     <div className="app-shell">
       <PortfolioHeader name={profile.name} title={profile.title} />
       <HeroSection apiState={apiState} health={health} profile={profile} />
+      <AboutSection profile={profile} />
       <HighlightsSection items={highlightMetrics} />
       <ProjectsSection projects={projects} />
       <SkillsSection skills={skills} />

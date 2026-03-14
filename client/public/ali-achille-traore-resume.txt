@@ -1,0 +1,31 @@
+ALI ACHILLE TRAORE
+DevOps Engineer
+Newark, NJ
+ali.achille.traore@gmail.com
+https://www.linkedin.com/in/ali-achille-traore
+
+SUMMARY
+DevOps engineer with over six years of experience across AWS, Azure, and GCP, focused on CI/CD, infrastructure automation, cloud operations, and delivery reliability.
+
+CORE STRENGTHS
+- CI/CD pipeline delivery with Jenkins, GitLab CI/CD, CircleCI, and Azure DevOps
+- Infrastructure automation with Terraform, CloudFormation, ARM, and Ansible
+- Cloud delivery across AWS, Azure, and GCP
+- Production troubleshooting, reliability improvement, and cross-functional support
+
+EXPERIENCE
+DevOps Engineer, Dominion Systems
+August 2018 - Present
+- Led CI/CD improvements that reduced build and deployment times by roughly 30%
+- Supported cloud delivery and automation efforts across AWS and GCP
+- Improved monitoring, operational workflows, and deployment reliability
+
+AWS Cloud Engineer, Dominion Systems
+June 2017 - July 2018
+- Supported AWS infrastructure operations, networking, database work, and production changes
+- Improved resource utilization, stability, and operational efficiency
+
+CERTIFICATIONS
+- AWS Certified DevOps Engineer - Professional
+- AWS Certified Cloud Practitioner
+- Google IT Support Specialization

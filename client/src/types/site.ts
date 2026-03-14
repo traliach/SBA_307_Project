@@ -11,12 +11,21 @@ export interface ProfileContent {
   name: string
   title: string
   location: string
+  availability: string
   summary: string
   intro: string
+  about: string
   certifications: string[]
+  strengths: string[]
+  timeline: Array<{
+    title: string
+    period: string
+    detail: string
+  }>
   links: {
     email: string
     linkedin: string
+    resume: string
   }
 }
 

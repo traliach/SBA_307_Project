@@ -18,6 +18,12 @@ export function HeroSection({ apiState, health, profile }: HeroSectionProps) {
         <p className="hero-copy">{profile.intro}</p>
 
         <div className="hero-actions">
+          <a className="button button--primary" href={profile.links.resume} download>
+            Download resume
+          </a>
+          <a className="button button--secondary" href="#about">
+            Read profile story
+          </a>
           <a className="button button--primary" href="#projects">
             View starter sections
           </a>

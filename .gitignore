@@ -7,3 +7,9 @@ server/node_modules/
 *.log
 .tmp_resume_gcp.txt
 .tmp_homepage_docs.txt
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+crash.log

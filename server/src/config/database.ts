@@ -1,5 +1,6 @@
+import mongoose from 'mongoose'
 import { env } from './env.js'
-import { logInfo, logWarn } from '../utils/logger.js'
+import { logInfo, logSuccess, logWarn } from '../utils/logger.js'
 
 function getDatabaseTargetLabel(uri: string) {
   try {
@@ -17,6 +18,8 @@ export async function connectDatabase() {
   }
 
   const target = getDatabaseTargetLabel(env.MONGODB_URI)
-  logInfo(`MongoDB URI detected for ${target}. Connection wiring is ready for the next step.`)
+  logInfo(`Connecting to MongoDB at ${target}...`)
+  await mongoose.connect(env.MONGODB_URI)
+  logSuccess(`Connected to MongoDB at ${target}`)
   return true
 }

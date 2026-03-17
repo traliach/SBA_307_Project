@@ -2,8 +2,8 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { randomUUID } from 'node:crypto'
-import mongoose from 'mongoose'
 import { z } from 'zod'
+import { isDatabaseReady } from '../../config/database.js'
 import type {
   ContactSubmission,
   ContactSubmissionInput,
@@ -29,10 +29,6 @@ const storedSubmissionSchema = z.object({
 const storedSubmissionListSchema = z.array(storedSubmissionSchema)
 
 let writeQueue = Promise.resolve()
-
-function isDatabaseReady() {
-  return mongoose.connection.readyState === 1
-}
 
 async function ensureStore() {
   const storagePath = fileURLToPath(storageFileUrl)

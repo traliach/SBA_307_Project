@@ -1,8 +1,12 @@
 import { Router } from 'express'
-import { testimonials } from './testimonials.data.js'
+import { getTestimonials } from './testimonials.store.js'
 
 export const testimonialsRouter = Router()
 
-testimonialsRouter.get('/', (_request, response) => {
-  response.json(testimonials)
+testimonialsRouter.get('/', async (_request, response, next) => {
+  try {
+    response.json(await getTestimonials())
+  } catch (error) {
+    next(error)
+  }
 })

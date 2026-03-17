@@ -29,6 +29,11 @@ function attachConnectionListeners() {
   hasConnectionListeners = true
 }
 
+// Centralize readiness checks so content stores can decide whether to use Mongo.
+export function isDatabaseReady() {
+  return mongoose.connection.readyState === 1
+}
+
 export async function connectDatabase() {
   if (!env.MONGODB_URI) {
     logWarn('MongoDB URI not set. Skipping database connection.')

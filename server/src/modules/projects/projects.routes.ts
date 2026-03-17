@@ -1,8 +1,12 @@
 import { Router } from 'express'
-import { projects } from './projects.data.js'
+import { getProjects } from './projects.store.js'
 
 export const projectsRouter = Router()
 
-projectsRouter.get('/', (_request, response) => {
-  response.json(projects)
+projectsRouter.get('/', async (_request, response, next) => {
+  try {
+    response.json(await getProjects())
+  } catch (error) {
+    next(error)
+  }
 })

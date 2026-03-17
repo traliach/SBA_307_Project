@@ -1,8 +1,12 @@
 import { Router } from 'express'
-import { skillGroups } from './skills.data.js'
+import { getSkillGroups } from './skills.store.js'
 
 export const skillsRouter = Router()
 
-skillsRouter.get('/', (_request, response) => {
-  response.json(skillGroups)
+skillsRouter.get('/', async (_request, response, next) => {
+  try {
+    response.json(await getSkillGroups())
+  } catch (error) {
+    next(error)
+  }
 })

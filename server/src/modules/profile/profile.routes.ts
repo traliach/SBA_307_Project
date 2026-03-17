@@ -1,8 +1,12 @@
 import { Router } from 'express'
-import { profile } from './profile.data.js'
+import { getProfileContent } from './profile.store.js'
 
 export const profileRouter = Router()
 
-profileRouter.get('/', (_request, response) => {
-  response.json(profile)
+profileRouter.get('/', async (_request, response, next) => {
+  try {
+    response.json(await getProfileContent())
+  } catch (error) {
+    next(error)
+  }
 })

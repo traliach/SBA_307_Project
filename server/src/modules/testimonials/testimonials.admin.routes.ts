@@ -14,6 +14,10 @@ const testimonialStatusSchema = z.object({
   status: z.enum(['pending', 'approved', 'rejected']),
 })
 
+const reorderSchema = z.object({
+  ids: z.array(z.string().trim().min(1)).min(1),
+})
+
 type AdminTestimonialDocument = AdminTestimonial & {
   order: number
   _id: {
@@ -34,6 +38,14 @@ function toAdminTestimonial(document: AdminTestimonialDocument) {
     status: document.status ?? 'approved',
     source: document.source ?? 'seed',
   }
+}
+
+function hasExactIdSet(currentIds: string[], nextIds: string[]) {
+  return (
+    currentIds.length === nextIds.length &&
+    new Set(nextIds).size === nextIds.length &&
+    currentIds.every((id) => nextIds.includes(id))
+  )
 }
 
 export const adminTestimonialsRouter = Router()
@@ -178,6 +190,69 @@ adminTestimonialsRouter.delete('/:id', async (request, response, next) => {
       id: String(document._id),
       message: 'Testimonial deleted.',
     })
+  } catch (error) {
+    next(error)
+  }
+})
+
+adminTestimonialsRouter.patch('/reorder', async (request, response, next) => {
+  try {
+    const result = reorderSchema.safeParse(request.body)
+
+    if (!result.success) {
+      response.status(400).json({
+        message: 'Please provide the full ordered testimonial id list.',
+        issues: result.error.flatten(),
+      })
+      return
+    }
+
+    const currentDocuments = await TestimonialModel.find()
+      .sort({ order: 1 })
+      .select('_id')
+      .lean()
+      .exec()
+    const currentIds = currentDocuments.map((document) => String(document._id))
+
+    if (!hasExactIdSet(currentIds, result.data.ids)) {
+      response.status(400).json({
+        message: 'Testimonial reorder payload must include every existing testimonial id once.',
+      })
+      return
+    }
+
+    const temporaryOrderOffset = currentIds.length + 1000
+
+    // Move the whole range out of the way first so the unique order index
+    // does not collide while two items swap positions.
+    await TestimonialModel.bulkWrite(
+      result.data.ids.map((id, index) => ({
+        updateOne: {
+          filter: { _id: id },
+          update: { $set: { order: temporaryOrderOffset + index } },
+        },
+      })),
+    )
+
+    await TestimonialModel.bulkWrite(
+      result.data.ids.map((id, index) => ({
+        updateOne: {
+          filter: { _id: id },
+          update: { $set: { order: index } },
+        },
+      })),
+    )
+
+    const reorderedDocuments = await TestimonialModel.find()
+      .sort({ order: 1 })
+      .lean()
+      .exec()
+
+    response.json(
+      reorderedDocuments.map((document) =>
+        toAdminTestimonial(document as unknown as AdminTestimonialDocument),
+      ),
+    )
   } catch (error) {
     next(error)
   }

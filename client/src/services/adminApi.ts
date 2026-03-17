@@ -13,6 +13,7 @@ import type {
   Testimonial,
   TestimonialModerationStatus,
 } from '../types/site'
+import { withApiBase } from './apiBase'
 
 const REQUEST_TIMEOUT_MS = 8000
 
@@ -109,8 +110,9 @@ async function requestJson<T>(
   init?: RequestInit,
   token?: string,
 ) {
-  console.info(`[admin-api] ${init?.method ?? 'GET'} ${path}`)
-  const response = await fetchWithTimeout(path, {
+  const requestPath = withApiBase(path)
+  console.info(`[admin-api] ${init?.method ?? 'GET'} ${requestPath}`)
+  const response = await fetchWithTimeout(requestPath, {
     ...init,
     headers: {
       ...buildHeaders(token),
@@ -124,7 +126,7 @@ async function requestJson<T>(
       | null
 
     console.error(
-      `[admin-api] ${init?.method ?? 'GET'} ${path} failed with status ${response.status}`,
+      `[admin-api] ${init?.method ?? 'GET'} ${requestPath} failed with status ${response.status}`,
     )
 
     if (response.status === 401) {
@@ -136,7 +138,7 @@ async function requestJson<T>(
     )
   }
 
-  return parseJson<T>(response, `${init?.method ?? 'GET'} ${path}`)
+  return parseJson<T>(response, `${init?.method ?? 'GET'} ${requestPath}`)
 }
 
 export function loginAdmin(email: string, password: string, mfaCode?: string) {
@@ -208,6 +210,17 @@ export function deleteAdminProject(token: string, id: string) {
   )
 }
 
+export function reorderAdminProjects(token: string, ids: string[]) {
+  return requestJson<AdminProject[]>(
+    '/api/admin/projects/reorder',
+    {
+      method: 'PATCH',
+      body: JSON.stringify({ ids }),
+    },
+    token,
+  )
+}
+
 export function fetchAdminSkills(token: string) {
   return requestJson<AdminSkillGroup[]>('/api/admin/skills', undefined, token)
 }
@@ -243,6 +256,17 @@ export function deleteAdminSkillGroup(token: string, id: string) {
     `/api/admin/skills/${id}`,
     {
       method: 'DELETE',
+    },
+    token,
+  )
+}
+
+export function reorderAdminSkillGroups(token: string, ids: string[]) {
+  return requestJson<AdminSkillGroup[]>(
+    '/api/admin/skills/reorder',
+    {
+      method: 'PATCH',
+      body: JSON.stringify({ ids }),
     },
     token,
   )
@@ -302,6 +326,17 @@ export function deleteAdminTestimonial(token: string, id: string) {
     `/api/admin/testimonials/${id}`,
     {
       method: 'DELETE',
+    },
+    token,
+  )
+}
+
+export function reorderAdminTestimonials(token: string, ids: string[]) {
+  return requestJson<AdminTestimonial[]>(
+    '/api/admin/testimonials/reorder',
+    {
+      method: 'PATCH',
+      body: JSON.stringify({ ids }),
     },
     token,
   )

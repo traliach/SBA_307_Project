@@ -21,6 +21,10 @@ const projectSchema = z.object({
   outcomes: z.array(z.string().trim().min(1).max(300)).min(1),
 })
 
+const reorderSchema = z.object({
+  ids: z.array(z.string().trim().min(1)).min(1),
+})
+
 type AdminProjectDocument = ProjectSummary & {
   order: number
   _id: {
@@ -43,6 +47,14 @@ function toAdminProject(document: AdminProjectDocument) {
     metrics: document.metrics,
     outcomes: document.outcomes,
   }
+}
+
+function hasExactIdSet(currentIds: string[], nextIds: string[]) {
+  return (
+    currentIds.length === nextIds.length &&
+    new Set(nextIds).size === nextIds.length &&
+    currentIds.every((id) => nextIds.includes(id))
+  )
 }
 
 export const adminProjectsRouter = Router()
@@ -139,6 +151,66 @@ adminProjectsRouter.delete('/:id', async (request, response, next) => {
       id: String(document._id),
       message: 'Project deleted.',
     })
+  } catch (error) {
+    next(error)
+  }
+})
+
+adminProjectsRouter.patch('/reorder', async (request, response, next) => {
+  try {
+    const result = reorderSchema.safeParse(request.body)
+
+    if (!result.success) {
+      response.status(400).json({
+        message: 'Please provide the full ordered project id list.',
+        issues: result.error.flatten(),
+      })
+      return
+    }
+
+    const currentDocuments = await ProjectModel.find()
+      .sort({ order: 1 })
+      .select('_id')
+      .lean()
+      .exec()
+    const currentIds = currentDocuments.map((document) => String(document._id))
+
+    if (!hasExactIdSet(currentIds, result.data.ids)) {
+      response.status(400).json({
+        message: 'Project reorder payload must include every existing project id once.',
+      })
+      return
+    }
+
+    const temporaryOrderOffset = currentIds.length + 1000
+
+    // Move the whole range out of the way first so the unique order index
+    // does not collide while two items swap positions.
+    await ProjectModel.bulkWrite(
+      result.data.ids.map((id, index) => ({
+        updateOne: {
+          filter: { _id: id },
+          update: { $set: { order: temporaryOrderOffset + index } },
+        },
+      })),
+    )
+
+    await ProjectModel.bulkWrite(
+      result.data.ids.map((id, index) => ({
+        updateOne: {
+          filter: { _id: id },
+          update: { $set: { order: index } },
+        },
+      })),
+    )
+
+    const reorderedDocuments = await ProjectModel.find().sort({ order: 1 }).lean().exec()
+
+    response.json(
+      reorderedDocuments.map((document) =>
+        toAdminProject(document as unknown as AdminProjectDocument),
+      ),
+    )
   } catch (error) {
     next(error)
   }

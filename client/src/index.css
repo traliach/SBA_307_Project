@@ -677,6 +677,17 @@ h3 {
   color: var(--text-muted);
 }
 
+.admin-field-note {
+  margin: -0.2rem 0 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.admin-field-note--error {
+  color: #912018;
+  font-weight: 700;
+}
+
 .admin-tag {
   display: inline-flex;
   align-items: center;

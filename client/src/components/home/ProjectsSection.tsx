@@ -64,7 +64,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
               </ul>
 
               <div className="project-actions">
-                <a className="button button--secondary" href="#contact">
+                <a className="button button--secondary" href="/contact">
                   Discuss similar work
                 </a>
               </div>

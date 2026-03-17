@@ -1,9 +1,22 @@
 interface PortfolioHeaderProps {
+  currentPath: string
   name: string
   title: string
 }
 
-export function PortfolioHeader({ name, title }: PortfolioHeaderProps) {
+const navItems = [
+  { href: '/', label: 'Overview' },
+  { href: '/about', label: 'About' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/skills', label: 'Skills' },
+  { href: '/contact', label: 'Contact' },
+]
+
+export function PortfolioHeader({
+  currentPath,
+  name,
+  title,
+}: PortfolioHeaderProps) {
   return (
     <header className="topbar">
       <div className="brand">
@@ -12,11 +25,16 @@ export function PortfolioHeader({ name, title }: PortfolioHeaderProps) {
       </div>
 
       <nav className="nav-links" aria-label="Portfolio sections">
-        <a href="#overview">Overview</a>
-        <a href="#about">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#skills">Skills</a>
-        <a href="#contact">Contact</a>
+        {navItems.map((item) => (
+          <a
+            aria-current={currentPath === item.href ? 'page' : undefined}
+            className={currentPath === item.href ? 'active' : undefined}
+            href={item.href}
+            key={item.href}
+          >
+            {item.label}
+          </a>
+        ))}
       </nav>
     </header>
   )

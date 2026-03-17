@@ -21,13 +21,13 @@ export function HeroSection({ apiState, health, profile }: HeroSectionProps) {
           <a className="button button--primary" href={profile.links.resume} download>
             Download resume
           </a>
-          <a className="button button--secondary" href="#about">
+          <a className="button button--secondary" href="/about">
             Read profile story
           </a>
-          <a className="button button--primary" href="#projects">
+          <a className="button button--primary" href="/projects">
             View case studies
           </a>
-          <a className="button button--secondary" href="#contact">
+          <a className="button button--secondary" href="/contact">
             Open contact page
           </a>
         </div>

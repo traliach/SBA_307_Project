@@ -9,6 +9,7 @@
     "admin:login": "node scripts/admin-login.mjs",
     "admin:mfa:setup": "node scripts/admin-mfa-setup.mjs",
     "build": "tsc -p tsconfig.json",
+    "test": "npm run build && node scripts/api-smoke-test.mjs",
     "start": "node dist/server.js"
   },
   "dependencies": {

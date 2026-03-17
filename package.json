@@ -12,7 +12,11 @@
     "lint:client": "npm --workspace client run lint",
     "dev:server": "npm --workspace server run dev",
     "build:server": "npm --workspace server run build",
-    "start:server": "npm --workspace server run start"
+    "start:server": "npm --workspace server run start",
+    "test:server": "npm --workspace server run test",
+    "check:server": "npm run test:server",
+    "check:client": "npm run lint:client && npm run build:client",
+    "ci": "npm run check:server && npm run check:client"
   },
   "engines": {
     "node": ">=24.0.0"

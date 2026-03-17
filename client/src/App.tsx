@@ -1,6 +1,6 @@
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { AdminPage } from './pages/AdminPage'
-import { HomePage } from './pages/HomePage'
+import { PublicSite } from './pages/PublicSite'
 
 function App() {
   // Keep admin isolated from the public site until routing is reintroduced safely.
@@ -8,7 +8,7 @@ function App() {
 
   return (
     <ErrorBoundary>
-      {isAdminPath ? <AdminPage /> : <HomePage />}
+      {isAdminPath ? <AdminPage /> : <PublicSite />}
     </ErrorBoundary>
   )
 }

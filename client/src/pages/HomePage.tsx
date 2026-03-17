@@ -11,31 +11,55 @@ import { PortfolioHeader } from '../components/home/PortfolioHeader'
 import { ProjectsSection } from '../components/home/ProjectsSection'
 import { SkillsSection } from '../components/home/SkillsSection'
 import { TestimonialsSection } from '../components/home/TestimonialsSection'
-import { usePortfolioData } from '../hooks/usePortfolioData'
+import type { ApiHealth, ApiState, ContactSubmissionInput, ProfileContent, ProjectSummary, SkillGroup, SubmitState, Testimonial, TestimonialSubmissionInput } from '../types/site'
 
-export function HomePage() {
-  const {
-    apiState,
-    contactForm,
-    handleContactChange,
-    handleContactSubmit,
-    handleTestimonialChange,
-    handleTestimonialSubmit,
-    health,
-    profile,
-    projects,
-    skills,
-    submitMessage,
-    submitState,
-    testimonials,
-    testimonialForm,
-    testimonialSubmitMessage,
-    testimonialSubmitState,
-  } = usePortfolioData()
+interface HomePageProps {
+  apiState: ApiState
+  contactForm: ContactSubmissionInput
+  currentPath: string
+  handleContactChange: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+  ) => void
+  handleContactSubmit: (event: React.FormEvent<HTMLFormElement>) => Promise<void>
+  handleTestimonialChange: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => void
+  handleTestimonialSubmit: (event: React.FormEvent<HTMLFormElement>) => Promise<void>
+  health: ApiHealth | null
+  profile: ProfileContent
+  projects: ProjectSummary[]
+  skills: SkillGroup[]
+  submitMessage: string
+  submitState: SubmitState
+  testimonials: Testimonial[]
+  testimonialForm: TestimonialSubmissionInput
+  testimonialSubmitMessage: string
+  testimonialSubmitState: SubmitState
+}
+
+export function HomePage({
+  apiState,
+  contactForm,
+  currentPath,
+  handleContactChange,
+  handleContactSubmit,
+  handleTestimonialChange,
+  handleTestimonialSubmit,
+  health,
+  profile,
+  projects,
+  skills,
+  submitMessage,
+  submitState,
+  testimonials,
+  testimonialForm,
+  testimonialSubmitMessage,
+  testimonialSubmitState,
+}: HomePageProps) {
 
   return (
-    <div className="app-shell">
-      <PortfolioHeader name={profile.name} title={profile.title} />
+    <>
+      <PortfolioHeader currentPath={currentPath} name={profile.name} title={profile.title} />
       <HeroSection apiState={apiState} health={health} profile={profile} />
       <AboutSection profile={profile} />
       <HighlightsSection items={highlightMetrics} />
@@ -58,9 +82,6 @@ export function HomePage() {
         submitMessage={submitMessage}
         submitState={submitState}
       />
-      <footer className="footer">
-        <p>Client scaffold ready. Next step: keep changes small and testable.</p>
-      </footer>
-    </div>
+    </>
   )
 }

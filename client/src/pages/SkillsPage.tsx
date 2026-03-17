@@ -1,8 +1,10 @@
 import { SkillsSection } from '../components/home/SkillsSection'
-import { usePortfolioOutlet } from '../hooks/usePortfolioOutlet'
+import type { SkillGroup } from '../types/site'
 
-export function SkillsPage() {
-  const { skills } = usePortfolioOutlet()
+interface SkillsPageProps {
+  skills: SkillGroup[]
+}
 
+export function SkillsPage({ skills }: SkillsPageProps) {
   return <SkillsSection skills={skills} />
 }

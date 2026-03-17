@@ -9,6 +9,7 @@ import type {
   TestimonialSubmissionInput,
   TestimonialSubmissionResult,
 } from '../types/site'
+import { withApiBase } from './apiBase'
 
 const REQUEST_TIMEOUT_MS = 8000
 
@@ -56,16 +57,17 @@ async function parseJson<T>(response: Response, context: string): Promise<T> {
 }
 
 async function readJson<T>(path: string): Promise<T> {
-  console.info(`[api] GET ${path}`)
-  const response = await fetchWithTimeout(path)
+  const requestPath = withApiBase(path)
+  console.info(`[api] GET ${requestPath}`)
+  const response = await fetchWithTimeout(requestPath)
 
   if (!response.ok) {
-    console.error(`[api] GET ${path} failed with status ${response.status}`)
+    console.error(`[api] GET ${requestPath} failed with status ${response.status}`)
     throw new Error(`Request failed: ${response.status}`)
   }
 
-  console.info(`[api] GET ${path} ok`)
-  return parseJson<T>(response, `GET ${path}`)
+  console.info(`[api] GET ${requestPath} ok`)
+  return parseJson<T>(response, `GET ${requestPath}`)
 }
 
 function extractErrorMessage(errorBody: unknown, fallback: string) {
@@ -101,8 +103,9 @@ export function fetchTestimonials() {
 }
 
 export async function submitContact(payload: ContactSubmissionInput) {
-  console.info('[api] POST /api/contact')
-  const response = await fetchWithTimeout('/api/contact', {
+  const requestPath = withApiBase('/api/contact')
+  console.info(`[api] POST ${requestPath}`)
+  const response = await fetchWithTimeout(requestPath, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -115,19 +118,20 @@ export async function submitContact(payload: ContactSubmissionInput) {
       | { message?: string }
       | null
 
-    console.error(`[api] POST /api/contact failed with status ${response.status}`)
+    console.error(`[api] POST ${requestPath} failed with status ${response.status}`)
     throw new Error(
       extractErrorMessage(errorBody, `Request failed: ${response.status}`),
     )
   }
 
-  console.info('[api] POST /api/contact ok')
-  return parseJson<ContactSubmissionResult>(response, 'POST /api/contact')
+  console.info(`[api] POST ${requestPath} ok`)
+  return parseJson<ContactSubmissionResult>(response, `POST ${requestPath}`)
 }
 
 export async function submitTestimonial(payload: TestimonialSubmissionInput) {
-  console.info('[api] POST /api/testimonials')
-  const response = await fetchWithTimeout('/api/testimonials', {
+  const requestPath = withApiBase('/api/testimonials')
+  console.info(`[api] POST ${requestPath}`)
+  const response = await fetchWithTimeout(requestPath, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -140,15 +144,15 @@ export async function submitTestimonial(payload: TestimonialSubmissionInput) {
       | { message?: string }
       | null
 
-    console.error(`[api] POST /api/testimonials failed with status ${response.status}`)
+    console.error(`[api] POST ${requestPath} failed with status ${response.status}`)
     throw new Error(
       extractErrorMessage(errorBody, `Request failed: ${response.status}`),
     )
   }
 
-  console.info('[api] POST /api/testimonials ok')
+  console.info(`[api] POST ${requestPath} ok`)
   return parseJson<TestimonialSubmissionResult>(
     response,
-    'POST /api/testimonials',
+    `POST ${requestPath}`,
   )
 }

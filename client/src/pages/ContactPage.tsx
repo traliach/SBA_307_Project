@@ -1,23 +1,39 @@
 import { ContactSection } from '../components/home/ContactSection'
-import { contactItems, contactTopics } from '../features/portfolio/content'
-import { usePortfolioOutlet } from '../hooks/usePortfolioOutlet'
+import type {
+  ContactItem,
+  ContactSubmissionInput,
+  ContactTopic,
+  SubmitState,
+} from '../types/site'
 
-export function ContactPage() {
-  const {
-    contactForm,
-    handleContactChange,
-    handleContactSubmit,
-    submitMessage,
-    submitState,
-  } = usePortfolioOutlet()
+interface ContactPageProps {
+  contactForm: ContactSubmissionInput
+  contactItems: ContactItem[]
+  contactTopics: ContactTopic[]
+  onChange: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+  ) => void
+  onSubmit: (event: React.FormEvent<HTMLFormElement>) => Promise<void>
+  submitMessage: string
+  submitState: SubmitState
+}
 
+export function ContactPage({
+  contactForm,
+  contactItems,
+  contactTopics,
+  onChange,
+  onSubmit,
+  submitMessage,
+  submitState,
+}: ContactPageProps) {
   return (
     <ContactSection
       contactForm={contactForm}
       contactItems={contactItems}
       contactTopics={contactTopics}
-      onChange={handleContactChange}
-      onSubmit={handleContactSubmit}
+      onChange={onChange}
+      onSubmit={onSubmit}
       submitMessage={submitMessage}
       submitState={submitState}
     />

@@ -1,8 +1,10 @@
 import { ProjectsSection } from '../components/home/ProjectsSection'
-import { usePortfolioOutlet } from '../hooks/usePortfolioOutlet'
+import type { ProjectSummary } from '../types/site'
 
-export function ProjectsPage() {
-  const { projects } = usePortfolioOutlet()
+interface ProjectsPageProps {
+  projects: ProjectSummary[]
+}
 
+export function ProjectsPage({ projects }: ProjectsPageProps) {
   return <ProjectsSection projects={projects} />
 }

@@ -11,6 +11,9 @@ import {
   fetchAdminSkills,
   fetchAdminTestimonials,
   loginAdmin,
+  reorderAdminProjects,
+  reorderAdminSkillGroups,
+  reorderAdminTestimonials,
   saveAdminProfile,
   updateAdminContactStatus,
   updateAdminProject,
@@ -35,6 +38,29 @@ import type {
 
 const ADMIN_TOKEN_KEY = 'resume-admin-token'
 const ADMIN_PERSISTENT_TOKEN_KEY = 'resume-admin-token-persistent'
+
+function moveItemById<T extends { id: string }>(
+  items: T[],
+  itemId: string,
+  direction: 'up' | 'down',
+) {
+  const currentIndex = items.findIndex((item) => item.id === itemId)
+
+  if (currentIndex === -1) {
+    return null
+  }
+
+  const targetIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1
+
+  if (targetIndex < 0 || targetIndex >= items.length) {
+    return null
+  }
+
+  const next = [...items]
+  const [item] = next.splice(currentIndex, 1)
+  next.splice(targetIndex, 0, item)
+  return next
+}
 
 export function useAdminPanel() {
   const [authState, setAuthState] = useState<AdminAuthState>('checking')
@@ -199,6 +225,22 @@ export function useAdminPanel() {
     setProjects((current) => current.filter((project) => project.id !== projectId))
   }
 
+  async function reorderProject(projectId: string, direction: 'up' | 'down') {
+    const activeToken = requireToken()
+    const nextProjects = moveItemById(projects, projectId, direction)
+
+    if (!nextProjects) {
+      return false
+    }
+
+    const reorderedProjects = await reorderAdminProjects(
+      activeToken,
+      nextProjects.map((project) => project.id),
+    )
+    setProjects(reorderedProjects)
+    return true
+  }
+
   async function saveSkillGroup(
     skillGroupPayload: SkillGroup,
     skillGroupId?: string,
@@ -227,6 +269,25 @@ export function useAdminPanel() {
     const activeToken = requireToken()
     await deleteAdminSkillGroup(activeToken, skillGroupId)
     setSkills((current) => current.filter((skill) => skill.id !== skillGroupId))
+  }
+
+  async function reorderSkillGroup(
+    skillGroupId: string,
+    direction: 'up' | 'down',
+  ) {
+    const activeToken = requireToken()
+    const nextSkillGroups = moveItemById(skills, skillGroupId, direction)
+
+    if (!nextSkillGroups) {
+      return false
+    }
+
+    const reorderedSkillGroups = await reorderAdminSkillGroups(
+      activeToken,
+      nextSkillGroups.map((skillGroup) => skillGroup.id),
+    )
+    setSkills(reorderedSkillGroups)
+    return true
   }
 
   async function saveTestimonial(
@@ -279,6 +340,25 @@ export function useAdminPanel() {
     return nextTestimonial
   }
 
+  async function reorderTestimonial(
+    testimonialId: string,
+    direction: 'up' | 'down',
+  ) {
+    const activeToken = requireToken()
+    const nextTestimonials = moveItemById(testimonials, testimonialId, direction)
+
+    if (!nextTestimonials) {
+      return false
+    }
+
+    const reorderedTestimonials = await reorderAdminTestimonials(
+      activeToken,
+      nextTestimonials.map((testimonial) => testimonial.id),
+    )
+    setTestimonials(reorderedTestimonials)
+    return true
+  }
+
   async function saveContactStatus(
     contactId: string,
     status: ContactSubmissionStatus,
@@ -306,6 +386,9 @@ export function useAdminPanel() {
     profile,
     projects,
     refresh,
+    reorderProject,
+    reorderSkillGroup,
+    reorderTestimonial,
     removeProject,
     removeSkillGroup,
     saveContactStatus,

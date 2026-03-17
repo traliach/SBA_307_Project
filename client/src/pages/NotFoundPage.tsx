@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom'
-
 export function NotFoundPage() {
   return (
     <section className="section">
@@ -9,9 +7,9 @@ export function NotFoundPage() {
         <p className="section-intro">
           This route does not exist in the portfolio client yet.
         </p>
-        <Link className="button button--primary" to="/">
+        <a className="button button--primary" href="/">
           Back to overview
-        </Link>
+        </a>
       </div>
     </section>
   )

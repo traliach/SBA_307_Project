@@ -293,6 +293,138 @@ function getErrorMessage(error: unknown, fallback: string) {
   return error instanceof Error ? error.message : fallback
 }
 
+function areSamePayload(left: unknown, right: unknown) {
+  return JSON.stringify(left) === JSON.stringify(right)
+}
+
+function hasHttpUrl(value: string) {
+  try {
+    const url = new URL(value)
+    return url.protocol === 'http:' || url.protocol === 'https:'
+  } catch {
+    return false
+  }
+}
+
+function hasProjectDraftContent(draft: ProjectDraft) {
+  return Boolean(
+    draft.title ||
+      draft.timeframe ||
+      draft.role ||
+      draft.summary ||
+      draft.challenge ||
+      draft.solution ||
+      draft.stackText ||
+      draft.metricsText ||
+      draft.outcomesText ||
+      draft.featured,
+  )
+}
+
+function hasSkillDraftContent(draft: SkillDraft) {
+  return Boolean(
+    draft.eyebrow || draft.title || draft.description || draft.itemsText,
+  )
+}
+
+function getProfileDraftError(draft: ProfileDraft) {
+  const payload = toProfilePayload(draft)
+
+  if (payload.name.length < 2) {
+    return 'Profile name must be at least 2 characters.'
+  }
+
+  if (payload.title.length < 2) {
+    return 'Profile title must be at least 2 characters.'
+  }
+
+  if (payload.location.length < 2) {
+    return 'Location must be at least 2 characters.'
+  }
+
+  if (payload.availability.length < 2) {
+    return 'Availability must be at least 2 characters.'
+  }
+
+  if (payload.summary.length < 10 || payload.intro.length < 10 || payload.about.length < 10) {
+    return 'Summary, intro, and about copy each need at least 10 characters.'
+  }
+
+  if (!payload.certifications.length || !payload.strengths.length || !payload.timeline.length) {
+    return 'Certifications, strengths, and timeline each need at least one entry.'
+  }
+
+  if (!payload.links.email || !payload.links.resume) {
+    return 'Email and resume link are required.'
+  }
+
+  if (!hasHttpUrl(payload.links.linkedin)) {
+    return 'LinkedIn link must be a valid http or https URL.'
+  }
+
+  return ''
+}
+
+function getProjectDraftError(draft: ProjectDraft) {
+  const payload = toProjectPayload(draft)
+
+  if (payload.title.length < 2) {
+    return 'Project title must be at least 2 characters.'
+  }
+
+  if (
+    payload.timeframe.length < 2 ||
+    payload.role.length < 2 ||
+    payload.summary.length < 10 ||
+    payload.challenge.length < 10 ||
+    payload.solution.length < 10
+  ) {
+    return 'Timeframe, role, summary, challenge, and solution all need meaningful content.'
+  }
+
+  if (!payload.stack.length || !payload.metrics.length || !payload.outcomes.length) {
+    return 'Stack, metrics, and outcomes each need at least one line.'
+  }
+
+  return ''
+}
+
+function getSkillDraftError(draft: SkillDraft) {
+  const payload = toSkillPayload(draft)
+
+  if (payload.eyebrow.length < 1 || payload.title.length < 2) {
+    return 'Skill eyebrow and title are required.'
+  }
+
+  if (payload.description.length < 10) {
+    return 'Skill group description must be at least 10 characters.'
+  }
+
+  if (!payload.items.length) {
+    return 'Add at least one item to the skill group.'
+  }
+
+  return ''
+}
+
+function getTestimonialDraftError(draft: TestimonialDraft) {
+  const payload = toTestimonialPayload(draft)
+
+  if (payload.quote.length < 10) {
+    return 'Testimonial quote must be at least 10 characters.'
+  }
+
+  if (
+    payload.author.length < 2 ||
+    payload.role.length < 2 ||
+    payload.company.length < 2
+  ) {
+    return 'Author, role, and company are required.'
+  }
+
+  return ''
+}
+
 export function AdminPage() {
   const {
     adminSession,
@@ -307,6 +439,9 @@ export function AdminPage() {
     profile,
     projects,
     refresh,
+    reorderProject,
+    reorderSkillGroup,
+    reorderTestimonial,
     removeProject,
     removeSkillGroup,
     saveContactStatus,
@@ -399,6 +534,22 @@ export function AdminPage() {
       ? testimonialDrafts
       : testimonialDrafts.filter((testimonial) => testimonial.status === testimonialFilter)
 
+  const profileDraftError = getProfileDraftError(profileDraft)
+  const profileIsDirty = profile
+    ? !areSamePayload(toProfilePayload(profileDraft), profile)
+    : false
+  const newProjectDraftError = getProjectDraftError(newProjectDraft)
+  const newSkillDraftError = getSkillDraftError(newSkillDraft)
+  const projectOrderIndex = new Map(
+    projectDrafts.map((draft, index) => [draft.id ?? '', index]),
+  )
+  const skillOrderIndex = new Map(
+    skillDrafts.map((draft, index) => [draft.id ?? '', index]),
+  )
+  const testimonialOrderIndex = new Map(
+    testimonialDrafts.map((draft, index) => [draft.id ?? '', index]),
+  )
+
   function showNotice(message: string, tone: NoticeTone) {
     setNotice(message)
     setNoticeTone(tone)
@@ -431,6 +582,93 @@ export function AdminPage() {
     )
   }
 
+  function resetProfileDraft() {
+    if (!profile) {
+      return
+    }
+
+    setProfileDraft(toProfileDraft(profile))
+  }
+
+  function resetProjectDraft(projectId: string) {
+    const originalProject = projects.find((project) => project.id === projectId)
+
+    if (!originalProject) {
+      return
+    }
+
+    setProjectDrafts((current) =>
+      current.map((draft) =>
+        draft.id === projectId ? toProjectDraft(originalProject) : draft,
+      ),
+    )
+  }
+
+  function resetSkillDraft(skillId: string) {
+    const originalSkill = skills.find((skill) => skill.id === skillId)
+
+    if (!originalSkill) {
+      return
+    }
+
+    setSkillDrafts((current) =>
+      current.map((draft) =>
+        draft.id === skillId ? toSkillDraft(originalSkill) : draft,
+      ),
+    )
+  }
+
+  function resetTestimonialDraft(testimonialId: string) {
+    const originalTestimonial = testimonials.find(
+      (testimonial) => testimonial.id === testimonialId,
+    )
+
+    if (!originalTestimonial) {
+      return
+    }
+
+    setTestimonialDrafts((current) =>
+      current.map((draft) =>
+        draft.id === testimonialId
+          ? toTestimonialDraft(originalTestimonial)
+          : draft,
+      ),
+    )
+  }
+
+  function isProjectDirty(draft: ProjectDraft) {
+    if (!draft.id) {
+      return hasProjectDraftContent(draft)
+    }
+
+    const originalProject = projects.find((project) => project.id === draft.id)
+    return originalProject
+      ? !areSamePayload(toProjectPayload(draft), originalProject)
+      : false
+  }
+
+  function isSkillDirty(draft: SkillDraft) {
+    if (!draft.id) {
+      return hasSkillDraftContent(draft)
+    }
+
+    const originalSkill = skills.find((skill) => skill.id === draft.id)
+    return originalSkill ? !areSamePayload(toSkillPayload(draft), originalSkill) : false
+  }
+
+  function isTestimonialDirty(draft: TestimonialDraft) {
+    if (!draft.id) {
+      return false
+    }
+
+    const originalTestimonial = testimonials.find(
+      (testimonial) => testimonial.id === draft.id,
+    )
+    return originalTestimonial
+      ? !areSamePayload(toTestimonialPayload(draft), originalTestimonial)
+      : false
+  }
+
   async function handleRefresh() {
     setBusyKey('refresh')
 
@@ -446,6 +684,12 @@ export function AdminPage() {
 
   async function handleSaveProfile(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
+
+    if (profileDraftError) {
+      showNotice(profileDraftError, 'error')
+      return
+    }
+
     setBusyKey('profile')
 
     try {
@@ -459,6 +703,13 @@ export function AdminPage() {
   }
 
   async function handleSaveProject(draft: ProjectDraft) {
+    const validationError = getProjectDraftError(draft)
+
+    if (validationError) {
+      showNotice(validationError, 'error')
+      return
+    }
+
     const key = draft.id ? `project-save-${draft.id}` : 'project-create'
     setBusyKey(key)
 
@@ -472,6 +723,23 @@ export function AdminPage() {
       showNotice(draft.id ? 'Project updated.' : 'Project created.', 'success')
     } catch (error) {
       showNotice(getErrorMessage(error, 'Unable to save project.'), 'error')
+    } finally {
+      setBusyKey('')
+    }
+  }
+
+  async function handleReorderProject(projectId: string, direction: 'up' | 'down') {
+    const key = `project-order-${projectId}-${direction}`
+    setBusyKey(key)
+
+    try {
+      const didReorder = await reorderProject(projectId, direction)
+
+      if (didReorder) {
+        showNotice('Project order updated.', 'success')
+      }
+    } catch (error) {
+      showNotice(getErrorMessage(error, 'Unable to reorder projects.'), 'error')
     } finally {
       setBusyKey('')
     }
@@ -495,6 +763,13 @@ export function AdminPage() {
   }
 
   async function handleSaveSkill(draft: SkillDraft) {
+    const validationError = getSkillDraftError(draft)
+
+    if (validationError) {
+      showNotice(validationError, 'error')
+      return
+    }
+
     const key = draft.id ? `skill-save-${draft.id}` : 'skill-create'
     setBusyKey(key)
 
@@ -508,6 +783,23 @@ export function AdminPage() {
       showNotice(draft.id ? 'Skill group updated.' : 'Skill group created.', 'success')
     } catch (error) {
       showNotice(getErrorMessage(error, 'Unable to save skill group.'), 'error')
+    } finally {
+      setBusyKey('')
+    }
+  }
+
+  async function handleReorderSkill(skillId: string, direction: 'up' | 'down') {
+    const key = `skill-order-${skillId}-${direction}`
+    setBusyKey(key)
+
+    try {
+      const didReorder = await reorderSkillGroup(skillId, direction)
+
+      if (didReorder) {
+        showNotice('Skill group order updated.', 'success')
+      }
+    } catch (error) {
+      showNotice(getErrorMessage(error, 'Unable to reorder skill groups.'), 'error')
     } finally {
       setBusyKey('')
     }
@@ -536,6 +828,13 @@ export function AdminPage() {
       return
     }
 
+    const validationError = getTestimonialDraftError(draft)
+
+    if (validationError) {
+      showNotice(validationError, 'error')
+      return
+    }
+
     const key = `testimonial-save-${draft.id}`
     setBusyKey(key)
 
@@ -544,6 +843,26 @@ export function AdminPage() {
       showNotice('Testimonial content updated.', 'success')
     } catch (error) {
       showNotice(getErrorMessage(error, 'Unable to save testimonial.'), 'error')
+    } finally {
+      setBusyKey('')
+    }
+  }
+
+  async function handleReorderTestimonial(
+    testimonialId: string,
+    direction: 'up' | 'down',
+  ) {
+    const key = `testimonial-order-${testimonialId}-${direction}`
+    setBusyKey(key)
+
+    try {
+      const didReorder = await reorderTestimonial(testimonialId, direction)
+
+      if (didReorder) {
+        showNotice('Testimonial order updated.', 'success')
+      }
+    } catch (error) {
+      showNotice(getErrorMessage(error, 'Unable to reorder testimonials.'), 'error')
     } finally {
       setBusyKey('')
     }
@@ -937,10 +1256,24 @@ export function AdminPage() {
             />
           </label>
 
+          {profileIsDirty && profileDraftError ? (
+            <p className="admin-field-note admin-field-note--error">
+              {profileDraftError}
+            </p>
+          ) : null}
+
           <div className="admin-actions">
             <button
+              className="button button--secondary"
+              disabled={!profileIsDirty}
+              onClick={() => resetProfileDraft()}
+              type="button"
+            >
+              Reset changes
+            </button>
+            <button
               className="button button--primary"
-              disabled={busyKey === 'profile'}
+              disabled={busyKey === 'profile' || !profileIsDirty || Boolean(profileDraftError)}
               type="submit"
             >
               {busyKey === 'profile' ? 'Saving...' : 'Save profile'}
@@ -959,152 +1292,199 @@ export function AdminPage() {
         </div>
 
         <div className="admin-stack">
-          {projectDrafts.map((draft) => (
-            <article className="admin-card admin-card--nested" key={draft.id}>
-              <div className="admin-section-heading">
-                <h3>{draft.title || 'Untitled project'}</h3>
-                <span className="admin-tag">Order {draft.order ?? 0}</span>
-              </div>
-              <div className="field-grid">
+          {projectDrafts.map((draft) => {
+            const projectValidationError = getProjectDraftError(draft)
+            const projectIsDirty = isProjectDirty(draft)
+            const projectIndex = projectOrderIndex.get(draft.id ?? '') ?? 0
+
+            return (
+              <article className="admin-card admin-card--nested" key={draft.id}>
+                <div className="admin-section-heading">
+                  <h3>{draft.title || 'Untitled project'}</h3>
+                  <span className="admin-tag">Order {draft.order ?? 0}</span>
+                </div>
+                <div className="field-grid">
+                  <label className="field">
+                    <span>Title</span>
+                    <input
+                      value={draft.title}
+                      onChange={(event) =>
+                        updateProjectDraft(draft.id ?? '', { title: event.target.value })
+                      }
+                    />
+                  </label>
+                  <label className="field">
+                    <span>Timeframe</span>
+                    <input
+                      value={draft.timeframe}
+                      onChange={(event) =>
+                        updateProjectDraft(draft.id ?? '', {
+                          timeframe: event.target.value,
+                        })
+                      }
+                    />
+                  </label>
+                  <label className="field">
+                    <span>Role</span>
+                    <input
+                      value={draft.role}
+                      onChange={(event) =>
+                        updateProjectDraft(draft.id ?? '', { role: event.target.value })
+                      }
+                    />
+                  </label>
+                  <label className="field admin-checkbox">
+                    <span>Featured</span>
+                    <input
+                      checked={draft.featured}
+                      onChange={(event) =>
+                        updateProjectDraft(draft.id ?? '', {
+                          featured: event.target.checked,
+                        })
+                      }
+                      type="checkbox"
+                    />
+                  </label>
+                </div>
                 <label className="field">
-                  <span>Title</span>
-                  <input
-                    value={draft.title}
+                  <span>Summary</span>
+                  <textarea
+                    rows={3}
+                    value={draft.summary}
                     onChange={(event) =>
-                      updateProjectDraft(draft.id ?? '', { title: event.target.value })
+                      updateProjectDraft(draft.id ?? '', { summary: event.target.value })
                     }
                   />
                 </label>
+                <div className="admin-grid">
+                  <label className="field">
+                    <span>Challenge</span>
+                    <textarea
+                      rows={4}
+                      value={draft.challenge}
+                      onChange={(event) =>
+                        updateProjectDraft(draft.id ?? '', {
+                          challenge: event.target.value,
+                        })
+                      }
+                    />
+                  </label>
+                  <label className="field">
+                    <span>Solution</span>
+                    <textarea
+                      rows={4}
+                      value={draft.solution}
+                      onChange={(event) =>
+                        updateProjectDraft(draft.id ?? '', {
+                          solution: event.target.value,
+                        })
+                      }
+                    />
+                  </label>
+                </div>
+                <div className="admin-grid">
+                  <label className="field">
+                    <span>Stack</span>
+                    <textarea
+                      rows={5}
+                      placeholder="One technology per line"
+                      value={draft.stackText}
+                      onChange={(event) =>
+                        updateProjectDraft(draft.id ?? '', {
+                          stackText: event.target.value,
+                        })
+                      }
+                    />
+                  </label>
+                  <label className="field">
+                    <span>Metrics</span>
+                    <textarea
+                      rows={5}
+                      placeholder="Deployment speed | +30%"
+                      value={draft.metricsText}
+                      onChange={(event) =>
+                        updateProjectDraft(draft.id ?? '', {
+                          metricsText: event.target.value,
+                        })
+                      }
+                    />
+                  </label>
+                </div>
                 <label className="field">
-                  <span>Timeframe</span>
-                  <input
-                    value={draft.timeframe}
-                    onChange={(event) =>
-                      updateProjectDraft(draft.id ?? '', {
-                        timeframe: event.target.value,
-                      })
-                    }
-                  />
-                </label>
-                <label className="field">
-                  <span>Role</span>
-                  <input
-                    value={draft.role}
-                    onChange={(event) =>
-                      updateProjectDraft(draft.id ?? '', { role: event.target.value })
-                    }
-                  />
-                </label>
-                <label className="field admin-checkbox">
-                  <span>Featured</span>
-                  <input
-                    checked={draft.featured}
-                    onChange={(event) =>
-                      updateProjectDraft(draft.id ?? '', {
-                        featured: event.target.checked,
-                      })
-                    }
-                    type="checkbox"
-                  />
-                </label>
-              </div>
-              <label className="field">
-                <span>Summary</span>
-                <textarea
-                  rows={3}
-                  value={draft.summary}
-                  onChange={(event) =>
-                    updateProjectDraft(draft.id ?? '', { summary: event.target.value })
-                  }
-                />
-              </label>
-              <div className="admin-grid">
-                <label className="field">
-                  <span>Challenge</span>
+                  <span>Outcomes</span>
                   <textarea
                     rows={4}
-                    value={draft.challenge}
+                    placeholder="One outcome per line"
+                    value={draft.outcomesText}
                     onChange={(event) =>
                       updateProjectDraft(draft.id ?? '', {
-                        challenge: event.target.value,
+                        outcomesText: event.target.value,
                       })
                     }
                   />
                 </label>
-                <label className="field">
-                  <span>Solution</span>
-                  <textarea
-                    rows={4}
-                    value={draft.solution}
-                    onChange={(event) =>
-                      updateProjectDraft(draft.id ?? '', {
-                        solution: event.target.value,
-                      })
+                {projectIsDirty && projectValidationError ? (
+                  <p className="admin-field-note admin-field-note--error">
+                    {projectValidationError}
+                  </p>
+                ) : null}
+                <div className="admin-actions">
+                  <button
+                    className="button button--secondary"
+                    disabled={
+                      projectIndex === 0 ||
+                      busyKey === `project-order-${draft.id}-up`
                     }
-                  />
-                </label>
-              </div>
-              <div className="admin-grid">
-                <label className="field">
-                  <span>Stack</span>
-                  <textarea
-                    rows={5}
-                    placeholder="One technology per line"
-                    value={draft.stackText}
-                    onChange={(event) =>
-                      updateProjectDraft(draft.id ?? '', {
-                        stackText: event.target.value,
-                      })
+                    onClick={() => draft.id && void handleReorderProject(draft.id, 'up')}
+                    type="button"
+                  >
+                    Move up
+                  </button>
+                  <button
+                    className="button button--secondary"
+                    disabled={
+                      projectIndex === projectDrafts.length - 1 ||
+                      busyKey === `project-order-${draft.id}-down`
                     }
-                  />
-                </label>
-                <label className="field">
-                  <span>Metrics</span>
-                  <textarea
-                    rows={5}
-                    placeholder="Deployment speed | +30%"
-                    value={draft.metricsText}
-                    onChange={(event) =>
-                      updateProjectDraft(draft.id ?? '', {
-                        metricsText: event.target.value,
-                      })
+                    onClick={() =>
+                      draft.id && void handleReorderProject(draft.id, 'down')
                     }
-                  />
-                </label>
-              </div>
-              <label className="field">
-                <span>Outcomes</span>
-                <textarea
-                  rows={4}
-                  placeholder="One outcome per line"
-                  value={draft.outcomesText}
-                  onChange={(event) =>
-                    updateProjectDraft(draft.id ?? '', {
-                      outcomesText: event.target.value,
-                    })
-                  }
-                />
-              </label>
-              <div className="admin-actions">
-                <button
-                  className="button button--primary"
-                  disabled={busyKey === `project-save-${draft.id}`}
-                  onClick={() => void handleSaveProject(draft)}
-                  type="button"
-                >
-                  {busyKey === `project-save-${draft.id}` ? 'Saving...' : 'Save'}
-                </button>
-                <button
-                  className="button button--secondary"
-                  disabled={busyKey === `project-delete-${draft.id}`}
-                  onClick={() => draft.id && void handleDeleteProject(draft.id)}
-                  type="button"
-                >
-                  {busyKey === `project-delete-${draft.id}` ? 'Deleting...' : 'Delete'}
-                </button>
-              </div>
-            </article>
-          ))}
+                    type="button"
+                  >
+                    Move down
+                  </button>
+                  <button
+                    className="button button--secondary"
+                    disabled={!projectIsDirty}
+                    onClick={() => draft.id && resetProjectDraft(draft.id)}
+                    type="button"
+                  >
+                    Reset
+                  </button>
+                  <button
+                    className="button button--primary"
+                    disabled={
+                      busyKey === `project-save-${draft.id}` ||
+                      !projectIsDirty ||
+                      Boolean(projectValidationError)
+                    }
+                    onClick={() => void handleSaveProject(draft)}
+                    type="button"
+                  >
+                    {busyKey === `project-save-${draft.id}` ? 'Saving...' : 'Save'}
+                  </button>
+                  <button
+                    className="button button--secondary"
+                    disabled={busyKey === `project-delete-${draft.id}`}
+                    onClick={() => draft.id && void handleDeleteProject(draft.id)}
+                    type="button"
+                  >
+                    {busyKey === `project-delete-${draft.id}` ? 'Deleting...' : 'Delete'}
+                  </button>
+                </div>
+              </article>
+            )
+          })}
 
           <article className="admin-card admin-card--nested admin-card--new">
             <div className="admin-section-heading">
@@ -1244,10 +1624,23 @@ export function AdminPage() {
                 }
               />
             </label>
+            {hasProjectDraftContent(newProjectDraft) && newProjectDraftError ? (
+              <p className="admin-field-note admin-field-note--error">
+                {newProjectDraftError}
+              </p>
+            ) : null}
             <div className="admin-actions">
               <button
+                className="button button--secondary"
+                disabled={!hasProjectDraftContent(newProjectDraft)}
+                onClick={() => setNewProjectDraft(createEmptyProjectDraft())}
+                type="button"
+              >
+                Clear
+              </button>
+              <button
                 className="button button--primary"
-                disabled={busyKey === 'project-create'}
+                disabled={busyKey === 'project-create' || Boolean(newProjectDraftError)}
                 onClick={() => void handleSaveProject(newProjectDraft)}
                 type="button"
               >
@@ -1268,75 +1661,117 @@ export function AdminPage() {
         </div>
 
         <div className="admin-stack">
-          {skillDrafts.map((draft) => (
-            <article className="admin-card admin-card--nested" key={draft.id}>
-              <div className="admin-section-heading">
-                <h3>{draft.title || 'Untitled skill group'}</h3>
-                <span className="admin-tag">Order {draft.order ?? 0}</span>
-              </div>
-              <div className="field-grid">
+          {skillDrafts.map((draft) => {
+            const skillValidationError = getSkillDraftError(draft)
+            const skillIsDirty = isSkillDirty(draft)
+            const skillIndex = skillOrderIndex.get(draft.id ?? '') ?? 0
+
+            return (
+              <article className="admin-card admin-card--nested" key={draft.id}>
+                <div className="admin-section-heading">
+                  <h3>{draft.title || 'Untitled skill group'}</h3>
+                  <span className="admin-tag">Order {draft.order ?? 0}</span>
+                </div>
+                <div className="field-grid">
+                  <label className="field">
+                    <span>Eyebrow</span>
+                    <input
+                      value={draft.eyebrow}
+                      onChange={(event) =>
+                        updateSkillDraft(draft.id ?? '', { eyebrow: event.target.value })
+                      }
+                    />
+                  </label>
+                  <label className="field">
+                    <span>Title</span>
+                    <input
+                      value={draft.title}
+                      onChange={(event) =>
+                        updateSkillDraft(draft.id ?? '', { title: event.target.value })
+                      }
+                    />
+                  </label>
+                </div>
                 <label className="field">
-                  <span>Eyebrow</span>
-                  <input
-                    value={draft.eyebrow}
+                  <span>Description</span>
+                  <textarea
+                    rows={3}
+                    value={draft.description}
                     onChange={(event) =>
-                      updateSkillDraft(draft.id ?? '', { eyebrow: event.target.value })
+                      updateSkillDraft(draft.id ?? '', {
+                        description: event.target.value,
+                      })
                     }
                   />
                 </label>
                 <label className="field">
-                  <span>Title</span>
-                  <input
-                    value={draft.title}
+                  <span>Items</span>
+                  <textarea
+                    rows={5}
+                    placeholder="One skill per line"
+                    value={draft.itemsText}
                     onChange={(event) =>
-                      updateSkillDraft(draft.id ?? '', { title: event.target.value })
+                      updateSkillDraft(draft.id ?? '', { itemsText: event.target.value })
                     }
                   />
                 </label>
-              </div>
-              <label className="field">
-                <span>Description</span>
-                <textarea
-                  rows={3}
-                  value={draft.description}
-                  onChange={(event) =>
-                    updateSkillDraft(draft.id ?? '', {
-                      description: event.target.value,
-                    })
-                  }
-                />
-              </label>
-              <label className="field">
-                <span>Items</span>
-                <textarea
-                  rows={5}
-                  placeholder="One skill per line"
-                  value={draft.itemsText}
-                  onChange={(event) =>
-                    updateSkillDraft(draft.id ?? '', { itemsText: event.target.value })
-                  }
-                />
-              </label>
-              <div className="admin-actions">
-                <button
-                  className="button button--primary"
-                  disabled={busyKey === `skill-save-${draft.id}`}
-                  onClick={() => void handleSaveSkill(draft)}
-                  type="button"
-                >
-                  {busyKey === `skill-save-${draft.id}` ? 'Saving...' : 'Save'}
-                </button>
-                <button
-                  className="button button--secondary"
-                  disabled={busyKey === `skill-delete-${draft.id}`}
-                  onClick={() => draft.id && void handleDeleteSkill(draft.id)}
-                  type="button"
-                >
-                  {busyKey === `skill-delete-${draft.id}` ? 'Deleting...' : 'Delete'}
-                </button>
-              </div>
-            </article>
-          ))}
+                {skillIsDirty && skillValidationError ? (
+                  <p className="admin-field-note admin-field-note--error">
+                    {skillValidationError}
+                  </p>
+                ) : null}
+                <div className="admin-actions">
+                  <button
+                    className="button button--secondary"
+                    disabled={skillIndex === 0 || busyKey === `skill-order-${draft.id}-up`}
+                    onClick={() => draft.id && void handleReorderSkill(draft.id, 'up')}
+                    type="button"
+                  >
+                    Move up
+                  </button>
+                  <button
+                    className="button button--secondary"
+                    disabled={
+                      skillIndex === skillDrafts.length - 1 ||
+                      busyKey === `skill-order-${draft.id}-down`
+                    }
+                    onClick={() => draft.id && void handleReorderSkill(draft.id, 'down')}
+                    type="button"
+                  >
+                    Move down
+                  </button>
+                  <button
+                    className="button button--secondary"
+                    disabled={!skillIsDirty}
+                    onClick={() => draft.id && resetSkillDraft(draft.id)}
+                    type="button"
+                  >
+                    Reset
+                  </button>
+                  <button
+                    className="button button--primary"
+                    disabled={
+                      busyKey === `skill-save-${draft.id}` ||
+                      !skillIsDirty ||
+                      Boolean(skillValidationError)
+                    }
+                    onClick={() => void handleSaveSkill(draft)}
+                    type="button"
+                  >
+                    {busyKey === `skill-save-${draft.id}` ? 'Saving...' : 'Save'}
+                  </button>
+                  <button
+                    className="button button--secondary"
+                    disabled={busyKey === `skill-delete-${draft.id}`}
+                    onClick={() => draft.id && void handleDeleteSkill(draft.id)}
+                    type="button"
+                  >
+                    {busyKey === `skill-delete-${draft.id}` ? 'Deleting...' : 'Delete'}
+                  </button>
+                </div>
+              </article>
+            )
+          })}
 
           <article className="admin-card admin-card--nested admin-card--new">
             <div className="admin-section-heading">
@@ -1395,10 +1830,23 @@ export function AdminPage() {
                 }
               />
             </label>
+            {hasSkillDraftContent(newSkillDraft) && newSkillDraftError ? (
+              <p className="admin-field-note admin-field-note--error">
+                {newSkillDraftError}
+              </p>
+            ) : null}
             <div className="admin-actions">
               <button
+                className="button button--secondary"
+                disabled={!hasSkillDraftContent(newSkillDraft)}
+                onClick={() => setNewSkillDraft(createEmptySkillDraft())}
+                type="button"
+              >
+                Clear
+              </button>
+              <button
                 className="button button--primary"
-                disabled={busyKey === 'skill-create'}
+                disabled={busyKey === 'skill-create' || Boolean(newSkillDraftError)}
                 onClick={() => void handleSaveSkill(newSkillDraft)}
                 type="button"
               >
@@ -1471,109 +1919,167 @@ export function AdminPage() {
           </p>
         ) : (
           <div className="admin-stack">
-            {visibleTestimonials.map((draft) => (
-              <article className="admin-card admin-card--nested" key={draft.id}>
-                <div className="admin-section-heading">
-                  <div>
-                    <h3>{draft.author || 'Untitled testimonial'}</h3>
-                    <p className="admin-meta">
-                      {draft.email || 'No email provided'} • {draft.source} •{' '}
-                      {draft.submittedAt
-                        ? new Date(draft.submittedAt).toLocaleString()
-                        : 'Unknown submission time'}
-                    </p>
+            {visibleTestimonials.map((draft) => {
+              const testimonialValidationError = getTestimonialDraftError(draft)
+              const testimonialIsDirty = isTestimonialDirty(draft)
+              const testimonialIndex = testimonialOrderIndex.get(draft.id ?? '') ?? 0
+
+              return (
+                <article className="admin-card admin-card--nested" key={draft.id}>
+                  <div className="admin-section-heading">
+                    <div>
+                      <h3>{draft.author || 'Untitled testimonial'}</h3>
+                      <p className="admin-meta">
+                        {draft.email || 'No email provided'} • {draft.source} •{' '}
+                        {draft.submittedAt
+                          ? new Date(draft.submittedAt).toLocaleString()
+                          : 'Unknown submission time'}
+                      </p>
+                    </div>
+                    <span className="admin-tag">{draft.status}</span>
                   </div>
-                  <span className="admin-tag">{draft.status}</span>
-                </div>
-                <label className="field">
-                  <span>Quote</span>
-                  <textarea
-                    rows={5}
-                    value={draft.quote}
-                    onChange={(event) =>
-                      updateTestimonialDraft(draft.id ?? '', {
-                        quote: event.target.value,
-                      })
-                    }
-                  />
-                </label>
-                <div className="field-grid">
                   <label className="field">
-                    <span>Author</span>
-                    <input
-                      value={draft.author}
+                    <span>Quote</span>
+                    <textarea
+                      rows={5}
+                      value={draft.quote}
                       onChange={(event) =>
                         updateTestimonialDraft(draft.id ?? '', {
-                          author: event.target.value,
+                          quote: event.target.value,
                         })
                       }
                     />
                   </label>
-                  <label className="field">
-                    <span>Role</span>
-                    <input
-                      value={draft.role}
-                      onChange={(event) =>
-                        updateTestimonialDraft(draft.id ?? '', {
-                          role: event.target.value,
-                        })
+                  <div className="field-grid">
+                    <label className="field">
+                      <span>Author</span>
+                      <input
+                        value={draft.author}
+                        onChange={(event) =>
+                          updateTestimonialDraft(draft.id ?? '', {
+                            author: event.target.value,
+                          })
+                        }
+                      />
+                    </label>
+                    <label className="field">
+                      <span>Role</span>
+                      <input
+                        value={draft.role}
+                        onChange={(event) =>
+                          updateTestimonialDraft(draft.id ?? '', {
+                            role: event.target.value,
+                          })
+                        }
+                      />
+                    </label>
+                    <label className="field">
+                      <span>Company</span>
+                      <input
+                        value={draft.company}
+                        onChange={(event) =>
+                          updateTestimonialDraft(draft.id ?? '', {
+                            company: event.target.value,
+                          })
+                        }
+                      />
+                    </label>
+                  </div>
+                  {testimonialIsDirty && testimonialValidationError ? (
+                    <p className="admin-field-note admin-field-note--error">
+                      {testimonialValidationError}
+                    </p>
+                  ) : null}
+                  <div className="admin-actions">
+                    <button
+                      className="button button--secondary"
+                      disabled={
+                        testimonialIndex === 0 ||
+                        busyKey === `testimonial-order-${draft.id}-up`
                       }
-                    />
-                  </label>
-                  <label className="field">
-                    <span>Company</span>
-                    <input
-                      value={draft.company}
-                      onChange={(event) =>
-                        updateTestimonialDraft(draft.id ?? '', {
-                          company: event.target.value,
-                        })
+                      onClick={() =>
+                        draft.id && void handleReorderTestimonial(draft.id, 'up')
                       }
-                    />
-                  </label>
-                </div>
-                <div className="admin-actions">
-                  <button
-                    className="button button--primary"
-                    disabled={busyKey === `testimonial-save-${draft.id}`}
-                    onClick={() => void handleSaveTestimonial(draft)}
-                    type="button"
-                  >
-                    {busyKey === `testimonial-save-${draft.id}` ? 'Saving...' : 'Save'}
-                  </button>
-                  <button
-                    className="button button--secondary"
-                    disabled={busyKey === `testimonial-status-${draft.id}`}
-                    onClick={() =>
-                      draft.id && void handleModerateTestimonial(draft.id, 'approved')
-                    }
-                    type="button"
-                  >
-                    Approve
-                  </button>
-                  <button
-                    className="button button--secondary"
-                    disabled={busyKey === `testimonial-status-${draft.id}`}
-                    onClick={() =>
-                      draft.id && void handleModerateTestimonial(draft.id, 'pending')
-                    }
-                    type="button"
-                  >
-                    Mark pending
-                  </button>
-                  <button
-                    className="button button--secondary"
-                    disabled={busyKey === `testimonial-status-${draft.id}`}
-                    onClick={() =>
-                      draft.id && void handleModerateTestimonial(draft.id, 'rejected')
-                    }
-                    type="button"
-                  >
-                    Reject
-                  </button>
-                </div>
-              </article>
-            ))}
+                      type="button"
+                    >
+                      Move up
+                    </button>
+                    <button
+                      className="button button--secondary"
+                      disabled={
+                        testimonialIndex === testimonialDrafts.length - 1 ||
+                        busyKey === `testimonial-order-${draft.id}-down`
+                      }
+                      onClick={() =>
+                        draft.id && void handleReorderTestimonial(draft.id, 'down')
+                      }
+                      type="button"
+                    >
+                      Move down
+                    </button>
+                    <button
+                      className="button button--secondary"
+                      disabled={!testimonialIsDirty}
+                      onClick={() => draft.id && resetTestimonialDraft(draft.id)}
+                      type="button"
+                    >
+                      Reset
+                    </button>
+                    <button
+                      className="button button--primary"
+                      disabled={
+                        busyKey === `testimonial-save-${draft.id}` ||
+                        !testimonialIsDirty ||
+                        Boolean(testimonialValidationError)
+                      }
+                      onClick={() => void handleSaveTestimonial(draft)}
+                      type="button"
+                    >
+                      {busyKey === `testimonial-save-${draft.id}` ? 'Saving...' : 'Save'}
+                    </button>
+                    <button
+                      className="button button--secondary"
+                      disabled={
+                        busyKey === `testimonial-status-${draft.id}` ||
+                        draft.status === 'approved'
+                      }
+                      onClick={() =>
+                        draft.id && void handleModerateTestimonial(draft.id, 'approved')
+                      }
+                      type="button"
+                    >
+                      Approve
+                    </button>
+                    <button
+                      className="button button--secondary"
+                      disabled={
+                        busyKey === `testimonial-status-${draft.id}` ||
+                        draft.status === 'pending'
+                      }
+                      onClick={() =>
+                        draft.id && void handleModerateTestimonial(draft.id, 'pending')
+                      }
+                      type="button"
+                    >
+                      Mark pending
+                    </button>
+                    <button
+                      className="button button--secondary"
+                      disabled={
+                        busyKey === `testimonial-status-${draft.id}` ||
+                        draft.status === 'rejected'
+                      }
+                      onClick={() =>
+                        draft.id && void handleModerateTestimonial(draft.id, 'rejected')
+                      }
+                      type="button"
+                    >
+                      Reject
+                    </button>
+                  </div>
+                </article>
+              )
+            })}
           </div>
         )}
       </section>

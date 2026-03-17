@@ -1,8 +1,10 @@
 import { AboutSection } from '../components/home/AboutSection'
-import { usePortfolioOutlet } from '../hooks/usePortfolioOutlet'
+import type { ProfileContent } from '../types/site'
 
-export function AboutPage() {
-  const { profile } = usePortfolioOutlet()
+interface AboutPageProps {
+  profile: ProfileContent
+}
 
+export function AboutPage({ profile }: AboutPageProps) {
   return <AboutSection profile={profile} />
 }

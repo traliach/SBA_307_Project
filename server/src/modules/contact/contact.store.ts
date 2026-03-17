@@ -2,11 +2,13 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { randomUUID } from 'node:crypto'
+import mongoose from 'mongoose'
 import { z } from 'zod'
 import type {
   ContactSubmission,
   ContactSubmissionInput,
 } from '../../types/content.js'
+import { ContactSubmissionModel } from './contact.model.js'
 
 const storageFileUrl = new URL(
   '../../../data/contact-submissions.json',
@@ -26,6 +28,10 @@ const storedSubmissionSchema = z.object({
 const storedSubmissionListSchema = z.array(storedSubmissionSchema)
 
 let writeQueue = Promise.resolve()
+
+function isDatabaseReady() {
+  return mongoose.connection.readyState === 1
+}
 
 async function ensureStore() {
   const storagePath = fileURLToPath(storageFileUrl)
@@ -66,11 +72,48 @@ function queueWrite<T>(operation: () => Promise<T>) {
   return next
 }
 
+async function listMongoSubmissions() {
+  // Prefer Mongo when available, but keep the file store as a safe local fallback.
+  const documents = await ContactSubmissionModel.find()
+    .sort({ receivedAt: -1 })
+    .lean()
+    .exec()
+
+  return documents.map((document) => {
+    const { _id, ...submission } = document as ContactSubmission & {
+      _id: unknown
+    }
+
+    return submission
+  })
+}
+
+async function createMongoSubmission(input: ContactSubmissionInput) {
+  const submission: ContactSubmission = {
+    id: randomUUID(),
+    receivedAt: new Date().toISOString(),
+    status: 'new',
+    ...input,
+  }
+
+  await ContactSubmissionModel.create(submission)
+
+  return submission
+}
+
 export async function listContactSubmissions() {
+  if (isDatabaseReady()) {
+    return listMongoSubmissions()
+  }
+
   return readSubmissions()
 }
 
 export async function createContactSubmission(input: ContactSubmissionInput) {
+  if (isDatabaseReady()) {
+    return createMongoSubmission(input)
+  }
+
   const submission: ContactSubmission = {
     id: randomUUID(),
     receivedAt: new Date().toISOString(),

@@ -17,6 +17,7 @@ import {
   updateAdminContactStatus,
   updateAdminProject,
   updateAdminSkillGroup,
+  updateAdminTestimonialStatus,
   updateAdminTestimonial,
 } from '../services/adminApi'
 import type {
@@ -31,15 +32,18 @@ import type {
   ProjectSummary,
   SkillGroup,
   Testimonial,
+  TestimonialModerationStatus,
 } from '../types/site'
 
 const ADMIN_TOKEN_KEY = 'resume-admin-token'
+const ADMIN_PERSISTENT_TOKEN_KEY = 'resume-admin-token-persistent'
 
 export function useAdminPanel() {
   const [authState, setAuthState] = useState<AdminAuthState>('checking')
   const [isLoadingData, setIsLoadingData] = useState(false)
   const [authError, setAuthError] = useState('')
   const [adminSession, setAdminSession] = useState<AdminSession['admin']>(null)
+  const [mfaEnabled, setMfaEnabled] = useState(false)
   const [token, setToken] = useState<string | null>(null)
   const [profile, setProfile] = useState<ProfileContent | null>(null)
   const [projects, setProjects] = useState<AdminProject[]>([])
@@ -62,6 +66,7 @@ export function useAdminPanel() {
         ])
 
       setAdminSession(session.admin)
+      setMfaEnabled(session.mfaEnabled)
       setProfile(nextProfile)
       setProjects(nextProjects)
       setSkills(nextSkills)
@@ -71,8 +76,10 @@ export function useAdminPanel() {
       setAuthError('')
     } catch (error) {
       sessionStorage.removeItem(ADMIN_TOKEN_KEY)
+      localStorage.removeItem(ADMIN_PERSISTENT_TOKEN_KEY)
       setToken(null)
       setAdminSession(null)
+      setMfaEnabled(false)
       setAuthState('signed_out')
       setAuthError(
         error instanceof Error
@@ -85,7 +92,9 @@ export function useAdminPanel() {
   }
 
   useEffect(() => {
-    const storedToken = sessionStorage.getItem(ADMIN_TOKEN_KEY)
+    const storedToken =
+      localStorage.getItem(ADMIN_PERSISTENT_TOKEN_KEY) ??
+      sessionStorage.getItem(ADMIN_TOKEN_KEY)
 
     if (!storedToken) {
       setAuthState('signed_out')
@@ -104,14 +113,28 @@ export function useAdminPanel() {
     return token
   }
 
-  async function login(email: string, password: string) {
+  async function login(
+    email: string,
+    password: string,
+    mfaCode?: string,
+    rememberSession = false,
+  ) {
     setAuthState('signing_in')
     setAuthError('')
 
     try {
-      const result = await loginAdmin(email, password)
-      sessionStorage.setItem(ADMIN_TOKEN_KEY, result.token)
+      const result = await loginAdmin(email, password, mfaCode)
+
+      if (rememberSession) {
+        localStorage.setItem(ADMIN_PERSISTENT_TOKEN_KEY, result.token)
+        sessionStorage.removeItem(ADMIN_TOKEN_KEY)
+      } else {
+        sessionStorage.setItem(ADMIN_TOKEN_KEY, result.token)
+        localStorage.removeItem(ADMIN_PERSISTENT_TOKEN_KEY)
+      }
+
       setToken(result.token)
+      setMfaEnabled(result.mfaEnabled)
       await hydrateAdminData(result.token)
     } catch (error) {
       setAuthState('signed_out')
@@ -123,8 +146,10 @@ export function useAdminPanel() {
 
   function logout() {
     sessionStorage.removeItem(ADMIN_TOKEN_KEY)
+    localStorage.removeItem(ADMIN_PERSISTENT_TOKEN_KEY)
     setToken(null)
     setAdminSession(null)
+    setMfaEnabled(false)
     setProfile(null)
     setProjects([])
     setSkills([])
@@ -242,6 +267,26 @@ export function useAdminPanel() {
     )
   }
 
+  async function moderateTestimonial(
+    testimonialId: string,
+    status: TestimonialModerationStatus,
+  ) {
+    const activeToken = requireToken()
+    const nextTestimonial = await updateAdminTestimonialStatus(
+      activeToken,
+      testimonialId,
+      status,
+    )
+
+    setTestimonials((current) =>
+      current.map((testimonial) =>
+        testimonial.id === nextTestimonial.id ? nextTestimonial : testimonial,
+      ),
+    )
+
+    return nextTestimonial
+  }
+
   async function saveContactStatus(
     contactId: string,
     status: ContactSubmissionStatus,
@@ -264,6 +309,8 @@ export function useAdminPanel() {
     isLoadingData,
     login,
     logout,
+    mfaEnabled,
+    moderateTestimonial,
     profile,
     projects,
     refresh,

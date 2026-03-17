@@ -9,6 +9,7 @@ dotenv.config({ path: envPath })
 
 const email = process.env.ADMIN_EMAIL
 const password = process.env.ADMIN_PASSWORD
+const mfaCode = process.env.ADMIN_MFA_CODE
 const port = process.env.PORT ?? '4000'
 
 if (!email || !password) {
@@ -25,6 +26,7 @@ const response = await fetch(`http://localhost:${port}/api/auth/login`, {
   body: JSON.stringify({
     email,
     password,
+    ...(mfaCode ? { mfaCode } : {}),
   }),
 })
 

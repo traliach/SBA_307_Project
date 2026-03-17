@@ -44,6 +44,12 @@ const envSchema = z.object({
     z.string().min(16).optional(),
   ),
   JWT_EXPIRES_IN: z.string().default('12h'),
+  ADMIN_MFA_SECRET: z.preprocess(
+    (value) =>
+      typeof value === 'string' && value.trim().length === 0 ? undefined : value,
+    z.string().min(16).optional(),
+  ),
+  ADMIN_MFA_ISSUER: z.string().default('Resume Platform Admin'),
   MONGODB_URI: z.preprocess(
     (value) =>
       typeof value === 'string' && value.trim().length === 0 ? undefined : value,

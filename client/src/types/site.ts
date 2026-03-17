@@ -66,6 +66,8 @@ export interface Testimonial {
   company: string
 }
 
+export type TestimonialModerationStatus = 'pending' | 'approved' | 'rejected'
+
 export interface ContactItem {
   label: string
   value: string
@@ -102,11 +104,13 @@ export interface AdminSession {
     email: string
     role: 'admin'
   } | null
+  mfaEnabled: boolean
 }
 
 export interface AdminLoginResult {
   token: string
   expiresIn: string
+  mfaEnabled: boolean
 }
 
 export interface AdminProject extends ProjectSummary {
@@ -122,6 +126,7 @@ export interface AdminSkillGroup extends SkillGroup {
 export interface AdminTestimonial extends Testimonial {
   id: string
   order: number
+  status: TestimonialModerationStatus
 }
 
 export interface AdminContactSubmission extends ContactSubmissionInput {

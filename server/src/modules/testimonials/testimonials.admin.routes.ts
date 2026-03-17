@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { z } from 'zod'
-import type { Testimonial } from '../../types/content.js'
+import type { AdminTestimonial } from '../../types/content.js'
 import { TestimonialModel } from './testimonials.model.js'
 
 const testimonialSchema = z.object({
@@ -10,7 +10,11 @@ const testimonialSchema = z.object({
   company: z.string().trim().min(2).max(120),
 })
 
-type AdminTestimonialDocument = Testimonial & {
+const testimonialStatusSchema = z.object({
+  status: z.enum(['pending', 'approved', 'rejected']),
+})
+
+type AdminTestimonialDocument = AdminTestimonial & {
   order: number
   _id: {
     toString(): string
@@ -25,6 +29,7 @@ function toAdminTestimonial(document: AdminTestimonialDocument) {
     author: document.author,
     role: document.role,
     company: document.company,
+    status: document.status ?? 'approved',
   }
 }
 
@@ -61,6 +66,7 @@ adminTestimonialsRouter.post('/', async (request, response, next) => {
 
     const document = await TestimonialModel.create({
       order: nextOrder,
+      status: 'pending',
       ...result.data,
     })
 
@@ -97,11 +103,48 @@ adminTestimonialsRouter.put('/:id', async (request, response, next) => {
 
     const document = await TestimonialModel.findByIdAndUpdate(
       request.params.id,
-      { order: existing.order, ...result.data },
+      {
+        order: existing.order,
+        status: existing.status ?? 'approved',
+        ...result.data,
+      },
       { new: true },
     )
       .lean()
       .exec()
+
+    response.json(toAdminTestimonial(document as unknown as AdminTestimonialDocument))
+  } catch (error) {
+    next(error)
+  }
+})
+
+adminTestimonialsRouter.patch('/:id/status', async (request, response, next) => {
+  try {
+    const result = testimonialStatusSchema.safeParse(request.body)
+
+    if (!result.success) {
+      response.status(400).json({
+        message: 'Please provide a valid testimonial status.',
+        issues: result.error.flatten(),
+      })
+      return
+    }
+
+    const document = await TestimonialModel.findByIdAndUpdate(
+      request.params.id,
+      { status: result.data.status },
+      { new: true },
+    )
+      .lean()
+      .exec()
+
+    if (!document) {
+      response.status(404).json({
+        message: 'Testimonial not found.',
+      })
+      return
+    }
 
     response.json(toAdminTestimonial(document as unknown as AdminTestimonialDocument))
   } catch (error) {

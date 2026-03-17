@@ -7,6 +7,7 @@ import type {
   AdminTestimonial,
   ContactSubmissionStatus,
   ProfileContent,
+  TestimonialModerationStatus,
 } from '../types/site'
 
 type NoticeTone = 'neutral' | 'success' | 'error'
@@ -58,6 +59,7 @@ type TestimonialDraft = {
   author: string
   role: string
   company: string
+  status: TestimonialModerationStatus
 }
 
 const CONTACT_STATUSES: ContactSubmissionStatus[] = [
@@ -250,15 +252,6 @@ function toSkillPayload(draft: SkillDraft) {
   }
 }
 
-function createEmptyTestimonialDraft(): TestimonialDraft {
-  return {
-    quote: '',
-    author: '',
-    role: '',
-    company: '',
-  }
-}
-
 function toTestimonialDraft(testimonial: AdminTestimonial): TestimonialDraft {
   return {
     id: testimonial.id,
@@ -267,6 +260,7 @@ function toTestimonialDraft(testimonial: AdminTestimonial): TestimonialDraft {
     author: testimonial.author,
     role: testimonial.role,
     company: testimonial.company,
+    status: testimonial.status,
   }
 }
 
@@ -302,12 +296,13 @@ export function AdminPage() {
     isLoadingData,
     login,
     logout,
+    mfaEnabled,
+    moderateTestimonial,
     profile,
     projects,
     refresh,
     removeProject,
     removeSkillGroup,
-    removeTestimonial,
     saveContactStatus,
     saveProfile,
     saveProject,
@@ -319,12 +314,17 @@ export function AdminPage() {
 
   const [loginEmail, setLoginEmail] = useState('')
   const [loginPassword, setLoginPassword] = useState('')
+  const [loginMfaCode, setLoginMfaCode] = useState('')
+  const [rememberSession, setRememberSession] = useState(true)
   const [notice, setNotice] = useState('')
   const [noticeTone, setNoticeTone] = useState<NoticeTone>('neutral')
   const [busyKey, setBusyKey] = useState('')
   const [contactFilter, setContactFilter] = useState<'all' | ContactSubmissionStatus>(
     'all',
   )
+  const [testimonialFilter, setTestimonialFilter] = useState<
+    'all' | TestimonialModerationStatus
+  >('all')
   const [profileDraft, setProfileDraft] = useState<ProfileDraft>(
     createEmptyProfileDraft(),
   )
@@ -338,9 +338,6 @@ export function AdminPage() {
   )
   const [testimonialDrafts, setTestimonialDrafts] = useState<TestimonialDraft[]>(
     [],
-  )
-  const [newTestimonialDraft, setNewTestimonialDraft] = useState<TestimonialDraft>(
-    createEmptyTestimonialDraft(),
   )
   const [contactStatusDrafts, setContactStatusDrafts] = useState<
     Record<string, ContactSubmissionStatus>
@@ -376,10 +373,25 @@ export function AdminPage() {
     archived: contacts.filter((contact) => contact.status === 'archived').length,
   }
 
+  const testimonialCounts = {
+    all: testimonials.length,
+    pending: testimonials.filter((testimonial) => testimonial.status === 'pending')
+      .length,
+    approved: testimonials.filter((testimonial) => testimonial.status === 'approved')
+      .length,
+    rejected: testimonials.filter((testimonial) => testimonial.status === 'rejected')
+      .length,
+  }
+
   const visibleContacts =
     contactFilter === 'all'
       ? contacts
       : contacts.filter((contact) => contact.status === contactFilter)
+
+  const visibleTestimonials =
+    testimonialFilter === 'all'
+      ? testimonialDrafts
+      : testimonialDrafts.filter((testimonial) => testimonial.status === testimonialFilter)
 
   function showNotice(message: string, tone: NoticeTone) {
     setNotice(message)
@@ -460,6 +472,10 @@ export function AdminPage() {
   }
 
   async function handleDeleteProject(projectId: string) {
+    if (!window.confirm('Delete this project from the admin content store?')) {
+      return
+    }
+
     setBusyKey(`project-delete-${projectId}`)
 
     try {
@@ -492,6 +508,10 @@ export function AdminPage() {
   }
 
   async function handleDeleteSkill(skillId: string) {
+    if (!window.confirm('Delete this skill group from the admin content store?')) {
+      return
+    }
+
     setBusyKey(`skill-delete-${skillId}`)
 
     try {
@@ -505,20 +525,12 @@ export function AdminPage() {
   }
 
   async function handleSaveTestimonial(draft: TestimonialDraft) {
-    const key = draft.id ? `testimonial-save-${draft.id}` : 'testimonial-create'
+    const key = `testimonial-save-${draft.id}`
     setBusyKey(key)
 
     try {
       await saveTestimonial(toTestimonialPayload(draft), draft.id)
-
-      if (!draft.id) {
-        setNewTestimonialDraft(createEmptyTestimonialDraft())
-      }
-
-      showNotice(
-        draft.id ? 'Testimonial updated.' : 'Testimonial created.',
-        'success',
-      )
+      showNotice('Testimonial content updated.', 'success')
     } catch (error) {
       showNotice(getErrorMessage(error, 'Unable to save testimonial.'), 'error')
     } finally {
@@ -526,15 +538,18 @@ export function AdminPage() {
     }
   }
 
-  async function handleDeleteTestimonial(testimonialId: string) {
-    setBusyKey(`testimonial-delete-${testimonialId}`)
+  async function handleModerateTestimonial(
+    testimonialId: string,
+    status: TestimonialModerationStatus,
+  ) {
+    setBusyKey(`testimonial-status-${testimonialId}`)
 
     try {
-      await removeTestimonial(testimonialId)
-      showNotice('Testimonial deleted.', 'success')
+      await moderateTestimonial(testimonialId, status)
+      showNotice(`Testimonial marked ${status}.`, 'success')
     } catch (error) {
       showNotice(
-        getErrorMessage(error, 'Unable to delete testimonial.'),
+        getErrorMessage(error, 'Unable to update testimonial status.'),
         'error',
       )
     } finally {
@@ -564,7 +579,7 @@ export function AdminPage() {
     setNotice('')
 
     try {
-      await login(loginEmail, loginPassword)
+      await login(loginEmail, loginPassword, loginMfaCode, rememberSession)
     } finally {
       setBusyKey('')
     }
@@ -612,6 +627,25 @@ export function AdminPage() {
                 onChange={(event) => setLoginPassword(event.target.value)}
               />
             </label>
+            <label className="field">
+              <span>MFA Code</span>
+              <input
+                autoComplete="one-time-code"
+                inputMode="numeric"
+                maxLength={6}
+                placeholder="Required only when MFA is enabled"
+                value={loginMfaCode}
+                onChange={(event) => setLoginMfaCode(event.target.value)}
+              />
+            </label>
+            <label className="admin-checkbox admin-checkbox--row">
+              <input
+                checked={rememberSession}
+                onChange={(event) => setRememberSession(event.target.checked)}
+                type="checkbox"
+              />
+              <span>Keep this admin session signed in on this browser</span>
+            </label>
             {authError ? (
               <p className="admin-banner admin-banner--error">{authError}</p>
             ) : null}
@@ -640,6 +674,9 @@ export function AdminPage() {
           <h1 className="admin-title">Content control panel</h1>
           <p className="admin-meta">
             Signed in as {adminSession?.email ?? 'admin'}
+          </p>
+          <p className="admin-meta">
+            MFA {mfaEnabled ? 'enabled' : 'not enabled'} for this admin account.
           </p>
         </div>
         <div className="admin-actions">
@@ -674,8 +711,8 @@ export function AdminPage() {
         </article>
         <article className="surface admin-summary-card">
           <span className="eyebrow">Testimonials</span>
-          <strong>{testimonials.length}</strong>
-          <p className="admin-meta">Example testimonials currently shown on the site.</p>
+          <strong>{testimonialCounts.pending}</strong>
+          <p className="admin-meta">Pending testimonials waiting for review.</p>
         </article>
         <article className="surface admin-summary-card">
           <span className="eyebrow">Contacts</span>
@@ -1365,158 +1402,161 @@ export function AdminPage() {
         <div className="admin-section-heading">
           <div>
             <span className="eyebrow">Testimonials</span>
-            <h2>Testimonials</h2>
+            <h2>Testimonials moderation</h2>
           </div>
-          <p className="admin-meta">Keep the public social proof section current.</p>
+          <p className="admin-meta">
+            Only approved testimonials are shown on the public site.
+          </p>
         </div>
 
-        <div className="admin-stack">
-          {testimonialDrafts.map((draft) => (
-            <article className="admin-card admin-card--nested" key={draft.id}>
-              <div className="admin-section-heading">
-                <h3>{draft.author || 'Untitled testimonial'}</h3>
-                <span className="admin-tag">Order {draft.order ?? 0}</span>
-              </div>
-              <label className="field">
-                <span>Quote</span>
-                <textarea
-                  rows={5}
-                  value={draft.quote}
-                  onChange={(event) =>
-                    updateTestimonialDraft(draft.id ?? '', {
-                      quote: event.target.value,
-                    })
-                  }
-                />
-              </label>
-              <div className="field-grid">
-                <label className="field">
-                  <span>Author</span>
-                  <input
-                    value={draft.author}
-                    onChange={(event) =>
-                      updateTestimonialDraft(draft.id ?? '', {
-                        author: event.target.value,
-                      })
-                    }
-                  />
-                </label>
-                <label className="field">
-                  <span>Role</span>
-                  <input
-                    value={draft.role}
-                    onChange={(event) =>
-                      updateTestimonialDraft(draft.id ?? '', {
-                        role: event.target.value,
-                      })
-                    }
-                  />
-                </label>
-                <label className="field">
-                  <span>Company</span>
-                  <input
-                    value={draft.company}
-                    onChange={(event) =>
-                      updateTestimonialDraft(draft.id ?? '', {
-                        company: event.target.value,
-                      })
-                    }
-                  />
-                </label>
-              </div>
-              <div className="admin-actions">
-                <button
-                  className="button button--primary"
-                  disabled={busyKey === `testimonial-save-${draft.id}`}
-                  onClick={() => void handleSaveTestimonial(draft)}
-                  type="button"
-                >
-                  {busyKey === `testimonial-save-${draft.id}` ? 'Saving...' : 'Save'}
-                </button>
-                <button
-                  className="button button--secondary"
-                  disabled={busyKey === `testimonial-delete-${draft.id}`}
-                  onClick={() => draft.id && void handleDeleteTestimonial(draft.id)}
-                  type="button"
-                >
-                  {busyKey === `testimonial-delete-${draft.id}`
-                    ? 'Deleting...'
-                    : 'Delete'}
-                </button>
-              </div>
-            </article>
-          ))}
-
-          <article className="admin-card admin-card--nested admin-card--new">
-            <div className="admin-section-heading">
-              <h3>Add testimonial</h3>
-              <span className="admin-tag">New</span>
-            </div>
-            <label className="field">
-              <span>Quote</span>
-              <textarea
-                rows={5}
-                value={newTestimonialDraft.quote}
-                onChange={(event) =>
-                  setNewTestimonialDraft((current) => ({
-                    ...current,
-                    quote: event.target.value,
-                  }))
-                }
-              />
-            </label>
-            <div className="field-grid">
-              <label className="field">
-                <span>Author</span>
-                <input
-                  value={newTestimonialDraft.author}
-                  onChange={(event) =>
-                    setNewTestimonialDraft((current) => ({
-                      ...current,
-                      author: event.target.value,
-                    }))
-                  }
-                />
-              </label>
-              <label className="field">
-                <span>Role</span>
-                <input
-                  value={newTestimonialDraft.role}
-                  onChange={(event) =>
-                    setNewTestimonialDraft((current) => ({
-                      ...current,
-                      role: event.target.value,
-                    }))
-                  }
-                />
-              </label>
-              <label className="field">
-                <span>Company</span>
-                <input
-                  value={newTestimonialDraft.company}
-                  onChange={(event) =>
-                    setNewTestimonialDraft((current) => ({
-                      ...current,
-                      company: event.target.value,
-                    }))
-                  }
-                />
-              </label>
-            </div>
-            <div className="admin-actions">
-              <button
-                className="button button--primary"
-                disabled={busyKey === 'testimonial-create'}
-                onClick={() => void handleSaveTestimonial(newTestimonialDraft)}
-                type="button"
-              >
-                {busyKey === 'testimonial-create'
-                  ? 'Creating...'
-                  : 'Create testimonial'}
-              </button>
-            </div>
-          </article>
+        <div className="admin-actions">
+          <button
+            className={[
+              'button',
+              testimonialFilter === 'all' ? 'button--primary' : 'button--secondary',
+            ].join(' ')}
+            onClick={() => setTestimonialFilter('all')}
+            type="button"
+          >
+            All ({testimonialCounts.all})
+          </button>
+          <button
+            className={[
+              'button',
+              testimonialFilter === 'pending' ? 'button--primary' : 'button--secondary',
+            ].join(' ')}
+            onClick={() => setTestimonialFilter('pending')}
+            type="button"
+          >
+            Pending ({testimonialCounts.pending})
+          </button>
+          <button
+            className={[
+              'button',
+              testimonialFilter === 'approved' ? 'button--primary' : 'button--secondary',
+            ].join(' ')}
+            onClick={() => setTestimonialFilter('approved')}
+            type="button"
+          >
+            Approved ({testimonialCounts.approved})
+          </button>
+          <button
+            className={[
+              'button',
+              testimonialFilter === 'rejected' ? 'button--primary' : 'button--secondary',
+            ].join(' ')}
+            onClick={() => setTestimonialFilter('rejected')}
+            type="button"
+          >
+            Rejected ({testimonialCounts.rejected})
+          </button>
         </div>
+
+        {visibleTestimonials.length === 0 ? (
+          <p className="admin-empty">
+            {testimonialFilter === 'all'
+              ? 'No testimonials are stored yet.'
+              : `No ${testimonialFilter} testimonials are waiting in this view.`}
+          </p>
+        ) : (
+          <div className="admin-stack">
+            {visibleTestimonials.map((draft) => (
+              <article className="admin-card admin-card--nested" key={draft.id}>
+                <div className="admin-section-heading">
+                  <h3>{draft.author || 'Untitled testimonial'}</h3>
+                  <span className="admin-tag">{draft.status}</span>
+                </div>
+                <label className="field">
+                  <span>Quote</span>
+                  <textarea
+                    rows={5}
+                    value={draft.quote}
+                    onChange={(event) =>
+                      updateTestimonialDraft(draft.id ?? '', {
+                        quote: event.target.value,
+                      })
+                    }
+                  />
+                </label>
+                <div className="field-grid">
+                  <label className="field">
+                    <span>Author</span>
+                    <input
+                      value={draft.author}
+                      onChange={(event) =>
+                        updateTestimonialDraft(draft.id ?? '', {
+                          author: event.target.value,
+                        })
+                      }
+                    />
+                  </label>
+                  <label className="field">
+                    <span>Role</span>
+                    <input
+                      value={draft.role}
+                      onChange={(event) =>
+                        updateTestimonialDraft(draft.id ?? '', {
+                          role: event.target.value,
+                        })
+                      }
+                    />
+                  </label>
+                  <label className="field">
+                    <span>Company</span>
+                    <input
+                      value={draft.company}
+                      onChange={(event) =>
+                        updateTestimonialDraft(draft.id ?? '', {
+                          company: event.target.value,
+                        })
+                      }
+                    />
+                  </label>
+                </div>
+                <div className="admin-actions">
+                  <button
+                    className="button button--primary"
+                    disabled={busyKey === `testimonial-save-${draft.id}`}
+                    onClick={() => void handleSaveTestimonial(draft)}
+                    type="button"
+                  >
+                    {busyKey === `testimonial-save-${draft.id}` ? 'Saving...' : 'Save'}
+                  </button>
+                  <button
+                    className="button button--secondary"
+                    disabled={busyKey === `testimonial-status-${draft.id}`}
+                    onClick={() =>
+                      draft.id && void handleModerateTestimonial(draft.id, 'approved')
+                    }
+                    type="button"
+                  >
+                    Approve
+                  </button>
+                  <button
+                    className="button button--secondary"
+                    disabled={busyKey === `testimonial-status-${draft.id}`}
+                    onClick={() =>
+                      draft.id && void handleModerateTestimonial(draft.id, 'pending')
+                    }
+                    type="button"
+                  >
+                    Mark pending
+                  </button>
+                  <button
+                    className="button button--secondary"
+                    disabled={busyKey === `testimonial-status-${draft.id}`}
+                    onClick={() =>
+                      draft.id && void handleModerateTestimonial(draft.id, 'rejected')
+                    }
+                    type="button"
+                  >
+                    Reject
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
       </section>
 
       <section className="surface admin-card">

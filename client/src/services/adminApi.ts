@@ -11,6 +11,7 @@ import type {
   ProjectSummary,
   SkillGroup,
   Testimonial,
+  TestimonialModerationStatus,
 } from '../types/site'
 
 const REQUEST_TIMEOUT_MS = 8000
@@ -70,6 +71,39 @@ function buildHeaders(token?: string) {
   return headers
 }
 
+function extractApiErrorMessage(errorBody: unknown, fallback: string) {
+  if (!errorBody || typeof errorBody !== 'object') {
+    return fallback
+  }
+
+  if (
+    'message' in errorBody &&
+    typeof errorBody.message === 'string' &&
+    errorBody.message.trim()
+  ) {
+    return errorBody.message
+  }
+
+  if (
+    'issues' in errorBody &&
+    errorBody.issues &&
+    typeof errorBody.issues === 'object' &&
+    'fieldErrors' in errorBody.issues &&
+    errorBody.issues.fieldErrors &&
+    typeof errorBody.issues.fieldErrors === 'object'
+  ) {
+    const fieldErrors = Object.values(errorBody.issues.fieldErrors)
+      .flat()
+      .filter((value): value is string => typeof value === 'string' && Boolean(value))
+
+    if (fieldErrors[0]) {
+      return fieldErrors[0]
+    }
+  }
+
+  return fallback
+}
+
 async function requestJson<T>(
   path: string,
   init?: RequestInit,
@@ -86,7 +120,7 @@ async function requestJson<T>(
 
   if (!response.ok) {
     const errorBody = (await response.json().catch(() => null)) as
-      | { message?: string }
+      | { message?: string; issues?: unknown }
       | null
 
     console.error(
@@ -94,21 +128,23 @@ async function requestJson<T>(
     )
 
     if (response.status === 401) {
-      throw new Error(errorBody?.message ?? 'Admin session expired.')
+      throw new Error(extractApiErrorMessage(errorBody, 'Admin session expired.'))
     }
 
-    throw new Error(errorBody?.message ?? `Request failed: ${response.status}`)
+    throw new Error(
+      extractApiErrorMessage(errorBody, `Request failed: ${response.status}`),
+    )
   }
 
   return parseJson<T>(response, `${init?.method ?? 'GET'} ${path}`)
 }
 
-export function loginAdmin(email: string, password: string) {
+export function loginAdmin(email: string, password: string, mfaCode?: string) {
   return requestJson<AdminLoginResult>(
     '/api/auth/login',
     {
       method: 'POST',
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, password, ...(mfaCode ? { mfaCode } : {}) }),
     },
   )
 }
@@ -241,6 +277,21 @@ export function updateAdminTestimonial(
     {
       method: 'PUT',
       body: JSON.stringify(payload),
+    },
+    token,
+  )
+}
+
+export function updateAdminTestimonialStatus(
+  token: string,
+  id: string,
+  status: TestimonialModerationStatus,
+) {
+  return requestJson<AdminTestimonial>(
+    `/api/admin/testimonials/${id}/status`,
+    {
+      method: 'PATCH',
+      body: JSON.stringify({ status }),
     },
     token,
   )

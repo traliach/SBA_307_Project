@@ -1,12 +1,12 @@
 import mongoose, { Schema, model } from 'mongoose'
 import type { Model } from 'mongoose'
-import type { Testimonial } from '../../types/content.js'
+import type { AdminTestimonial } from '../../types/content.js'
 
-type TestimonialDocument = Testimonial & {
+type TestimonialDocument = AdminTestimonial & {
   order: number
 }
 
-// Preserve testimonial ordering in Mongo while keeping the client payload unchanged.
+// Preserve moderation status in Mongo so the public site can show approved quotes only.
 const testimonialSchema = new Schema<TestimonialDocument>(
   {
     order: { type: Number, required: true, unique: true },
@@ -14,6 +14,12 @@ const testimonialSchema = new Schema<TestimonialDocument>(
     author: { type: String, required: true, trim: true },
     role: { type: String, required: true, trim: true },
     company: { type: String, required: true, trim: true },
+    status: {
+      type: String,
+      required: true,
+      enum: ['pending', 'approved', 'rejected'],
+      default: 'pending',
+    },
   },
   {
     collection: 'testimonials',

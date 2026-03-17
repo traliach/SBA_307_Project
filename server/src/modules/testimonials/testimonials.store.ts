@@ -1,16 +1,19 @@
 import { isDatabaseReady } from '../../config/database.js'
-import type { Testimonial } from '../../types/content.js'
+import type {
+  AdminTestimonial,
+  Testimonial,
+} from '../../types/content.js'
 import { logInfo, logWarn } from '../../utils/logger.js'
 import { testimonials as seedTestimonials } from './testimonials.data.js'
 import { TestimonialModel } from './testimonials.model.js'
 
-type TestimonialRecord = Testimonial & {
+type TestimonialRecord = AdminTestimonial & {
   order: number
   _id?: unknown
 }
 
 function stripTestimonialMetadata(document: TestimonialRecord) {
-  const { _id, order, ...testimonial } = document
+  const { _id, order, status, ...testimonial } = document
   return testimonial
 }
 
@@ -21,12 +24,34 @@ async function readMongoTestimonials() {
     .exec()) as TestimonialRecord[]
 
   if (documents.length > 0) {
-    return documents.map(stripTestimonialMetadata)
+    const hasLegacyDocuments = documents.some((document) => !document.status)
+
+    if (hasLegacyDocuments) {
+      await TestimonialModel.updateMany(
+        { status: { $exists: false } },
+        { $set: { status: 'approved' } },
+      ).exec()
+      logInfo('Backfilled legacy testimonials with approved moderation status.')
+
+      const refreshedDocuments = (await TestimonialModel.find()
+        .sort({ order: 1 })
+        .lean()
+        .exec()) as TestimonialRecord[]
+
+      return refreshedDocuments
+        .filter((document) => document.status === 'approved')
+        .map(stripTestimonialMetadata)
+    }
+
+    return documents
+      .filter((document) => document.status === 'approved')
+      .map(stripTestimonialMetadata)
   }
 
   await TestimonialModel.insertMany(
     seedTestimonials.map((testimonial, order) => ({
       order,
+      status: 'approved',
       ...testimonial,
     })),
   )

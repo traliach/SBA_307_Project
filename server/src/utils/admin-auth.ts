@@ -1,6 +1,7 @@
 import crypto from 'node:crypto'
 import jwt from 'jsonwebtoken'
 import { env } from '../config/env.js'
+import { verifyTotpCode } from './totp.js'
 
 export interface AdminTokenPayload {
   sub: string
@@ -9,6 +10,10 @@ export interface AdminTokenPayload {
 
 export function isAdminAuthConfigured() {
   return Boolean(env.ADMIN_EMAIL && env.ADMIN_PASSWORD && env.JWT_SECRET)
+}
+
+export function isAdminMfaEnabled() {
+  return Boolean(env.ADMIN_MFA_SECRET)
 }
 
 function compareSecret(input: string, expected: string) {
@@ -69,4 +74,12 @@ export function verifyAdminToken(token: string): AdminTokenPayload {
     sub: payload.sub,
     role: 'admin',
   }
+}
+
+export function validateAdminMfaCode(code: string) {
+  if (!env.ADMIN_MFA_SECRET) {
+    return true
+  }
+
+  return verifyTotpCode(env.ADMIN_MFA_SECRET, code)
 }

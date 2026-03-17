@@ -50,6 +50,15 @@ export interface Testimonial {
   company: string
 }
 
+export type TestimonialModerationStatus =
+  | 'pending'
+  | 'approved'
+  | 'rejected'
+
+export interface AdminTestimonial extends Testimonial {
+  status: TestimonialModerationStatus
+}
+
 export interface ContactSubmissionInput {
   name: string
   email: string

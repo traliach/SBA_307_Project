@@ -1,5 +1,6 @@
 export type ApiState = 'loading' | 'online' | 'offline'
 export type SubmitState = 'idle' | 'submitting' | 'success' | 'error'
+export type AdminAuthState = 'checking' | 'signed_out' | 'signing_in' | 'signed_in'
 
 export interface ApiHealth {
   service: string
@@ -87,4 +88,50 @@ export interface ContactSubmissionResult {
   id: string
   message: string
   receivedAt: string
+}
+
+export type ContactSubmissionStatus =
+  | 'new'
+  | 'reviewed'
+  | 'replied'
+  | 'archived'
+
+export interface AdminSession {
+  authenticated: boolean
+  admin: {
+    email: string
+    role: 'admin'
+  } | null
+}
+
+export interface AdminLoginResult {
+  token: string
+  expiresIn: string
+}
+
+export interface AdminProject extends ProjectSummary {
+  id: string
+  order: number
+}
+
+export interface AdminSkillGroup extends SkillGroup {
+  id: string
+  order: number
+}
+
+export interface AdminTestimonial extends Testimonial {
+  id: string
+  order: number
+}
+
+export interface AdminContactSubmission extends ContactSubmissionInput {
+  id: string
+  receivedAt: string
+  status: ContactSubmissionStatus
+}
+
+export interface AdminContactResponse {
+  count: number
+  latest: AdminContactSubmission | null
+  items: AdminContactSubmission[]
 }

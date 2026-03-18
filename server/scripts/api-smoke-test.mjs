@@ -26,7 +26,10 @@ const baseUrl = `http://127.0.0.1:${address.port}`
 
 async function request(path, init) {
   const response = await fetch(`${baseUrl}${path}`, init)
-  const body = await response.json()
+  const contentType = response.headers.get('content-type') ?? ''
+  const body = contentType.includes('application/json')
+    ? await response.json()
+    : null
   return { response, body }
 }
 
@@ -63,10 +66,12 @@ try {
   assert.ok(login.body.token)
   assert.equal(login.body.expiresIn, '12h')
   assert.equal(login.body.mfaEnabled, false)
+  const adminSessionCookie = login.response.headers.get('set-cookie')
+  assert.ok(adminSessionCookie?.includes('resume_admin_session='))
 
   const session = await request('/api/auth/session', {
     headers: {
-      Authorization: `Bearer ${login.body.token}`,
+      Cookie: adminSessionCookie,
     },
   })
   assert.equal(session.response.status, 200)
@@ -85,6 +90,14 @@ try {
   })
   assert.equal(authedAdmin.response.status, 503)
   assert.equal(authedAdmin.body.message, 'Database is not ready yet.')
+
+  const logout = await request('/api/auth/logout', {
+    method: 'POST',
+    headers: {
+      Cookie: adminSessionCookie,
+    },
+  })
+  assert.equal(logout.response.status, 204)
 
   const testimonialSubmission = await request('/api/testimonials', {
     method: 'POST',

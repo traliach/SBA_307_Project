@@ -83,7 +83,7 @@ function mergeProjects(projects: unknown): ProjectSummary[] {
       solution:
         project.solution ??
         fallbackProject?.solution ??
-        'Delivery and automation improvements applied across the stack.',
+        'Implemented delivery and automation changes that made the workflow easier to operate.',
       metrics: project.metrics ?? fallbackProject?.metrics ?? [],
       outcomes: project.outcomes ?? fallbackProject?.outcomes ?? [],
       stack: project.stack ?? fallbackProject?.stack ?? [],

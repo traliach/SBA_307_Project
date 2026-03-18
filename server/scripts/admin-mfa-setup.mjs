@@ -22,6 +22,28 @@ function encodeBase32(buffer) {
   return output
 }
 
+function generateRecoveryCode() {
+  return crypto
+    .randomBytes(6)
+    .toString('base64url')
+    .replace(/[^A-Z0-9]/gi, '')
+    .slice(0, 12)
+    .toUpperCase()
+    .match(/.{1,4}/g)
+    ?.join('-') ?? ''
+}
+
+function normalizeRecoveryCode(value) {
+  return value.toUpperCase().replace(/[^A-Z0-9]/g, '')
+}
+
+function hashRecoveryCode(value) {
+  return crypto
+    .createHash('sha256')
+    .update(normalizeRecoveryCode(value))
+    .digest('hex')
+}
+
 const scriptDir = path.dirname(fileURLToPath(import.meta.url))
 const envPath = path.resolve(scriptDir, '..', '.env')
 
@@ -36,14 +58,22 @@ const otpAuthUrl = `otpauth://totp/${encodeURIComponent(
 )}?secret=${secret}&issuer=${encodeURIComponent(
   issuer,
 )}&algorithm=SHA1&digits=6&period=30`
+const recoveryCodes = Array.from({ length: 6 }, () => generateRecoveryCode())
+const recoveryCodeHashes = recoveryCodes.map(hashRecoveryCode)
 
 console.log('Add this to server/.env:')
 console.log(`ADMIN_MFA_SECRET=${secret}`)
+console.log(`ADMIN_MFA_RECOVERY_CODE_HASHES=${recoveryCodeHashes.join(',')}`)
 console.log('')
 console.log('Manual authenticator app setup:')
 console.log(`Account: ${accountName}`)
 console.log(`Issuer: ${issuer}`)
 console.log(`Secret: ${secret}`)
+console.log('')
+console.log('Store these recovery codes somewhere safe:')
+for (const code of recoveryCodes) {
+  console.log(`- ${code}`)
+}
 console.log('')
 console.log('otpauth URL:')
 console.log(otpAuthUrl)

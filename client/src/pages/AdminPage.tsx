@@ -72,6 +72,11 @@ const CONTACT_STATUSES: ContactSubmissionStatus[] = [
   'archived',
 ]
 
+const LOCAL_ADMIN_COMMANDS = {
+  printMfaCode: 'npm --workspace server run admin:mfa:code',
+  resetMfa: 'npm --workspace server run admin:mfa:setup',
+}
+
 function parseLines(value: string) {
   return value
     .split(/\r?\n/)
@@ -456,6 +461,7 @@ export function AdminPage() {
   const [loginEmail, setLoginEmail] = useState('')
   const [loginPassword, setLoginPassword] = useState('')
   const [loginMfaCode, setLoginMfaCode] = useState('')
+  const [loginRecoveryCode, setLoginRecoveryCode] = useState('')
   const [rememberSession, setRememberSession] = useState(true)
   const [notice, setNotice] = useState('')
   const [noticeTone, setNoticeTone] = useState<NoticeTone>('neutral')
@@ -909,7 +915,13 @@ export function AdminPage() {
     setNotice('')
 
     try {
-      await login(loginEmail, loginPassword, loginMfaCode, rememberSession)
+      await login(
+        loginEmail,
+        loginPassword,
+        loginMfaCode,
+        loginRecoveryCode,
+        rememberSession,
+      )
     } finally {
       setBusyKey('')
     }
@@ -930,68 +942,147 @@ export function AdminPage() {
   }
 
   if (authState !== 'signed_in') {
+    const showMfaHelp = authError.toLowerCase().includes('mfa')
+
     return (
-      <main className="admin-shell admin-shell--narrow">
-        <section className="surface surface--accent admin-card admin-login-card">
-          <span className="eyebrow">Admin</span>
-          <h1 className="admin-title">Resume platform admin</h1>
-          <p className="section-intro">
-            Sign in with the server admin credentials to edit portfolio content.
-          </p>
-          <form className="admin-stack" onSubmit={handleLogin}>
-            <label className="field">
-              <span>Email</span>
-              <input
-                autoComplete="username"
-                type="email"
-                value={loginEmail}
-                onChange={(event) => setLoginEmail(event.target.value)}
-              />
-            </label>
-            <label className="field">
-              <span>Password</span>
-              <input
-                autoComplete="current-password"
-                type="password"
-                value={loginPassword}
-                onChange={(event) => setLoginPassword(event.target.value)}
-              />
-            </label>
-            <label className="field">
-              <span>MFA Code</span>
-              <input
-                autoComplete="one-time-code"
-                inputMode="numeric"
-                maxLength={6}
-                placeholder="Required only when MFA is enabled"
-                value={loginMfaCode}
-                onChange={(event) => setLoginMfaCode(event.target.value)}
-              />
-            </label>
-            <label className="admin-checkbox admin-checkbox--row">
-              <input
-                checked={rememberSession}
-                onChange={(event) => setRememberSession(event.target.checked)}
-                type="checkbox"
-              />
-              <span>Keep this admin session signed in on this browser</span>
-            </label>
-            {authError ? (
-              <p className="admin-banner admin-banner--error">{authError}</p>
-            ) : null}
-            <div className="admin-actions">
-              <button
-                className="button button--primary"
-                disabled={busyKey === 'login' || authState === 'signing_in'}
-                type="submit"
-              >
-                {busyKey === 'login' || authState === 'signing_in'
-                  ? 'Signing in...'
-                  : 'Sign in'}
-              </button>
+      <main className="admin-shell admin-auth-shell">
+        <div className="admin-login-grid">
+          <section className="surface surface--accent admin-card admin-login-card admin-login-card--primary">
+            <div className="admin-login-copy">
+              <span className="eyebrow">Admin</span>
+              <h1 className="admin-title">Portfolio admin</h1>
+              <p className="section-intro">
+                Sign in with the server admin credentials to edit public portfolio
+                content, review inbound contact messages, and moderate testimonials.
+              </p>
             </div>
-          </form>
-        </section>
+
+            <form className="admin-stack" onSubmit={handleLogin}>
+              <label className="field">
+                <span>Email</span>
+                <input
+                  autoComplete="username"
+                  type="email"
+                  value={loginEmail}
+                  onChange={(event) => setLoginEmail(event.target.value)}
+                />
+              </label>
+              <label className="field">
+                <span>Password</span>
+                <input
+                  autoComplete="current-password"
+                  type="password"
+                  value={loginPassword}
+                  onChange={(event) => setLoginPassword(event.target.value)}
+                />
+              </label>
+              <label className="field">
+                <span>MFA Code</span>
+                <input
+                  autoComplete="one-time-code"
+                  inputMode="numeric"
+                  maxLength={6}
+                  pattern="\d{6}"
+                  placeholder="6-digit code from your authenticator or local helper"
+                  value={loginMfaCode}
+                  onChange={(event) => setLoginMfaCode(event.target.value.replace(/\D/g, ''))}
+                />
+              </label>
+              <label className="field">
+                <span>Recovery Code</span>
+                <input
+                  autoComplete="one-time-code"
+                  placeholder="Use this instead of the MFA code if needed"
+                  value={loginRecoveryCode}
+                  onChange={(event) =>
+                    setLoginRecoveryCode(event.target.value.toUpperCase())
+                  }
+                />
+              </label>
+              <label className="admin-checkbox admin-checkbox--row">
+                <input
+                  checked={rememberSession}
+                  onChange={(event) => setRememberSession(event.target.checked)}
+                  type="checkbox"
+                />
+                <span>Keep this admin session signed in on this browser</span>
+              </label>
+              {authError ? (
+                <p className="admin-banner admin-banner--error">{authError}</p>
+              ) : null}
+              <div className="admin-actions">
+                <button
+                  className="button button--primary"
+                  disabled={busyKey === 'login' || authState === 'signing_in'}
+                  type="submit"
+                >
+                  {busyKey === 'login' || authState === 'signing_in'
+                    ? 'Signing in...'
+                    : 'Sign in'}
+                </button>
+              </div>
+            </form>
+          </section>
+
+          <aside className="surface admin-card admin-login-card admin-login-card--support">
+            <div className="admin-login-copy">
+              <span className="eyebrow">Access help</span>
+              <h2 className="admin-subtitle">Works with Google Authenticator and any standard TOTP app.</h2>
+              <p className="admin-meta">
+                This project uses TOTP when <code>ADMIN_MFA_SECRET</code> is set in
+                <code> server/.env</code>. You can use Google Authenticator,
+                Authy, 1Password, or another app that supports standard 6-digit
+                TOTP codes.
+              </p>
+            </div>
+
+            <div className="admin-note-list">
+              <article className="admin-note-item">
+                <h3 className="admin-subtitle">Quick path for local login</h3>
+                <p className="admin-meta">
+                  1. Use your email and password.
+                  <br />
+                  2. Enter a 6-digit code from Google Authenticator.
+                  <br />
+                  3. If you do not have the app available, use one recovery code instead.
+                </p>
+              </article>
+
+              <article className="admin-note-item">
+                <h3 className="admin-subtitle">Print the current local code</h3>
+                <p className="admin-meta">
+                  Use this only for local testing. It prints the current 6-digit TOTP
+                  code from the server secret configured on this machine.
+                </p>
+                <code className="admin-command">{LOCAL_ADMIN_COMMANDS.printMfaCode}</code>
+              </article>
+
+              <article className="admin-note-item">
+                <h3 className="admin-subtitle">Setup or rotate MFA</h3>
+                <p className="admin-meta">
+                  Generate a new TOTP secret and a fresh set of recovery codes, then
+                  register the secret in Google Authenticator before restarting the server.
+                </p>
+                <code className="admin-command">{LOCAL_ADMIN_COMMANDS.resetMfa}</code>
+              </article>
+
+              <article className="admin-note-item admin-note-item--soft">
+                <h3 className="admin-subtitle">Production note</h3>
+                <p className="admin-meta">
+                  Do not disable MFA in production. Keep the authenticator app enrolled
+                  and store the recovery codes outside the repo.
+                </p>
+              </article>
+
+              {showMfaHelp ? (
+                <p className="admin-banner">
+                  The current server is rejecting the MFA step. Print a fresh code and
+                  try again immediately, because TOTP codes expire every 30 seconds.
+                </p>
+              ) : null}
+            </div>
+          </aside>
+        </div>
       </main>
     )
   }
@@ -1020,7 +1111,7 @@ export function AdminPage() {
           </button>
           <button
             className="button button--primary"
-            onClick={() => logout()}
+            onClick={() => void logout()}
             type="button"
           >
             Sign out

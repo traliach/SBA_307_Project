@@ -116,12 +116,14 @@ export interface AdminSession {
     role: 'admin'
   } | null
   mfaEnabled: boolean
+  mfaRecoveryEnabled?: boolean
 }
 
 export interface AdminLoginResult {
   token: string
   expiresIn: string
   mfaEnabled: boolean
+  mfaRecoveryEnabled?: boolean
 }
 
 export interface AdminProject extends ProjectSummary {

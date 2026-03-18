@@ -16,6 +16,28 @@ export function isAdminMfaEnabled() {
   return Boolean(env.ADMIN_MFA_SECRET)
 }
 
+export function hasAdminMfaRecoveryCodes() {
+  return getAdminRecoveryCodeHashes().length > 0
+}
+
+function normalizeRecoveryCode(value: string) {
+  return value.toUpperCase().replace(/[^A-Z0-9]/g, '')
+}
+
+function hashRecoveryCode(value: string) {
+  return crypto
+    .createHash('sha256')
+    .update(normalizeRecoveryCode(value))
+    .digest('hex')
+}
+
+function getAdminRecoveryCodeHashes() {
+  return (env.ADMIN_MFA_RECOVERY_CODE_HASHES ?? '')
+    .split(',')
+    .map((value) => value.trim().toLowerCase())
+    .filter(Boolean)
+}
+
 function compareSecret(input: string, expected: string) {
   const inputBuffer = Buffer.from(input)
   const expectedBuffer = Buffer.from(expected)
@@ -82,4 +104,12 @@ export function validateAdminMfaCode(code: string) {
   }
 
   return verifyTotpCode(env.ADMIN_MFA_SECRET, code)
+}
+
+export function validateAdminRecoveryCode(code: string) {
+  const hashedCode = hashRecoveryCode(code)
+
+  return getAdminRecoveryCodeHashes().some((storedHash) =>
+    compareSecret(hashedCode, storedHash),
+  )
 }

@@ -2,24 +2,45 @@ import type { SkillGroup } from '../../types/content.js'
 
 export const skillGroups: SkillGroup[] = [
   {
-    eyebrow: 'Cloud',
-    title: 'Platforms & Services',
+    eyebrow: 'Cloud platforms',
+    title: 'AWS, Azure, and GCP',
     description:
-      'Multi-cloud delivery across AWS, Azure, and GCP with hands-on compute, identity, and operations experience.',
-    items: ['AWS', 'Azure', 'GCP', 'Compute Engine', 'Cloud Storage', 'IAM'],
+      'Hands-on delivery and support work across major cloud environments, with a bias toward stable deployment patterns and operational clarity.',
+    items: ['AWS', 'Azure', 'GCP', 'IAM', 'Compute', 'Storage'],
   },
   {
-    eyebrow: 'Delivery',
-    title: 'CI/CD & Quality',
+    eyebrow: 'CI/CD and automation',
+    title: 'Release workflows that hold up in production',
     description:
-      'Release pipelines and quality tooling used to improve deployment speed, repeatability, and confidence.',
-    items: ['Jenkins', 'GitLab CI/CD', 'CircleCI', 'Azure DevOps', 'Maven', 'SonarQube', 'Nexus'],
+      'Pipeline tooling and automation used to reduce manual release steps and make delivery easier to trust under pressure.',
+    items: ['Jenkins', 'GitLab CI/CD', 'CircleCI', 'Azure DevOps', 'Maven', 'SonarQube'],
   },
   {
-    eyebrow: 'Platform',
-    title: 'Containers & IaC',
+    eyebrow: 'Infrastructure as code',
+    title: 'Repeatable environment delivery',
     description:
-      'Container orchestration and infrastructure automation used to keep environments consistent and scalable.',
-    items: ['Docker', 'Kubernetes', 'OpenShift', 'Terraform', 'CloudFormation', 'ARM', 'Ansible'],
+      'Infrastructure automation focused on consistency, change control, and easier handoff between engineering and operations.',
+    items: ['Terraform', 'CloudFormation', 'ARM', 'Ansible'],
+  },
+  {
+    eyebrow: 'Containers and orchestration',
+    title: 'Containerized platform operations',
+    description:
+      'Container build and orchestration tooling used to support modern deployment workflows and platform reliability.',
+    items: ['Docker', 'Kubernetes', 'OpenShift', 'Kubeflow'],
+  },
+  {
+    eyebrow: 'Backend / full-stack',
+    title: 'Application work with an infrastructure mindset',
+    description:
+      'Application development that connects front-end, API, and data-layer decisions back to delivery and maintainability concerns.',
+    items: ['React', 'TypeScript', 'Node.js', 'Express', 'MongoDB', 'REST APIs'],
+  },
+  {
+    eyebrow: 'Operations',
+    title: 'Troubleshooting, monitoring, and support',
+    description:
+      'Operational support focused on diagnosing failures, improving visibility, and keeping release workflows moving.',
+    items: ['Prometheus', 'Production support', 'Release validation', 'Incident troubleshooting'],
   },
 ]

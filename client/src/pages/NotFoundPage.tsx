@@ -1,16 +1,21 @@
+import { ButtonLink, PageIntro, SiteSection, SurfaceCard } from '../components/site/ui'
+
 export function NotFoundPage() {
   return (
-    <section className="section">
-      <div className="surface">
-        <span className="eyebrow">404</span>
-        <h2>Page not found</h2>
-        <p className="section-intro">
-          This route does not exist in the portfolio client yet.
-        </p>
-        <a className="button button--primary" href="/">
-          Back to overview
-        </a>
-      </div>
-    </section>
+    <SiteSection className="pt-16 sm:pt-20 lg:pt-24">
+      <SurfaceCard className="mx-auto flex max-w-3xl flex-col gap-8 text-center" tone="subdued">
+        <PageIntro
+          align="center"
+          description="The route is not available in this portfolio."
+          eyebrow="404"
+          size="page"
+          title="Page not found."
+        />
+
+        <div className="flex justify-center">
+          <ButtonLink href="/">Back to overview</ButtonLink>
+        </div>
+      </SurfaceCard>
+    </SiteSection>
   )
 }

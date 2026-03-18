@@ -67,6 +67,15 @@ function generateTotp(secret: string, timestampMs: number) {
   return String(code % 10 ** TOTP_DIGITS).padStart(TOTP_DIGITS, '0')
 }
 
+export function getCurrentTotpCode(secret: string, timestampMs = Date.now()) {
+  return generateTotp(secret, timestampMs)
+}
+
+export function getTotpSecondsRemaining(timestampMs = Date.now()) {
+  const stepMs = TOTP_STEP_SECONDS * 1000
+  return Math.ceil((stepMs - (timestampMs % stepMs)) / 1000)
+}
+
 export function generateTotpSecret() {
   return encodeBase32(crypto.randomBytes(20))
 }

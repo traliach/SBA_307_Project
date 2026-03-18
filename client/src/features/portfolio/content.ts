@@ -14,42 +14,44 @@ export const fallbackProfile: ProfileContent = {
   name: 'Ali Achille Traore',
   title: 'DevOps Engineer',
   location: 'Newark, NJ',
-  availability: 'Open to DevOps, platform engineering, and cloud automation roles',
+  availability:
+    'Open to DevOps, platform engineering, cloud automation, and software engineering opportunities.',
   summary:
-    'DevOps engineer with over six years of experience across AWS, Azure, and GCP, focused on CI/CD, infrastructure automation, cloud operations, and delivery reliability.',
+    'AWS-certified DevOps engineer with hands-on work across CI/CD, infrastructure automation, cloud delivery, and production support in AWS, Azure, and GCP. I focus on making deployment paths clearer, environments easier to operate, and releases more dependable.',
   intro:
-    'This React client is the first step in moving the portfolio from static pages into a typed full-stack platform backed by an API.',
+    'I am extending that foundation into full-stack software engineering with React, TypeScript, Express, and MongoDB, applying the same emphasis on maintainable systems and disciplined delivery.',
   about:
-    'I focus on taking unstable delivery processes and turning them into reliable systems teams can trust. My recent work spans enterprise CI/CD pipelines, GCP migration and automation efforts, Kubernetes-based workflows, and hands-on operational support across cloud environments.',
+    'I work on the parts of engineering teams notice most when they break: deployment pipelines, cloud environments, release handoffs, and production support. My background is in DevOps and cloud delivery across AWS, Azure, and GCP, with an emphasis on automation, troubleshooting, and operating systems that stay predictable under pressure.',
   certifications: [
     'AWS Certified DevOps Engineer - Professional',
     'AWS Certified Cloud Practitioner',
     'Google IT Support Specialization',
   ],
   strengths: [
-    'CI/CD pipeline design and optimization across Jenkins, GitLab CI/CD, CircleCI, and Azure DevOps.',
-    'Infrastructure automation with Terraform, CloudFormation, ARM, and Ansible.',
-    'Cloud delivery across AWS, Azure, and GCP with a bias toward repeatable operational systems.',
-    'Production troubleshooting, reliability improvement, and cross-functional delivery support.',
+    'CI/CD pipeline design and optimization',
+    'Infrastructure as code with Terraform and related tooling',
+    'Cloud delivery across AWS, Azure, and GCP',
+    'Production troubleshooting and operational support',
+    'Cross-functional collaboration between engineering and operations',
   ],
   timeline: [
     {
       title: 'DevOps Engineer, Dominion Systems',
       period: 'August 2018 - Present',
       detail:
-        'Led CI/CD improvements, cloud delivery work, and infrastructure automation projects across AWS and GCP, including build and deployment improvements measured at roughly 30%.',
+        'Supported CI/CD workflows, infrastructure automation, and delivery operations across AWS and GCP engagements.',
     },
     {
       title: 'AWS Cloud Engineer, Dominion Systems',
       period: 'June 2017 - July 2018',
       detail:
-        'Supported AWS infrastructure operations, cloud networking, database administration, and production change work focused on stability and operational efficiency.',
+        'Handled AWS infrastructure operations, networking, database administration, and production change work.',
     },
     {
-      title: 'Software Engineering Growth Track',
+      title: 'Full-Stack Engineering Growth',
       period: 'Current',
       detail:
-        'Expanding into full-stack application delivery through modern TypeScript tooling while building on an operations and cloud engineering foundation.',
+        'Building React, TypeScript, Express, and MongoDB applications on top of a DevOps foundation.',
     },
   ],
   links: {
@@ -61,49 +63,49 @@ export const fallbackProfile: ProfileContent = {
 
 export const highlightMetrics: Highlight[] = [
   {
-    label: 'Experience',
-    value: '6+ years',
-    detail: 'Delivery, CI/CD, cloud infrastructure, and operational automation.',
+    label: 'Certification',
+    value: 'AWS-certified',
+    detail: 'Professional-level AWS certification backed by day-to-day delivery work.',
   },
   {
-    label: 'Deployment speed',
-    value: '30%',
-    detail: 'Measured reduction in build and deployment times from pipeline improvements.',
+    label: 'Platforms',
+    value: 'AWS, Azure, GCP',
+    detail: 'Multi-cloud experience across delivery, support, and environment automation.',
   },
   {
-    label: 'Infra automation',
-    value: '50+',
-    detail: 'Infrastructure components automated with ARM, Terraform, and Ansible workflows.',
+    label: 'Core focus',
+    value: 'CI/CD + IaC',
+    detail: 'Release engineering, Terraform-led automation, and repeatable deployment workflows.',
   },
   {
-    label: 'Security audits',
-    value: '15+',
-    detail: 'Security and monitoring improvements across production environments.',
+    label: 'Build style',
+    value: 'Ops-minded full stack',
+    detail: 'Application work in React, TypeScript, Express, and MongoDB with delivery in mind.',
   },
 ]
 
 export const projectSummaries: ProjectSummary[] = [
   {
-    title: 'Hilton Cloud Delivery Project',
+    title: 'Hilton Cloud Delivery',
     timeframe: '2021-2022',
     role: 'DevOps Engineer',
     featured: true,
     summary:
-      'GCP delivery work centered on Jenkins-driven deployment automation, Terraform-managed infrastructure, and container reliability.',
+      'Supported GCP delivery automation with Jenkins, Terraform, Docker, and Kubernetes to make infrastructure and application releases more repeatable.',
     challenge:
-      'The delivery flow needed stronger automation, more reliable infrastructure provisioning, and less friction across deployment steps.',
+      'Infrastructure changes and container releases needed a cleaner, more consistent path from build to deployment.',
     solution:
-      'Implemented Jenkins-driven automation, Terraform-managed infrastructure changes, and container deployment improvements across the delivery pipeline.',
+      'Used Jenkins to standardize delivery steps, managed environment changes with Terraform, and tightened the handoff into container deployment workflows.',
     stack: ['GCP', 'Jenkins', 'Terraform', 'Docker', 'Kubernetes'],
     metrics: [
-      { label: 'Deployment speed', value: '+30%' },
-      { label: 'Automation efficiency', value: '+20%' },
-      { label: 'Reliability', value: '+25%' },
+      { label: 'Environment', value: 'GCP' },
+      { label: 'Delivery', value: 'Jenkins' },
+      { label: 'Focus', value: 'Terraform' },
     ],
     outcomes: [
-      'Improved deployment efficiency by 30%.',
-      'Increased automation efficiency by 20%.',
-      'Raised deployment reliability by 25% with customized Kubernetes manifests.',
+      'Standardized infrastructure changes across delivery environments.',
+      'Made container releases easier to repeat and troubleshoot.',
+      'Improved deployment reliability through more consistent automation.',
     ],
   },
   {
@@ -112,69 +114,90 @@ export const projectSummaries: ProjectSummary[] = [
     role: 'DevOps Engineer',
     featured: true,
     summary:
-      'Modernized build, deployment, and troubleshooting flows with stronger CI/CD, artifact management, and server reliability work.',
+      'Improved CI/CD, artifact handling, and environment support across Jenkins, Azure DevOps, Docker, Ansible, and Kubernetes.',
     challenge:
-      'The platform needed faster deployment cycles, cleaner artifact and release handling, and a more stable operational footing.',
+      'Release workflows needed better consistency, clearer artifact handling, and stronger day-to-day support when deployments failed.',
     solution:
-      'Strengthened CI/CD automation, improved troubleshooting workflows, and used container and infrastructure tooling to stabilize delivery.',
+      'Refined CI/CD flows, improved release handling, and used container and automation tooling to stabilize routine delivery work.',
     stack: ['Jenkins', 'Azure DevOps', 'Docker', 'Ansible', 'Kubernetes'],
     metrics: [
-      { label: 'Deployment speed', value: '+30%' },
-      { label: 'Vulnerability reduction', value: '-15%' },
-      { label: 'Availability', value: '+30%' },
+      { label: 'Toolchain', value: 'Jenkins + Azure DevOps' },
+      { label: 'Delivery', value: 'Containers' },
+      { label: 'Focus', value: 'Operational stability' },
     ],
     outcomes: [
-      'Improved deployment efficiency by 30%.',
-      'Reduced vulnerabilities by 15%.',
-      'Boosted application availability and performance by 30%.',
+      'Reduced manual friction in release work.',
+      'Improved troubleshooting around build and deployment failures.',
+      'Strengthened overall delivery confidence and environment stability.',
     ],
   },
   {
     title: 'Kubeflow Workflow Automation',
-    timeframe: 'Dominion Systems',
+    timeframe: 'Dominion Systems engagement',
     role: 'Platform / DevOps Engineer',
     featured: false,
     summary:
-      'Integrated Kubeflow on Kubernetes to automate ML pipeline steps and improve analytics platform scalability.',
+      'Automated Kubernetes-based Kubeflow workflows to make machine learning delivery and support work easier to operate.',
     challenge:
-      'Machine learning delivery required more repeatable workflow orchestration and better operational support around Kubernetes-based data systems.',
+      'Machine learning workloads needed a more repeatable way to orchestrate pipeline runs and support them in production.',
     solution:
-      'Integrated Kubeflow with Kubernetes workflows and supported the surrounding operational tooling needed to scale analytics delivery.',
+      'Integrated Kubeflow into Kubernetes workflows and supported the operational tooling around those pipelines.',
     stack: ['Kubeflow', 'Kubernetes', 'Python', 'Bash', 'Prometheus'],
     metrics: [
-      { label: 'Workflow maturity', value: 'Automated' },
-      { label: 'Platform scale', value: 'Kubernetes' },
-      { label: 'Delivery focus', value: 'ML Ops' },
+      { label: 'Platform', value: 'Kubernetes' },
+      { label: 'Workflow', value: 'Kubeflow' },
+      { label: 'Support', value: 'ML operations' },
     ],
     outcomes: [
-      'Automated ML workflow deployment and scaling.',
-      'Supported SRE operations for ML data workflows.',
-      'Reduced time-to-market for predictive and analytics features.',
+      'Made machine learning workflows easier to deploy and scale.',
+      'Improved day-to-day support around Kubernetes-based analytics delivery.',
+      'Added structure to operational workflows that had previously been more manual.',
     ],
   },
 ]
 
 export const skillGroups: SkillGroup[] = [
   {
-    eyebrow: 'Cloud',
-    title: 'Platforms & Services',
+    eyebrow: 'Cloud platforms',
+    title: 'AWS, Azure, and GCP',
     description:
-      'Multi-cloud delivery across AWS, Azure, and GCP with hands-on compute, identity, and operations experience.',
-    items: ['AWS', 'Azure', 'GCP', 'Compute Engine', 'Cloud Storage', 'IAM'],
+      'Hands-on delivery and support work across major cloud environments, with a bias toward stable deployment patterns and operational clarity.',
+    items: ['AWS', 'Azure', 'GCP', 'IAM', 'Compute', 'Storage'],
   },
   {
-    eyebrow: 'Delivery',
-    title: 'CI/CD & Quality',
+    eyebrow: 'CI/CD and automation',
+    title: 'Release workflows that hold up in production',
     description:
-      'Release pipelines and quality tooling used to improve deployment speed, repeatability, and confidence.',
-    items: ['Jenkins', 'GitLab CI/CD', 'CircleCI', 'Azure DevOps', 'Maven', 'SonarQube', 'Nexus'],
+      'Pipeline tooling and automation used to reduce manual release steps and make delivery easier to trust under pressure.',
+    items: ['Jenkins', 'GitLab CI/CD', 'CircleCI', 'Azure DevOps', 'Maven', 'SonarQube'],
   },
   {
-    eyebrow: 'Platform',
-    title: 'Containers & IaC',
+    eyebrow: 'Infrastructure as code',
+    title: 'Repeatable environment delivery',
     description:
-      'Container orchestration and infrastructure automation used to keep environments consistent and scalable.',
-    items: ['Docker', 'Kubernetes', 'OpenShift', 'Terraform', 'CloudFormation', 'ARM', 'Ansible'],
+      'Infrastructure automation focused on consistency, change control, and easier handoff between engineering and operations.',
+    items: ['Terraform', 'CloudFormation', 'ARM', 'Ansible'],
+  },
+  {
+    eyebrow: 'Containers and orchestration',
+    title: 'Containerized platform operations',
+    description:
+      'Container build and orchestration tooling used to support modern deployment workflows and platform reliability.',
+    items: ['Docker', 'Kubernetes', 'OpenShift', 'Kubeflow'],
+  },
+  {
+    eyebrow: 'Backend / full-stack',
+    title: 'Application work with an infrastructure mindset',
+    description:
+      'Application development that connects front-end, API, and data-layer decisions back to delivery and maintainability concerns.',
+    items: ['React', 'TypeScript', 'Node.js', 'Express', 'MongoDB', 'REST APIs'],
+  },
+  {
+    eyebrow: 'Operations',
+    title: 'Troubleshooting, monitoring, and support',
+    description:
+      'Operational support focused on diagnosing failures, improving visibility, and keeping release workflows moving.',
+    items: ['Prometheus', 'Production support', 'Release validation', 'Incident troubleshooting'],
   },
 ]
 
@@ -247,7 +270,7 @@ export function createInitialTestimonialForm(): TestimonialSubmissionInput {
 }
 
 export const nextBuildSteps = [
-  'Expand routed pages into deeper project and experience detail screens.',
-  'Move API-managed content from local store implementations into MongoDB.',
-  'Add auth and admin workflows for controlled content updates.',
+  'Admin-managed portfolio content',
+  'Mongo-backed public and admin workflows',
+  'Terraform-first infrastructure foundation',
 ]

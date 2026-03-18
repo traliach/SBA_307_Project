@@ -23,3 +23,5 @@ services:
         value: 12h
       - key: ADMIN_MFA_SECRET
         sync: false
+      - key: ADMIN_MFA_RECOVERY_CODE_HASHES
+        sync: false

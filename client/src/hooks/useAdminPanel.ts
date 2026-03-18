@@ -11,6 +11,7 @@ import {
   fetchAdminSkills,
   fetchAdminTestimonials,
   loginAdmin,
+  logoutAdmin,
   reorderAdminProjects,
   reorderAdminSkillGroups,
   reorderAdminTestimonials,
@@ -35,9 +36,6 @@ import type {
   Testimonial,
   TestimonialModerationStatus,
 } from '../types/site'
-
-const ADMIN_TOKEN_KEY = 'resume-admin-token'
-const ADMIN_PERSISTENT_TOKEN_KEY = 'resume-admin-token-persistent'
 
 function moveItemById<T extends { id: string }>(
   items: T[],
@@ -68,25 +66,24 @@ export function useAdminPanel() {
   const [authError, setAuthError] = useState('')
   const [adminSession, setAdminSession] = useState<AdminSession['admin']>(null)
   const [mfaEnabled, setMfaEnabled] = useState(false)
-  const [token, setToken] = useState<string | null>(null)
   const [profile, setProfile] = useState<ProfileContent | null>(null)
   const [projects, setProjects] = useState<AdminProject[]>([])
   const [skills, setSkills] = useState<AdminSkillGroup[]>([])
   const [testimonials, setTestimonials] = useState<AdminTestimonial[]>([])
   const [contacts, setContacts] = useState<AdminContactSubmission[]>([])
 
-  async function hydrateAdminData(activeToken: string) {
+  async function hydrateAdminData(options?: { silentAuthFailure?: boolean }) {
     setIsLoadingData(true)
 
     try {
       const [session, nextProfile, nextProjects, nextSkills, nextTestimonials, nextContacts] =
         await Promise.all([
-          fetchAdminSession(activeToken),
-          fetchAdminProfile(activeToken),
-          fetchAdminProjects(activeToken),
-          fetchAdminSkills(activeToken),
-          fetchAdminTestimonials(activeToken),
-          fetchAdminContacts(activeToken),
+          fetchAdminSession(),
+          fetchAdminProfile(),
+          fetchAdminProjects(),
+          fetchAdminSkills(),
+          fetchAdminTestimonials(),
+          fetchAdminContacts(),
         ])
 
       setAdminSession(session.admin)
@@ -99,16 +96,17 @@ export function useAdminPanel() {
       setAuthState('signed_in')
       setAuthError('')
     } catch (error) {
-      sessionStorage.removeItem(ADMIN_TOKEN_KEY)
-      localStorage.removeItem(ADMIN_PERSISTENT_TOKEN_KEY)
-      setToken(null)
       setAdminSession(null)
       setMfaEnabled(false)
       setAuthState('signed_out')
+      const errorMessage =
+        error instanceof Error ? error.message : 'Unable to load admin session.'
       setAuthError(
-        error instanceof Error
-          ? error.message
-          : 'Unable to load admin session.',
+        options?.silentAuthFailure &&
+          (errorMessage === 'Admin session expired.' ||
+            errorMessage === 'Missing admin authorization token.')
+          ? ''
+          : errorMessage,
       )
     } finally {
       setIsLoadingData(false)
@@ -116,50 +114,29 @@ export function useAdminPanel() {
   }
 
   useEffect(() => {
-    const storedToken =
-      localStorage.getItem(ADMIN_PERSISTENT_TOKEN_KEY) ??
-      sessionStorage.getItem(ADMIN_TOKEN_KEY)
-
-    if (!storedToken) {
-      setAuthState('signed_out')
-      return
-    }
-
-    setToken(storedToken)
-    void hydrateAdminData(storedToken)
+    void hydrateAdminData({ silentAuthFailure: true })
   }, [])
-
-  function requireToken() {
-    if (!token) {
-      throw new Error('Admin session is missing. Please sign in again.')
-    }
-
-    return token
-  }
 
   async function login(
     email: string,
     password: string,
     mfaCode?: string,
+    mfaRecoveryCode?: string,
     rememberSession = false,
   ) {
     setAuthState('signing_in')
     setAuthError('')
 
     try {
-      const result = await loginAdmin(email, password, mfaCode)
-
-      if (rememberSession) {
-        localStorage.setItem(ADMIN_PERSISTENT_TOKEN_KEY, result.token)
-        sessionStorage.removeItem(ADMIN_TOKEN_KEY)
-      } else {
-        sessionStorage.setItem(ADMIN_TOKEN_KEY, result.token)
-        localStorage.removeItem(ADMIN_PERSISTENT_TOKEN_KEY)
-      }
-
-      setToken(result.token)
+      const result = await loginAdmin(
+        email,
+        password,
+        mfaCode,
+        rememberSession,
+        mfaRecoveryCode,
+      )
       setMfaEnabled(result.mfaEnabled)
-      await hydrateAdminData(result.token)
+      await hydrateAdminData()
     } catch (error) {
       setAuthState('signed_out')
       setAuthError(
@@ -168,10 +145,8 @@ export function useAdminPanel() {
     }
   }
 
-  function logout() {
-    sessionStorage.removeItem(ADMIN_TOKEN_KEY)
-    localStorage.removeItem(ADMIN_PERSISTENT_TOKEN_KEY)
-    setToken(null)
+  async function logout() {
+    await logoutAdmin().catch(() => undefined)
     setAdminSession(null)
     setMfaEnabled(false)
     setProfile(null)
@@ -184,13 +159,11 @@ export function useAdminPanel() {
   }
 
   async function refresh() {
-    const activeToken = requireToken()
-    await hydrateAdminData(activeToken)
+    await hydrateAdminData()
   }
 
   async function saveProfile(profilePayload: ProfileContent) {
-    const activeToken = requireToken()
-    const nextProfile = await saveAdminProfile(activeToken, profilePayload)
+    const nextProfile = await saveAdminProfile(profilePayload)
     setProfile(nextProfile)
     return nextProfile
   }
@@ -199,10 +172,9 @@ export function useAdminPanel() {
     projectPayload: ProjectSummary,
     projectId?: string,
   ) {
-    const activeToken = requireToken()
     const nextProject = projectId
-      ? await updateAdminProject(activeToken, projectId, projectPayload)
-      : await createAdminProject(activeToken, projectPayload)
+      ? await updateAdminProject(projectId, projectPayload)
+      : await createAdminProject(projectPayload)
 
     setProjects((current) => {
       const existingIndex = current.findIndex((project) => project.id === nextProject.id)
@@ -220,13 +192,11 @@ export function useAdminPanel() {
   }
 
   async function removeProject(projectId: string) {
-    const activeToken = requireToken()
-    await deleteAdminProject(activeToken, projectId)
+    await deleteAdminProject(projectId)
     setProjects((current) => current.filter((project) => project.id !== projectId))
   }
 
   async function reorderProject(projectId: string, direction: 'up' | 'down') {
-    const activeToken = requireToken()
     const nextProjects = moveItemById(projects, projectId, direction)
 
     if (!nextProjects) {
@@ -234,7 +204,6 @@ export function useAdminPanel() {
     }
 
     const reorderedProjects = await reorderAdminProjects(
-      activeToken,
       nextProjects.map((project) => project.id),
     )
     setProjects(reorderedProjects)
@@ -245,10 +214,9 @@ export function useAdminPanel() {
     skillGroupPayload: SkillGroup,
     skillGroupId?: string,
   ) {
-    const activeToken = requireToken()
     const nextSkillGroup = skillGroupId
-      ? await updateAdminSkillGroup(activeToken, skillGroupId, skillGroupPayload)
-      : await createAdminSkillGroup(activeToken, skillGroupPayload)
+      ? await updateAdminSkillGroup(skillGroupId, skillGroupPayload)
+      : await createAdminSkillGroup(skillGroupPayload)
 
     setSkills((current) => {
       const existingIndex = current.findIndex((skill) => skill.id === nextSkillGroup.id)
@@ -266,8 +234,7 @@ export function useAdminPanel() {
   }
 
   async function removeSkillGroup(skillGroupId: string) {
-    const activeToken = requireToken()
-    await deleteAdminSkillGroup(activeToken, skillGroupId)
+    await deleteAdminSkillGroup(skillGroupId)
     setSkills((current) => current.filter((skill) => skill.id !== skillGroupId))
   }
 
@@ -275,7 +242,6 @@ export function useAdminPanel() {
     skillGroupId: string,
     direction: 'up' | 'down',
   ) {
-    const activeToken = requireToken()
     const nextSkillGroups = moveItemById(skills, skillGroupId, direction)
 
     if (!nextSkillGroups) {
@@ -283,7 +249,6 @@ export function useAdminPanel() {
     }
 
     const reorderedSkillGroups = await reorderAdminSkillGroups(
-      activeToken,
       nextSkillGroups.map((skillGroup) => skillGroup.id),
     )
     setSkills(reorderedSkillGroups)
@@ -294,9 +259,7 @@ export function useAdminPanel() {
     testimonialPayload: Testimonial,
     testimonialId: string,
   ) {
-    const activeToken = requireToken()
     const nextTestimonial = await updateAdminTestimonial(
-      activeToken,
       testimonialId,
       testimonialPayload,
     )
@@ -324,9 +287,7 @@ export function useAdminPanel() {
     testimonialId: string,
     status: TestimonialModerationStatus,
   ) {
-    const activeToken = requireToken()
     const nextTestimonial = await updateAdminTestimonialStatus(
-      activeToken,
       testimonialId,
       status,
     )
@@ -344,7 +305,6 @@ export function useAdminPanel() {
     testimonialId: string,
     direction: 'up' | 'down',
   ) {
-    const activeToken = requireToken()
     const nextTestimonials = moveItemById(testimonials, testimonialId, direction)
 
     if (!nextTestimonials) {
@@ -352,7 +312,6 @@ export function useAdminPanel() {
     }
 
     const reorderedTestimonials = await reorderAdminTestimonials(
-      activeToken,
       nextTestimonials.map((testimonial) => testimonial.id),
     )
     setTestimonials(reorderedTestimonials)
@@ -363,8 +322,7 @@ export function useAdminPanel() {
     contactId: string,
     status: ContactSubmissionStatus,
   ) {
-    const activeToken = requireToken()
-    const nextContact = await updateAdminContactStatus(activeToken, contactId, status)
+    const nextContact = await updateAdminContactStatus(contactId, status)
 
     setContacts((current) =>
       current.map((contact) => (contact.id === nextContact.id ? nextContact : contact)),

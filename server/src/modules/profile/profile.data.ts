@@ -4,42 +4,44 @@ export const profile: ProfileContent = {
   name: 'Ali Achille Traore',
   title: 'DevOps Engineer',
   location: 'Newark, NJ',
-  availability: 'Open to DevOps, platform engineering, and cloud automation roles',
+  availability:
+    'Open to DevOps, platform engineering, cloud automation, and software engineering opportunities.',
   summary:
-    'DevOps engineer with over six years of experience across AWS, Azure, and GCP, focused on CI/CD, infrastructure automation, cloud operations, and delivery reliability.',
+    'AWS-certified DevOps engineer with hands-on work across CI/CD, infrastructure automation, cloud delivery, and production support in AWS, Azure, and GCP. I focus on making deployment paths clearer, environments easier to operate, and releases more dependable.',
   intro:
-    'This API module is the first step in moving the portfolio from static HTML into structured, reusable content that can later be persisted in MongoDB.',
+    'I am extending that foundation into full-stack software engineering with React, TypeScript, Express, and MongoDB, applying the same emphasis on maintainable systems and disciplined delivery.',
   about:
-    'I focus on taking unstable delivery processes and turning them into reliable systems teams can trust. My recent work spans enterprise CI/CD pipelines, GCP migration and automation efforts, Kubernetes-based workflows, and hands-on operational support across cloud environments.',
+    'I work on the parts of engineering teams notice most when they break: deployment pipelines, cloud environments, release handoffs, and production support. My background is in DevOps and cloud delivery across AWS, Azure, and GCP, with an emphasis on automation, troubleshooting, and operating systems that stay predictable under pressure.',
   certifications: [
     'AWS Certified DevOps Engineer - Professional',
     'AWS Certified Cloud Practitioner',
     'Google IT Support Specialization',
   ],
   strengths: [
-    'CI/CD pipeline design and optimization across Jenkins, GitLab CI/CD, CircleCI, and Azure DevOps.',
-    'Infrastructure automation with Terraform, CloudFormation, ARM, and Ansible.',
-    'Cloud delivery across AWS, Azure, and GCP with a bias toward repeatable operational systems.',
-    'Production troubleshooting, reliability improvement, and cross-functional delivery support.',
+    'CI/CD pipeline design and optimization',
+    'Infrastructure as code with Terraform and related tooling',
+    'Cloud delivery across AWS, Azure, and GCP',
+    'Production troubleshooting and operational support',
+    'Cross-functional collaboration between engineering and operations',
   ],
   timeline: [
     {
       title: 'DevOps Engineer, Dominion Systems',
       period: 'August 2018 - Present',
       detail:
-        'Led CI/CD improvements, cloud delivery work, and infrastructure automation projects across AWS and GCP, including build and deployment improvements measured at roughly 30%.',
+        'Supported CI/CD workflows, infrastructure automation, and delivery operations across AWS and GCP engagements.',
     },
     {
       title: 'AWS Cloud Engineer, Dominion Systems',
       period: 'June 2017 - July 2018',
       detail:
-        'Supported AWS infrastructure operations, cloud networking, database administration, and production change work focused on stability and operational efficiency.',
+        'Handled AWS infrastructure operations, networking, database administration, and production change work.',
     },
     {
-      title: 'Software Engineering Growth Track',
+      title: 'Full-Stack Engineering Growth',
       period: 'Current',
       detail:
-        'Expanding into full-stack application delivery through modern TypeScript tooling while building on an operations and cloud engineering foundation.',
+        'Building React, TypeScript, Express, and MongoDB applications on top of a DevOps foundation.',
     },
   ],
   links: {

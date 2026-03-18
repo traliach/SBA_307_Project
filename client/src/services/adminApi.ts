@@ -60,16 +60,10 @@ async function parseJson<T>(response: Response, context: string): Promise<T> {
   }
 }
 
-function buildHeaders(token?: string) {
-  const headers: Record<string, string> = {
+function buildHeaders() {
+  return {
     'Content-Type': 'application/json',
   }
-
-  if (token) {
-    headers.Authorization = `Bearer ${token}`
-  }
-
-  return headers
 }
 
 function extractApiErrorMessage(errorBody: unknown, fallback: string) {
@@ -108,14 +102,14 @@ function extractApiErrorMessage(errorBody: unknown, fallback: string) {
 async function requestJson<T>(
   path: string,
   init?: RequestInit,
-  token?: string,
 ) {
   const requestPath = withApiBase(path)
   console.info(`[admin-api] ${init?.method ?? 'GET'} ${requestPath}`)
   const response = await fetchWithTimeout(requestPath, {
     ...init,
+    credentials: 'include',
     headers: {
-      ...buildHeaders(token),
+      ...buildHeaders(),
       ...(init?.headers ?? {}),
     },
   })
@@ -141,52 +135,75 @@ async function requestJson<T>(
   return parseJson<T>(response, `${init?.method ?? 'GET'} ${requestPath}`)
 }
 
-export function loginAdmin(email: string, password: string, mfaCode?: string) {
+export function loginAdmin(
+  email: string,
+  password: string,
+  mfaCode?: string,
+  rememberSession = false,
+  mfaRecoveryCode?: string,
+) {
   return requestJson<AdminLoginResult>(
     '/api/auth/login',
     {
       method: 'POST',
-      body: JSON.stringify({ email, password, ...(mfaCode ? { mfaCode } : {}) }),
+      body: JSON.stringify({
+        email,
+        password,
+        rememberSession,
+        ...(mfaCode ? { mfaCode } : {}),
+        ...(mfaRecoveryCode ? { mfaRecoveryCode } : {}),
+      }),
     },
   )
 }
 
-export function fetchAdminSession(token: string) {
-  return requestJson<AdminSession>('/api/auth/session', undefined, token)
+export function logoutAdmin() {
+  const requestPath = withApiBase('/api/auth/logout')
+  console.info(`[admin-api] POST ${requestPath}`)
+  return fetchWithTimeout(requestPath, {
+    method: 'POST',
+    credentials: 'include',
+    headers: buildHeaders(),
+  }).then((response) => {
+    if (!response.ok) {
+      throw new Error(`Request failed: ${response.status}`)
+    }
+  })
 }
 
-export function fetchAdminProfile(token: string) {
-  return requestJson<ProfileContent>('/api/admin/profile', undefined, token)
+export function fetchAdminSession() {
+  return requestJson<AdminSession>('/api/auth/session')
 }
 
-export function saveAdminProfile(token: string, payload: ProfileContent) {
+export function fetchAdminProfile() {
+  return requestJson<ProfileContent>('/api/admin/profile')
+}
+
+export function saveAdminProfile(payload: ProfileContent) {
   return requestJson<ProfileContent>(
     '/api/admin/profile',
     {
       method: 'PUT',
       body: JSON.stringify(payload),
     },
-    token,
   )
 }
 
-export function fetchAdminProjects(token: string) {
-  return requestJson<AdminProject[]>('/api/admin/projects', undefined, token)
+export function fetchAdminProjects() {
+  return requestJson<AdminProject[]>('/api/admin/projects')
 }
 
-export function createAdminProject(token: string, payload: ProjectSummary) {
+export function createAdminProject(payload: ProjectSummary) {
   return requestJson<AdminProject>(
     '/api/admin/projects',
     {
       method: 'POST',
       body: JSON.stringify(payload),
     },
-    token,
   )
 }
 
 export function updateAdminProject(
-  token: string,
   id: string,
   payload: ProjectSummary,
 ) {
@@ -196,48 +213,43 @@ export function updateAdminProject(
       method: 'PUT',
       body: JSON.stringify(payload),
     },
-    token,
   )
 }
 
-export function deleteAdminProject(token: string, id: string) {
+export function deleteAdminProject(id: string) {
   return requestJson<{ id: string; message: string }>(
     `/api/admin/projects/${id}`,
     {
       method: 'DELETE',
     },
-    token,
   )
 }
 
-export function reorderAdminProjects(token: string, ids: string[]) {
+export function reorderAdminProjects(ids: string[]) {
   return requestJson<AdminProject[]>(
     '/api/admin/projects/reorder',
     {
       method: 'PATCH',
       body: JSON.stringify({ ids }),
     },
-    token,
   )
 }
 
-export function fetchAdminSkills(token: string) {
-  return requestJson<AdminSkillGroup[]>('/api/admin/skills', undefined, token)
+export function fetchAdminSkills() {
+  return requestJson<AdminSkillGroup[]>('/api/admin/skills')
 }
 
-export function createAdminSkillGroup(token: string, payload: SkillGroup) {
+export function createAdminSkillGroup(payload: SkillGroup) {
   return requestJson<AdminSkillGroup>(
     '/api/admin/skills',
     {
       method: 'POST',
       body: JSON.stringify(payload),
     },
-    token,
   )
 }
 
 export function updateAdminSkillGroup(
-  token: string,
   id: string,
   payload: SkillGroup,
 ) {
@@ -247,52 +259,43 @@ export function updateAdminSkillGroup(
       method: 'PUT',
       body: JSON.stringify(payload),
     },
-    token,
   )
 }
 
-export function deleteAdminSkillGroup(token: string, id: string) {
+export function deleteAdminSkillGroup(id: string) {
   return requestJson<{ id: string; message: string }>(
     `/api/admin/skills/${id}`,
     {
       method: 'DELETE',
     },
-    token,
   )
 }
 
-export function reorderAdminSkillGroups(token: string, ids: string[]) {
+export function reorderAdminSkillGroups(ids: string[]) {
   return requestJson<AdminSkillGroup[]>(
     '/api/admin/skills/reorder',
     {
       method: 'PATCH',
       body: JSON.stringify({ ids }),
     },
-    token,
   )
 }
 
-export function fetchAdminTestimonials(token: string) {
-  return requestJson<AdminTestimonial[]>(
-    '/api/admin/testimonials',
-    undefined,
-    token,
-  )
+export function fetchAdminTestimonials() {
+  return requestJson<AdminTestimonial[]>('/api/admin/testimonials')
 }
 
-export function createAdminTestimonial(token: string, payload: Testimonial) {
+export function createAdminTestimonial(payload: Testimonial) {
   return requestJson<AdminTestimonial>(
     '/api/admin/testimonials',
     {
       method: 'POST',
       body: JSON.stringify(payload),
     },
-    token,
   )
 }
 
 export function updateAdminTestimonial(
-  token: string,
   id: string,
   payload: Testimonial,
 ) {
@@ -302,12 +305,10 @@ export function updateAdminTestimonial(
       method: 'PUT',
       body: JSON.stringify(payload),
     },
-    token,
   )
 }
 
 export function updateAdminTestimonialStatus(
-  token: string,
   id: string,
   status: TestimonialModerationStatus,
 ) {
@@ -317,37 +318,33 @@ export function updateAdminTestimonialStatus(
       method: 'PATCH',
       body: JSON.stringify({ status }),
     },
-    token,
   )
 }
 
-export function deleteAdminTestimonial(token: string, id: string) {
+export function deleteAdminTestimonial(id: string) {
   return requestJson<{ id: string; message: string }>(
     `/api/admin/testimonials/${id}`,
     {
       method: 'DELETE',
     },
-    token,
   )
 }
 
-export function reorderAdminTestimonials(token: string, ids: string[]) {
+export function reorderAdminTestimonials(ids: string[]) {
   return requestJson<AdminTestimonial[]>(
     '/api/admin/testimonials/reorder',
     {
       method: 'PATCH',
       body: JSON.stringify({ ids }),
     },
-    token,
   )
 }
 
-export function fetchAdminContacts(token: string) {
-  return requestJson<AdminContactResponse>('/api/admin/contact', undefined, token)
+export function fetchAdminContacts() {
+  return requestJson<AdminContactResponse>('/api/admin/contact')
 }
 
 export function updateAdminContactStatus(
-  token: string,
   id: string,
   status: ContactSubmissionStatus,
 ) {
@@ -357,6 +354,5 @@ export function updateAdminContactStatus(
       method: 'PATCH',
       body: JSON.stringify({ status }),
     },
-    token,
   )
 }

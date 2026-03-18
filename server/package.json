@@ -7,6 +7,7 @@
     "dev": "nodemon",
     "dev:tsx": "tsx watch src/server.ts",
     "admin:login": "node scripts/admin-login.mjs",
+    "admin:mfa:code": "node scripts/admin-mfa-code.mjs",
     "admin:mfa:setup": "node scripts/admin-mfa-setup.mjs",
     "build": "tsc -p tsconfig.json",
     "test": "npm run build && node scripts/api-smoke-test.mjs",

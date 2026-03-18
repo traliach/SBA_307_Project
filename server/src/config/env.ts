@@ -49,6 +49,11 @@ const envSchema = z.object({
       typeof value === 'string' && value.trim().length === 0 ? undefined : value,
     z.string().min(16).optional(),
   ),
+  ADMIN_MFA_RECOVERY_CODE_HASHES: z.preprocess(
+    (value) =>
+      typeof value === 'string' && value.trim().length === 0 ? undefined : value,
+    z.string().optional(),
+  ),
   ADMIN_MFA_ISSUER: z.string().default('Resume Platform Admin'),
   MONGODB_URI: z.preprocess(
     (value) =>

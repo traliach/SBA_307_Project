@@ -449,6 +449,7 @@ export function AdminPage() {
     reorderTestimonial,
     removeProject,
     removeSkillGroup,
+    deleteContact,
     saveContactStatus,
     saveProfile,
     saveProject,
@@ -904,6 +905,20 @@ export function AdminPage() {
         getErrorMessage(error, 'Unable to update contact status.'),
         'error',
       )
+    } finally {
+      setBusyKey('')
+    }
+  }
+
+  async function handleDeleteContact(contactId: string) {
+    if (!window.confirm('Delete this submission? This cannot be undone.')) return
+    setBusyKey(`contact-delete-${contactId}`)
+
+    try {
+      await deleteContact(contactId)
+      showNotice('Submission deleted.', 'success')
+    } catch (error) {
+      showNotice(getErrorMessage(error, 'Unable to delete submission.'), 'error')
     } finally {
       setBusyKey('')
     }
@@ -2268,6 +2283,14 @@ export function AdminPage() {
                       {busyKey === `contact-${contact.id}`
                         ? 'Saving...'
                         : 'Update status'}
+                    </button>
+                    <button
+                      className="button button--danger"
+                      disabled={busyKey === `contact-delete-${contact.id}`}
+                      onClick={() => void handleDeleteContact(contact.id)}
+                      type="button"
+                    >
+                      {busyKey === `contact-delete-${contact.id}` ? 'Deleting...' : 'Delete'}
                     </button>
                   </div>
                 </article>

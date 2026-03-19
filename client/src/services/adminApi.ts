@@ -356,3 +356,18 @@ export function updateAdminContactStatus(
     },
   )
 }
+
+export async function deleteAdminContact(id: string) {
+  const requestPath = withApiBase(`/api/admin/contact/${id}`)
+  console.info(`[admin-api] DELETE ${requestPath}`)
+  const response = await fetchWithTimeout(requestPath, {
+    method: 'DELETE',
+    credentials: 'include',
+    headers: buildHeaders(),
+  })
+
+  if (!response.ok) {
+    const errorBody = (await response.json().catch(() => null)) as { message?: string } | null
+    throw new Error(extractApiErrorMessage(errorBody, `Delete failed: ${response.status}`))
+  }
+}

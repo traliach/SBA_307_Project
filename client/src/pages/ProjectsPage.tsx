@@ -21,35 +21,35 @@ export function ProjectsPage({ projects }: ProjectsPageProps) {
 
   return (
     <SiteSection className="pt-12 sm:pt-16 lg:pt-20">
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-end">
+      <div className="reveal grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-end">
         <PageIntro
-          description="These case studies stay grounded in the delivery problem, the implementation choices, and the practical operating result."
+          description="Each case study covers the challenge, the technical approach, and the operating result."
           eyebrow="Projects"
           size="page"
-          title="Project work presented with the delivery context still intact."
+          title="Engineering work grounded in real delivery outcomes."
         />
 
         <SurfaceCard className="flex flex-col gap-4" padding="compact" tone="subdued">
-          <p className={finePrintClass}>What these cards emphasize</p>
+          <p className={finePrintClass}>What to look for</p>
           <ul className="grid gap-3">
             <li className="flex gap-3">
               <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
-              <span className={bodyClass}>Delivery workflow and environment context.</span>
+              <span className={bodyClass}>The delivery challenge and environment context.</span>
             </li>
             <li className="flex gap-3">
               <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
-              <span className={bodyClass}>Tooling choices that shaped the work.</span>
+              <span className={bodyClass}>Specific tooling decisions and trade-offs.</span>
             </li>
             <li className="flex gap-3">
               <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
-              <span className={bodyClass}>Operational improvements without padded metrics.</span>
+              <span className={bodyClass}>Honest, measurable operating improvements.</span>
             </li>
           </ul>
         </SurfaceCard>
       </div>
 
       {featuredProjects.length ? (
-        <div className="mt-10 grid gap-6">
+        <div className="reveal stagger-2 mt-10 grid gap-6">
           {featuredProjects.map((project) => (
             <ProjectCaseStudyCard key={project.title} layout="full" project={project} />
           ))}
@@ -57,12 +57,12 @@ export function ProjectsPage({ projects }: ProjectsPageProps) {
       ) : null}
 
       {additionalProjects.length ? (
-        <div className="mt-14 space-y-6">
+        <div className="reveal stagger-3 mt-14 space-y-6">
           <PageIntro
-            description="Additional project work that reinforces the same strengths in automation, platform support, and operational clarity."
+            description="More examples of automation, platform support, and operational improvement work."
             eyebrow="Additional work"
             size="section"
-            title="More platform and workflow delivery work."
+            title="Further platform and automation projects."
           />
 
           <div className="grid gap-6 lg:grid-cols-2">

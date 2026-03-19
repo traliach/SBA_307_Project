@@ -61,7 +61,7 @@ export function HomePage({
     <>
       {/* ── Hero ── */}
       <SiteSection className="pt-12 sm:pt-16 lg:pt-20">
-        <div className="grid gap-6 xl:grid-cols-[minmax(0,1.4fr)_minmax(320px,1fr)]">
+        <div className="reveal grid gap-6 xl:grid-cols-[minmax(0,1.4fr)_minmax(320px,1fr)]">
           <SurfaceCard
             className="relative overflow-hidden"
             padding="roomy"
@@ -163,7 +163,7 @@ export function HomePage({
             </SurfaceCard>
 
             <SurfaceCard className="flex flex-col gap-4" padding="compact">
-              <p className={finePrintClass}>Current build focus</p>
+              <p className={finePrintClass}>What I'm focused on next</p>
               <ul className="grid gap-3">
                 {nextBuildSteps.map((item) => (
                   <li className="flex gap-3" key={item}>
@@ -180,34 +180,34 @@ export function HomePage({
 
       {/* ── Selected Work ── */}
       <SiteSection>
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-end">
+        <div className="reveal grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-end">
           <PageIntro
-            description="These summaries stay close to the real work: deployment workflows, infrastructure automation, containers, troubleshooting, and the operating result."
+            description="Each project covers the delivery problem, the tooling decisions, and the measurable operating result."
             eyebrow="Selected work"
             size="section"
-            title="Delivery work with a clear technical story."
+            title="Real engineering work with measurable outcomes."
           />
 
           <SurfaceCard className="flex flex-col gap-4" padding="compact" tone="subdued">
-            <p className={finePrintClass}>What this highlights</p>
+            <p className={finePrintClass}>What to look for</p>
             <ul className="grid gap-3">
               <li className="flex gap-3">
                 <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
-                <span className={bodyClass}>How the delivery problem was framed.</span>
+                <span className={bodyClass}>The specific delivery challenge each project solved.</span>
               </li>
               <li className="flex gap-3">
                 <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
-                <span className={bodyClass}>Which tools were used and why they mattered.</span>
+                <span className={bodyClass}>Tooling choices and why they were the right fit.</span>
               </li>
               <li className="flex gap-3">
                 <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
-                <span className={bodyClass}>The operational result without inflated claims.</span>
+                <span className={bodyClass}>Grounded operating results — no inflated numbers.</span>
               </li>
             </ul>
           </SurfaceCard>
         </div>
 
-        <div className="mt-10 grid gap-6">
+        <div className="reveal stagger-2 mt-10 grid gap-6">
           {leadProject ? <ProjectCaseStudyCard layout="full" project={leadProject} /> : null}
 
           {supportingProjects.length ? (
@@ -222,7 +222,7 @@ export function HomePage({
 
       {/* ── Testimonials + Contact ── */}
       <SiteSection>
-        <div className="grid gap-6 xl:grid-cols-[minmax(0,1.18fr)_minmax(320px,0.82fr)]">
+        <div className="reveal grid gap-6 xl:grid-cols-[minmax(0,1.18fr)_minmax(320px,0.82fr)]">
           <SurfaceCard className="flex flex-col gap-8">
             <div className="space-y-5">
               <Eyebrow>Feedback</Eyebrow>
@@ -230,8 +230,8 @@ export function HomePage({
                 What collaborators tend to mention first.
               </h2>
               <BodyCopy className="max-w-2xl">
-                The recurring themes are structured delivery work, calm production
-                support, and communication that stays useful when releases get messy.
+                Structured delivery, calm production support, and clear communication
+                under pressure — those are the patterns that come up most.
               </BodyCopy>
             </div>
 
@@ -288,7 +288,7 @@ export function HomePage({
                   rel="noreferrer"
                   target="_blank"
                 >
-                  linkedin.com/in/ali-achille-traore
+                  {profile.links.linkedin.replace(/^https?:\/\/(www\.)?/, '')}
                 </a>
               </div>
             </div>

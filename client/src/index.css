@@ -84,6 +84,16 @@
     @apply border-line bg-white text-ink hover:-translate-y-0.5 hover:border-accent/30 hover:text-accent-deep hover:shadow-soft;
   }
 
+  .button--danger {
+    @apply border-transparent hover:-translate-y-0.5 hover:shadow-soft;
+    background-color: rgb(220 38 38 / 0.1);
+    color: #dc2626;
+    &:hover {
+      background-color: #dc2626;
+      color: white;
+    }
+  }
+
   .contact-form {
     @apply flex flex-col gap-5;
   }

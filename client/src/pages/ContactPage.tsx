@@ -53,7 +53,7 @@ export function ContactPage({
   return (
     <>
       <SiteSection className="pt-12 sm:pt-16 lg:pt-20">
-        <div className="grid gap-6 xl:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
+        <div className="reveal grid gap-6 xl:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
           <SurfaceCard padding="roomy" tone="accent">
             <div className="flex h-full flex-col gap-10">
               <div className="space-y-6">
@@ -64,10 +64,9 @@ export function ContactPage({
                     conversations.
                   </h1>
                   <p className="max-w-3xl text-[1.05rem] leading-8 text-muted sm:text-lg">
-                    If you are hiring for DevOps, platform engineering,
-                    infrastructure automation, cloud delivery, or an
-                    operations-minded software role, I am open to the
-                    conversation.
+                    Whether you are hiring for DevOps, platform engineering,
+                    cloud infrastructure, or a software role with operational
+                    depth — I would welcome the conversation.
                   </p>
                 </div>
               </div>
@@ -132,9 +131,8 @@ export function ContactPage({
                   to discuss.
                 </h2>
                 <p className={bodyClass}>
-                  I review messages for hiring conversations, delivery work, CI/CD
-                  modernization, platform reliability, and software engineering
-                  collaboration.
+                  I respond to messages about roles, delivery engagements, CI/CD
+                  modernization, platform work, and engineering collaboration.
                 </p>
               </div>
             </div>
@@ -178,7 +176,14 @@ export function ContactPage({
               </label>
 
               <label className="field">
-                <span>Message</span>
+                <span className="flex items-center justify-between">
+                  Message
+                  <span className={cx(finePrintClass, 'font-normal', contactForm.message.length > 0 && contactForm.message.length < 10 ? 'text-danger' : 'text-muted')}>
+                    {contactForm.message.length < 10
+                      ? `${10 - contactForm.message.length} more char${10 - contactForm.message.length === 1 ? '' : 's'} needed`
+                      : `${contactForm.message.length} / 2000`}
+                  </span>
+                </span>
                 <textarea
                   name="message"
                   onChange={onChange}

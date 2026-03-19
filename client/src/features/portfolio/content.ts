@@ -15,11 +15,11 @@ export const fallbackProfile: ProfileContent = {
   title: 'DevOps Engineer',
   location: 'Newark, NJ',
   availability:
-    'Open to DevOps, platform engineering, cloud automation, and software engineering opportunities.',
+    'Open to DevOps, platform engineering, cloud infrastructure, and full-stack software engineering roles.',
   summary:
     'AWS-certified DevOps engineer with hands-on work across CI/CD, infrastructure automation, cloud delivery, and production support in AWS, Azure, and GCP. I focus on making deployment paths clearer, environments easier to operate, and releases more dependable.',
   intro:
-    'I am extending that foundation into full-stack software engineering with React, TypeScript, Express, and MongoDB, applying the same emphasis on maintainable systems and disciplined delivery.',
+    'Currently expanding into full-stack software engineering with React, TypeScript, Express, and MongoDB — bringing the same discipline around maintainability and structured delivery to application work.',
   about:
     'I work on the parts of engineering teams notice most when they break: deployment pipelines, cloud environments, release handoffs, and production support. My background is in DevOps and cloud delivery across AWS, Azure, and GCP, with an emphasis on automation, troubleshooting, and operating systems that stay predictable under pressure.',
   certifications: [
@@ -55,8 +55,8 @@ export const fallbackProfile: ProfileContent = {
     },
   ],
   links: {
-    email: 'mailto:ali.achille.traore@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/ali-achille-traore',
+    email: 'mailto:t.achille.tech@gmail.com',
+    linkedin: 'https://www.linkedin.com/in/achille-traore',
     resume: '/ali-achille-traore-resume.txt',
   },
 }
@@ -78,9 +78,9 @@ export const highlightMetrics: Highlight[] = [
     detail: 'Release engineering, Terraform-led automation, and repeatable deployment workflows.',
   },
   {
-    label: 'Build style',
+    label: 'Engineering range',
     value: 'Ops-minded full stack',
-    detail: 'Application work in React, TypeScript, Express, and MongoDB with delivery in mind.',
+    detail: 'Application development in React, TypeScript, Express, and MongoDB grounded in operational thinking.',
   },
 ]
 
@@ -228,13 +228,18 @@ export const testimonialQuotes: Testimonial[] = [
 export const contactItems: ContactItem[] = [
   {
     label: 'Email',
-    value: 'ali.achille.traore@gmail.com',
-    href: 'mailto:ali.achille.traore@gmail.com',
+    value: 't.achille.tech@gmail.com',
+    href: 'mailto:t.achille.tech@gmail.com',
   },
   {
     label: 'LinkedIn',
-    value: 'linkedin.com/in/ali-achille-traore',
-    href: 'https://www.linkedin.com/in/ali-achille-traore',
+    value: 'linkedin.com/in/achille-traore',
+    href: 'https://www.linkedin.com/in/achille-traore',
+  },
+  {
+    label: 'GitHub',
+    value: 'github.com/traliach',
+    href: 'https://github.com/traliach',
   },
   {
     label: 'Location',
@@ -270,7 +275,7 @@ export function createInitialTestimonialForm(): TestimonialSubmissionInput {
 }
 
 export const nextBuildSteps = [
-  'Admin-managed portfolio content',
-  'Mongo-backed public and admin workflows',
-  'Terraform-first infrastructure foundation',
+  'Cloud-native architecture and container orchestration at scale',
+  'Platform engineering with deeper Kubernetes and observability focus',
+  'Full-stack product delivery from API design through deployment',
 ]

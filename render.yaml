@@ -25,3 +25,11 @@ services:
         sync: false
       - key: ADMIN_MFA_RECOVERY_CODE_HASHES
         sync: false
+      - key: SMTP_HOST
+        value: smtp.gmail.com
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false

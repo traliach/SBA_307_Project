@@ -12,6 +12,7 @@ import {
   fetchAdminTestimonials,
   loginAdmin,
   logoutAdmin,
+  deleteAdminContact,
   reorderAdminProjects,
   reorderAdminSkillGroups,
   reorderAdminTestimonials,
@@ -331,6 +332,11 @@ export function useAdminPanel() {
     return nextContact
   }
 
+  async function deleteContact(contactId: string) {
+    await deleteAdminContact(contactId)
+    setContacts((current) => current.filter((c) => c.id !== contactId))
+  }
+
   return {
     adminSession,
     authError,
@@ -349,6 +355,7 @@ export function useAdminPanel() {
     reorderTestimonial,
     removeProject,
     removeSkillGroup,
+    deleteContact,
     saveContactStatus,
     saveProfile,
     saveProject,

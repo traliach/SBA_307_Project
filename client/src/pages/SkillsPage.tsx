@@ -33,24 +33,24 @@ const skillTones: Array<'default' | 'subdued' | 'accent' | 'warm'> = [
 export function SkillsPage({ skills }: SkillsPageProps) {
   return (
     <SiteSection className="pt-12 sm:pt-16 lg:pt-20">
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-end">
+      <div className="reveal grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-end">
         <PageIntro
-          description="This is grouped around the kinds of work teams actually hire for: cloud platforms, CI/CD, infrastructure as code, containers, support, and application delivery."
+          description="Organized around the disciplines teams hire for: cloud platforms, CI/CD, infrastructure as code, containers, observability, and application delivery."
           eyebrow="Skills"
           size="page"
-          title="Breadth across cloud delivery, automation, platform operations, and application work."
+          title="Technical depth across cloud, automation, platforms, and full-stack development."
         />
 
         <SurfaceCard className="flex flex-col gap-4" padding="compact" tone="subdued">
-          <p className={finePrintClass}>How this page is organized</p>
+          <p className={finePrintClass}>At a glance</p>
           <p className={bodyClass}>
-            The goal here is clarity. Each group maps to a distinct slice of
-            engineering work rather than dumping tools into a single list.
+            Each group maps to a distinct area of engineering responsibility, not
+            just a list of tools.
           </p>
         </SurfaceCard>
       </div>
 
-      <div className="mt-10 grid gap-6 xl:grid-cols-12">
+      <div className="reveal stagger-2 mt-10 grid gap-6 xl:grid-cols-12">
         {skills.map((group, index) => (
           <SurfaceCard
             className={cx(

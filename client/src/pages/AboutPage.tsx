@@ -15,7 +15,7 @@ export function AboutPage({ profile }: AboutPageProps) {
   return (
     <>
       <SiteSection className="pt-12 sm:pt-16 lg:pt-20">
-        <div className="grid gap-6 xl:grid-cols-[minmax(0,1.12fr)_minmax(320px,0.88fr)]">
+        <div className="reveal grid gap-6 xl:grid-cols-[minmax(0,1.12fr)_minmax(320px,0.88fr)]">
           <SurfaceCard padding="roomy" tone="accent">
             <div className="flex h-full flex-col gap-10">
               <div className="space-y-6">
@@ -29,10 +29,10 @@ export function AboutPage({ profile }: AboutPageProps) {
                     {profile.about}
                   </p>
                   <p className={bodyClass}>
-                    Alongside DevOps and platform engineering, I have been building
-                    deeper full-stack experience through React, TypeScript, Express,
-                    and MongoDB. That gives me a broader view of how application
-                    delivery decisions and infrastructure decisions affect each other.
+                    In parallel with DevOps work, I have been building full-stack
+                    applications with React, TypeScript, Express, and MongoDB —
+                    strengthening the connection between how software is built and how
+                    it gets delivered.
                   </p>
                 </div>
               </div>
@@ -55,9 +55,9 @@ export function AboutPage({ profile }: AboutPageProps) {
 
           <div className="grid gap-6">
             <SurfaceCard className="flex flex-col gap-5">
-              <p className={finePrintClass}>Current focus</p>
+              <p className={finePrintClass}>Career direction</p>
               <h2 className={headingClasses.card}>
-                Delivery engineering with a wider software perspective.
+                Bridging DevOps and full-stack software engineering.
               </h2>
               <p className={bodyClass}>{profile.intro}</p>
             </SurfaceCard>
@@ -83,12 +83,12 @@ export function AboutPage({ profile }: AboutPageProps) {
       </SiteSection>
 
       <SiteSection tone="compact">
-        <div className="grid gap-6 xl:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.95fr)]">
+        <div className="reveal grid gap-6 xl:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.95fr)]">
           <SurfaceCard className="flex flex-col gap-8">
             <div className="space-y-5">
               <Eyebrow>Experience</Eyebrow>
               <h2 className={headingClasses.section}>
-                Experience in sequence, with the delivery context still visible.
+                Professional timeline.
               </h2>
             </div>
 

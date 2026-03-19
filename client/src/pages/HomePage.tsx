@@ -59,33 +59,30 @@ export function HomePage({
 
   return (
     <>
-      <SiteSection className="pt-10 sm:pt-14 lg:pt-16">
-        <div className="grid gap-6 xl:grid-cols-[minmax(0,1.45fr)_minmax(320px,0.95fr)]">
+      {/* ── Hero ── */}
+      <SiteSection className="pt-12 sm:pt-16 lg:pt-20">
+        <div className="grid gap-6 xl:grid-cols-[minmax(0,1.4fr)_minmax(320px,1fr)]">
           <SurfaceCard
             className="relative overflow-hidden"
             padding="roomy"
             tone="accent"
           >
-            <div className="absolute inset-x-0 top-0 h-44 bg-[radial-gradient(circle_at_top_right,rgba(31,79,132,0.16),transparent_55%)]" />
+            <div className="pointer-events-none absolute -right-20 -top-20 h-80 w-80 rounded-full bg-accent/[0.06] blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-32 -left-16 h-64 w-64 rounded-full bg-warm/[0.06] blur-3xl" />
 
-            <div className="relative flex h-full flex-col gap-8">
+            <div className="relative flex h-full flex-col gap-10">
               <div className="flex flex-wrap items-center gap-3">
                 <Eyebrow>{profile.location}</Eyebrow>
                 <ApiStatusBadge health={health} state={apiState} />
               </div>
 
-              <div className="space-y-6">
-                <h1
-                  className={cx(
-                    headingClasses.display,
-                    'max-w-[10ch] text-[clamp(2.35rem,4.2vw,4rem)] leading-[0.99] tracking-[-0.045em]',
-                  )}
-                >
+              <div className="space-y-7">
+                <h1 className="max-w-[12ch] font-display text-[clamp(2.2rem,4vw,3.8rem)] font-semibold leading-[1.02] tracking-[-0.025em] text-ink">
                   DevOps engineer for teams that need cleaner delivery, stronger
                   automation, and steadier production support.
                 </h1>
 
-                <p className="max-w-3xl text-[1.08rem] leading-8 text-slate-700 sm:text-[1.12rem]">
+                <p className="max-w-3xl text-[1.05rem] leading-8 text-muted sm:text-lg">
                   {profile.summary}
                 </p>
 
@@ -104,14 +101,14 @@ export function HomePage({
                 </ButtonLink>
               </div>
 
-              <div className="grid gap-4 border-t border-slate-200/80 pt-6 sm:grid-cols-2 xl:grid-cols-4">
+              <div className="grid gap-4 border-t border-line/60 pt-8 sm:grid-cols-2 xl:grid-cols-4">
                 {highlightMetrics.map((item) => (
                   <div
-                    className="rounded-[24px] border border-slate-200/80 bg-white/[0.78] p-4"
+                    className="rounded-2xl border border-line/60 bg-white/80 p-4 transition duration-200 hover:shadow-soft"
                     key={item.label}
                   >
                     <p className={finePrintClass}>{item.label}</p>
-                    <p className="mt-2 text-base font-semibold tracking-[-0.03em] text-ink">
+                    <p className="mt-2 font-display text-base font-semibold tracking-[-0.02em] text-ink">
                       {item.value}
                     </p>
                     <p className={cx(bodyClass, 'mt-2 text-sm')}>{item.detail}</p>
@@ -134,7 +131,7 @@ export function HomePage({
               <ul className="grid gap-3">
                 {profile.strengths.slice(0, 4).map((item) => (
                   <li className="flex gap-3" key={item}>
-                    <span className="mt-2 h-1.5 w-1.5 rounded-full bg-accent" />
+                    <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
                     <span className={bodyClass}>{item}</span>
                   </li>
                 ))}
@@ -152,13 +149,13 @@ export function HomePage({
               <ul className="grid gap-3">
                 {profile.certifications.map((item) => (
                   <li className="flex gap-3" key={item}>
-                    <span className="mt-2 h-1.5 w-1.5 rounded-full bg-accent" />
+                    <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-warm" />
                     <span className={bodyClass}>{item}</span>
                   </li>
                 ))}
               </ul>
 
-              <div className="flex flex-wrap gap-2.5">
+              <div className="flex flex-wrap gap-2">
                 {coreFocus.map((item) => (
                   <Tag key={item}>{item}</Tag>
                 ))}
@@ -170,7 +167,7 @@ export function HomePage({
               <ul className="grid gap-3">
                 {nextBuildSteps.map((item) => (
                   <li className="flex gap-3" key={item}>
-                    <span className="mt-2 h-1.5 w-1.5 rounded-full bg-accent" />
+                    <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
                     <span className={bodyClass}>{item}</span>
                   </li>
                 ))}
@@ -181,6 +178,7 @@ export function HomePage({
         </div>
       </SiteSection>
 
+      {/* ── Selected Work ── */}
       <SiteSection>
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-end">
           <PageIntro
@@ -194,15 +192,15 @@ export function HomePage({
             <p className={finePrintClass}>What this highlights</p>
             <ul className="grid gap-3">
               <li className="flex gap-3">
-                <span className="mt-2 h-1.5 w-1.5 rounded-full bg-accent" />
+                <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
                 <span className={bodyClass}>How the delivery problem was framed.</span>
               </li>
               <li className="flex gap-3">
-                <span className="mt-2 h-1.5 w-1.5 rounded-full bg-accent" />
+                <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
                 <span className={bodyClass}>Which tools were used and why they mattered.</span>
               </li>
               <li className="flex gap-3">
-                <span className="mt-2 h-1.5 w-1.5 rounded-full bg-accent" />
+                <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
                 <span className={bodyClass}>The operational result without inflated claims.</span>
               </li>
             </ul>
@@ -222,10 +220,11 @@ export function HomePage({
         </div>
       </SiteSection>
 
+      {/* ── Testimonials + Contact ── */}
       <SiteSection>
         <div className="grid gap-6 xl:grid-cols-[minmax(0,1.18fr)_minmax(320px,0.82fr)]">
           <SurfaceCard className="flex flex-col gap-8">
-            <div className="space-y-4">
+            <div className="space-y-5">
               <Eyebrow>Feedback</Eyebrow>
               <h2 className={headingClasses.section}>
                 What collaborators tend to mention first.
@@ -240,13 +239,15 @@ export function HomePage({
               {visibleTestimonials.map((testimonial, index) => (
                 <blockquote
                   className={cx(
-                    'rounded-[26px] border border-slate-200/80 bg-slate-50/[0.78] p-6',
-                    index === 0 && 'lg:row-span-2',
+                    'rounded-2xl border border-line/60 p-6 transition duration-200 hover:shadow-soft',
+                    index === 0
+                      ? 'border-accent/10 bg-gradient-to-b from-accent-soft/40 to-white lg:row-span-2'
+                      : 'bg-surface-tinted',
                   )}
                   key={testimonial.quote}
                 >
-                  <p className="text-[1.02rem] leading-8 text-slate-700">
-                    "{testimonial.quote}"
+                  <p className="font-display text-[1.02rem] italic leading-8 text-ink/80">
+                    &ldquo;{testimonial.quote}&rdquo;
                   </p>
                   <footer className="mt-6 space-y-1">
                     <p className="text-sm font-semibold text-ink">{testimonial.author}</p>
@@ -260,7 +261,7 @@ export function HomePage({
           </SurfaceCard>
 
           <SurfaceCard className="flex flex-col justify-between gap-8" tone="subdued">
-            <div className="space-y-4">
+            <div className="space-y-5">
               <Eyebrow>Contact</Eyebrow>
               <h2 className={headingClasses.card}>
                 Reach me for roles, interviews, or delivery conversations.
@@ -269,7 +270,7 @@ export function HomePage({
             </div>
 
             <div className="grid gap-4">
-              <div className="rounded-[24px] border border-slate-200/80 bg-white/90 p-5">
+              <div className="rounded-2xl border border-line/60 bg-white p-5 transition duration-200 hover:shadow-soft">
                 <p className={finePrintClass}>Email</p>
                 <a
                   className="mt-2 block text-base font-semibold text-ink transition hover:text-accent-deep"
@@ -279,7 +280,7 @@ export function HomePage({
                 </a>
               </div>
 
-              <div className="rounded-[24px] border border-slate-200/80 bg-white/90 p-5">
+              <div className="rounded-2xl border border-line/60 bg-white p-5 transition duration-200 hover:shadow-soft">
                 <p className={finePrintClass}>LinkedIn</p>
                 <a
                   className="mt-2 block text-base font-semibold text-ink transition hover:text-accent-deep"

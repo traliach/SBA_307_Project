@@ -14,18 +14,18 @@ interface AboutPageProps {
 export function AboutPage({ profile }: AboutPageProps) {
   return (
     <>
-      <SiteSection className="pt-10 sm:pt-14 lg:pt-16">
+      <SiteSection className="pt-12 sm:pt-16 lg:pt-20">
         <div className="grid gap-6 xl:grid-cols-[minmax(0,1.12fr)_minmax(320px,0.88fr)]">
           <SurfaceCard padding="roomy" tone="accent">
-            <div className="flex h-full flex-col gap-8">
-              <div className="space-y-5">
+            <div className="flex h-full flex-col gap-10">
+              <div className="space-y-6">
                 <Eyebrow>About</Eyebrow>
                 <div className="space-y-5">
                   <h1 className={headingClasses.page}>
                     Cloud, automation, and delivery engineering with a practical
                     builder mindset.
                   </h1>
-                  <p className="max-w-3xl text-[1.06rem] leading-8 text-slate-700">
+                  <p className="max-w-3xl text-[1.05rem] leading-8 text-muted sm:text-lg">
                     {profile.about}
                   </p>
                   <p className={bodyClass}>
@@ -67,7 +67,7 @@ export function AboutPage({ profile }: AboutPageProps) {
               <ul className="grid gap-3">
                 {profile.certifications.map((item) => (
                   <li className="flex gap-3" key={item}>
-                    <span className="mt-2 h-1.5 w-1.5 rounded-full bg-accent" />
+                    <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-warm" />
                     <span className={bodyClass}>{item}</span>
                   </li>
                 ))}
@@ -85,7 +85,7 @@ export function AboutPage({ profile }: AboutPageProps) {
       <SiteSection tone="compact">
         <div className="grid gap-6 xl:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.95fr)]">
           <SurfaceCard className="flex flex-col gap-8">
-            <div className="space-y-4">
+            <div className="space-y-5">
               <Eyebrow>Experience</Eyebrow>
               <h2 className={headingClasses.section}>
                 Experience in sequence, with the delivery context still visible.
@@ -95,11 +95,12 @@ export function AboutPage({ profile }: AboutPageProps) {
             <div className="grid gap-6">
               {profile.timeline.map((item) => (
                 <div
-                  className="border-l border-slate-200/80 pl-5"
+                  className="relative border-l-2 border-accent/15 pl-6"
                   key={`${item.title}-${item.period}`}
                 >
+                  <span className="absolute -left-[5px] top-1 h-2 w-2 rounded-full border-2 border-accent bg-white" />
                   <p className={finePrintClass}>{item.period}</p>
-                  <h3 className="mt-2 text-xl font-semibold tracking-[-0.03em] text-ink">
+                  <h3 className="mt-2 font-display text-xl font-semibold tracking-[-0.02em] text-ink">
                     {item.title}
                   </h3>
                   <p className={bodyClass + ' mt-3'}>{item.detail}</p>
@@ -117,7 +118,7 @@ export function AboutPage({ profile }: AboutPageProps) {
             <ul className="grid gap-4">
               {profile.strengths.map((item) => (
                 <li
-                  className="rounded-[24px] border border-slate-200/80 bg-white/90 p-5"
+                  className="rounded-2xl border border-line/60 bg-white p-5 transition duration-200 hover:shadow-soft"
                   key={item}
                 >
                   <p className={metaClass}>Capability</p>

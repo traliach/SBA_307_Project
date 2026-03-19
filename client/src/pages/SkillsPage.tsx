@@ -21,9 +21,18 @@ const skillSpanClasses = [
   'xl:col-span-5',
 ]
 
+const skillTones: Array<'default' | 'subdued' | 'accent' | 'warm'> = [
+  'accent',
+  'subdued',
+  'default',
+  'subdued',
+  'warm',
+  'default',
+]
+
 export function SkillsPage({ skills }: SkillsPageProps) {
   return (
-    <SiteSection className="pt-10 sm:pt-14 lg:pt-16">
+    <SiteSection className="pt-12 sm:pt-16 lg:pt-20">
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-end">
         <PageIntro
           description="This is grouped around the kinds of work teams actually hire for: cloud platforms, CI/CD, infrastructure as code, containers, support, and application delivery."
@@ -44,9 +53,12 @@ export function SkillsPage({ skills }: SkillsPageProps) {
       <div className="mt-10 grid gap-6 xl:grid-cols-12">
         {skills.map((group, index) => (
           <SurfaceCard
-            className={cx('flex h-full flex-col gap-6', skillSpanClasses[index] ?? 'xl:col-span-6')}
+            className={cx(
+              'flex h-full flex-col gap-6 transition duration-200 hover:shadow-card-hover',
+              skillSpanClasses[index] ?? 'xl:col-span-6',
+            )}
             key={group.title}
-            tone={index % 3 === 1 ? 'subdued' : 'default'}
+            tone={skillTones[index] ?? 'default'}
           >
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div className="space-y-3">
@@ -55,10 +67,10 @@ export function SkillsPage({ skills }: SkillsPageProps) {
                 <p className={bodyClass}>{group.description}</p>
               </div>
 
-              <p className={metaClass}>{group.items.length} tools / topics</p>
+              <p className={cx(metaClass, 'whitespace-nowrap')}>{group.items.length} tools / topics</p>
             </div>
 
-            <div className="flex flex-wrap gap-2.5">
+            <div className="flex flex-wrap gap-2">
               {group.items.map((item) => (
                 <Tag key={item}>{item}</Tag>
               ))}

@@ -20,7 +20,7 @@ export function ProjectsPage({ projects }: ProjectsPageProps) {
   const additionalProjects = orderedProjects.filter((project) => !project.featured)
 
   return (
-    <SiteSection className="pt-10 sm:pt-14 lg:pt-16">
+    <SiteSection className="pt-12 sm:pt-16 lg:pt-20">
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-end">
         <PageIntro
           description="These case studies stay grounded in the delivery problem, the implementation choices, and the practical operating result."
@@ -33,15 +33,15 @@ export function ProjectsPage({ projects }: ProjectsPageProps) {
           <p className={finePrintClass}>What these cards emphasize</p>
           <ul className="grid gap-3">
             <li className="flex gap-3">
-              <span className="mt-2 h-1.5 w-1.5 rounded-full bg-accent" />
+              <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
               <span className={bodyClass}>Delivery workflow and environment context.</span>
             </li>
             <li className="flex gap-3">
-              <span className="mt-2 h-1.5 w-1.5 rounded-full bg-accent" />
+              <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
               <span className={bodyClass}>Tooling choices that shaped the work.</span>
             </li>
             <li className="flex gap-3">
-              <span className="mt-2 h-1.5 w-1.5 rounded-full bg-accent" />
+              <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
               <span className={bodyClass}>Operational improvements without padded metrics.</span>
             </li>
           </ul>
@@ -57,7 +57,7 @@ export function ProjectsPage({ projects }: ProjectsPageProps) {
       ) : null}
 
       {additionalProjects.length ? (
-        <div className="mt-12 space-y-6">
+        <div className="mt-14 space-y-6">
           <PageIntro
             description="Additional project work that reinforces the same strengths in automation, platform support, and operational clarity."
             eyebrow="Additional work"
@@ -73,7 +73,7 @@ export function ProjectsPage({ projects }: ProjectsPageProps) {
         </div>
       ) : null}
 
-      <div className="mt-12 flex flex-wrap gap-3">
+      <div className="mt-14 flex flex-wrap gap-3">
         <ButtonLink href="/contact">Discuss a role or project</ButtonLink>
         <ButtonLink download href="/ali-achille-traore-resume.txt" variant="secondary">
           Download resume

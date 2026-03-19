@@ -52,18 +52,18 @@ export function ContactPage({
 }: ContactPageProps) {
   return (
     <>
-      <SiteSection className="pt-10 sm:pt-14 lg:pt-16">
+      <SiteSection className="pt-12 sm:pt-16 lg:pt-20">
         <div className="grid gap-6 xl:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
           <SurfaceCard padding="roomy" tone="accent">
-            <div className="flex h-full flex-col gap-8">
-              <div className="space-y-5">
+            <div className="flex h-full flex-col gap-10">
+              <div className="space-y-6">
                 <Eyebrow>Contact</Eyebrow>
                 <div className="space-y-5">
                   <h1 className={headingClasses.page}>
                     Reach out for roles, interviews, or practical delivery
                     conversations.
                   </h1>
-                  <p className="max-w-3xl text-[1.06rem] leading-8 text-slate-700">
+                  <p className="max-w-3xl text-[1.05rem] leading-8 text-muted sm:text-lg">
                     If you are hiring for DevOps, platform engineering,
                     infrastructure automation, cloud delivery, or an
                     operations-minded software role, I am open to the
@@ -75,7 +75,7 @@ export function ContactPage({
               <div className="grid gap-4">
                 {contactItems.map((item) => (
                   <div
-                    className="rounded-[24px] border border-slate-200/80 bg-white/[0.86] p-5"
+                    className="rounded-2xl border border-line/60 bg-white/80 p-5 transition duration-200 hover:shadow-soft"
                     key={item.label}
                   >
                     <p className={finePrintClass}>{item.label}</p>
@@ -95,12 +95,12 @@ export function ContactPage({
                 ))}
               </div>
 
-              <div className="rounded-[24px] border border-slate-200/80 bg-white/[0.86] p-5">
+              <div className="rounded-2xl border border-line/60 bg-white/80 p-5">
                 <p className={finePrintClass}>Good topics to lead with</p>
                 <ul className="mt-3 grid gap-3">
                   {contactTopics.slice(0, 4).map((topic) => (
                     <li className="flex gap-3" key={topic.value}>
-                      <span className="mt-2 h-1.5 w-1.5 rounded-full bg-accent" />
+                      <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
                       <span className={bodyClass}>{topic.label}</span>
                     </li>
                   ))}
@@ -124,7 +124,7 @@ export function ContactPage({
           </SurfaceCard>
 
           <SurfaceCard className="flex flex-col gap-8" padding="roomy">
-            <div className="space-y-4">
+            <div className="space-y-5">
               <Eyebrow>Message</Eyebrow>
               <div className="space-y-4">
                 <h2 className={headingClasses.section}>

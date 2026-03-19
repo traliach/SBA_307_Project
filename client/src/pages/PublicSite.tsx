@@ -121,25 +121,25 @@ export function PublicSite() {
         title={portfolio.profile.title}
       />
 
-      <main className="pb-10 sm:pb-12">{renderPage()}</main>
+      <main className="pb-12 sm:pb-16">{renderPage()}</main>
 
       <footer className="footer">
         <div className={siteContainerClass}>
-          <div className="flex flex-col gap-4 py-6 sm:py-8 lg:flex-row lg:items-end lg:justify-between">
-            <div className="space-y-1">
-              <p className="text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-slate-500">
+          <div className="flex flex-col gap-6 py-8 sm:py-10 lg:flex-row lg:items-end lg:justify-between">
+            <div className="space-y-2">
+              <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-stone-400">
                 {portfolio.profile.name}
               </p>
-              <p className="text-base font-semibold tracking-[-0.03em] text-ink sm:text-lg">
+              <p className="font-display text-lg font-semibold tracking-[-0.02em] text-ink sm:text-xl">
                 {portfolio.profile.title}
               </p>
-              <p className="max-w-2xl text-sm leading-7 text-slate-600">
+              <p className="max-w-2xl text-sm leading-7 text-muted">
                 Cloud delivery, CI/CD, infrastructure automation, platform reliability,
                 and production-minded software engineering.
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm font-medium text-slate-600">
+            <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-medium text-muted">
               <a
                 className="transition hover:text-accent-deep"
                 href={portfolio.profile.links.email}

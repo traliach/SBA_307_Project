@@ -2,51 +2,51 @@ import type { ProfileContent } from '../../types/content.js'
 
 export const profile: ProfileContent = {
   name: 'Ali Achille Traore',
-  title: 'DevOps Engineer',
-  location: 'Newark, NJ',
+  title: 'Software / Platform Engineer · AWS DevOps Pro',
+  location: 'Remote / Hybrid / On-site (US-wide)',
   availability:
-    'Open to DevOps, platform engineering, cloud automation, and software engineering opportunities.',
+    'Open to DevOps, platform engineering, and full-stack software engineering roles.',
   summary:
-    'AWS-certified DevOps engineer with hands-on work across CI/CD, infrastructure automation, cloud delivery, and production support in AWS, Azure, and GCP. I focus on making deployment paths clearer, environments easier to operate, and releases more dependable.',
+    'Software/platform engineer with a deep DevOps background building automation, delivery pipelines, and scalable runtime platforms. Delivered measurable improvements in release speed, reliability, and developer productivity across cloud-native systems on AWS, Azure, and GCP.',
   intro:
-    'I am extending that foundation into full-stack software engineering with React, TypeScript, Express, and MongoDB, applying the same emphasis on maintainable systems and disciplined delivery.',
+    'Expanding into full-stack product delivery — shipping React/TypeScript frontends and Node.js/Express APIs — while bringing the same operational discipline to application code.',
   about:
-    'I work on the parts of engineering teams notice most when they break: deployment pipelines, cloud environments, release handoffs, and production support. My background is in DevOps and cloud delivery across AWS, Azure, and GCP, with an emphasis on automation, troubleshooting, and operating systems that stay predictable under pressure.',
+    "I work on the parts engineering teams notice most when they break: CI/CD pipelines, cloud environments, release handoffs, and production support. Seven years at Dominion Systems have covered Jenkins, Azure DevOps, Terraform, Kubernetes, OpenShift, and observability tooling (Prometheus, Grafana, Kibana), alongside hands-on AWS infrastructure and database operations. More recently I've been shipping full-stack applications — MERN-stack marketplaces, containerized Rails platforms, and medical imaging systems — closing the loop between deployment automation and the applications running on top of it.",
   certifications: [
-    'AWS Certified DevOps Engineer - Professional',
+    'AWS Certified DevOps Engineer – Professional',
     'AWS Certified Cloud Practitioner',
-    'Google IT Support Specialization',
+    'Google IT Support Professional Certificate',
   ],
   strengths: [
-    'CI/CD pipeline design and optimization',
-    'Infrastructure as code with Terraform and related tooling',
-    'Cloud delivery across AWS, Azure, and GCP',
-    'Production troubleshooting and operational support',
-    'Cross-functional collaboration between engineering and operations',
+    'CI/CD pipeline design and optimization (Jenkins, Azure DevOps, GitHub Actions)',
+    'Infrastructure as code at scale — 50+ components automated with Terraform and Ansible',
+    'Kubernetes and OpenShift cluster operations across 10+ production clusters',
+    'Observability and incident response (Prometheus, Grafana, Kibana)',
+    'Full-stack delivery: React, TypeScript, Node.js, Express, MongoDB, PostgreSQL',
   ],
   timeline: [
     {
       title: 'DevOps Engineer, Dominion Systems',
-      period: 'August 2018 - Present',
+      period: 'August 2018 – Present',
       detail:
-        'Supported CI/CD workflows, infrastructure automation, and delivery operations across AWS and GCP engagements.',
+        'Improved CI/CD pipelines (Jenkins, Azure DevOps), cutting build/deploy time by ~30% and sustaining ~99.9% uptime across 10+ Kubernetes/OpenShift clusters. Automated 50+ infrastructure components with Terraform and Ansible.',
     },
     {
       title: 'AWS Cloud Engineer, Dominion Systems',
-      period: 'June 2017 - July 2018',
+      period: 'June 2017 – July 2018',
       detail:
-        'Handled AWS infrastructure operations, networking, database administration, and production change work.',
+        'AWS infrastructure operations — CloudFormation, CodePipeline, API Gateway, RDS, DynamoDB, Aurora, Transit Gateway, and hybrid connectivity.',
     },
     {
-      title: 'Full-Stack Engineering Growth',
-      period: 'Current',
+      title: 'Full-Stack & AI-Native Development',
+      period: '2025 – Present',
       detail:
-        'Building React, TypeScript, Express, and MongoDB applications on top of a DevOps foundation.',
+        'Per Scholas Software Engineer / AI-Native program. Shipped MERN-stack marketplace, containerized Rails platform, and cloud-hosted medical imaging system.',
     },
   ],
   links: {
-    email: 'mailto:ali.achille.traore@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/ali-achille-traore',
+    email: 'mailto:t.achille.tech@gmail.com',
+    linkedin: 'https://www.linkedin.com/in/achille-traore',
     resume: '/ali-achille-traore-resume.txt',
   },
 }

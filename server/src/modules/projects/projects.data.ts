@@ -2,72 +2,72 @@ import type { ProjectSummary } from '../../types/content.js'
 
 export const projects: ProjectSummary[] = [
   {
-    title: 'Hilton Cloud Delivery',
-    timeframe: '2021-2022',
-    role: 'DevOps Engineer',
+    title: 'Restaurant Deals — MERN Marketplace',
+    timeframe: '2026',
+    role: 'Full-Stack Developer',
     featured: true,
     summary:
-      'Supported GCP delivery automation with Jenkins, Terraform, Docker, and Kubernetes to make infrastructure and application releases more repeatable.',
+      'Full-stack marketplace with Customer, Owner, and Admin role flows — JWT auth, RBAC, deal lifecycle workflow, Stripe payments, and an AI chat assistant powered by Groq.',
     challenge:
-      'Infrastructure changes and container releases needed a cleaner, more consistent path from build to deployment.',
+      'Build a production-quality marketplace where restaurant owners submit deals, admins review and publish them, and customers can browse, filter, and purchase — all with proper role isolation and workflow enforcement.',
     solution:
-      'Used Jenkins to standardize delivery steps, managed environment changes with Terraform, and tightened the handoff into container deployment workflows.',
-    stack: ['GCP', 'Jenkins', 'Terraform', 'Docker', 'Kubernetes'],
+      'Designed a REST API with Express + TypeScript enforcing a Draft → Submitted → Published/Rejected lifecycle. MongoDB schemas and indexes support a public feed, admin queue, and owner portal. React 19 SPA with Redux Toolkit, Stripe Elements, and a floating Groq-powered AI chat widget that translates natural language into deal filters.',
+    stack: ['MongoDB', 'Express', 'React 19', 'Node.js', 'TypeScript', 'Redux Toolkit', 'Stripe', 'Groq API', 'Tailwind CSS v4'],
     metrics: [
-      { label: 'Environment', value: 'GCP' },
-      { label: 'Delivery', value: 'Jenkins' },
-      { label: 'Focus', value: 'Terraform' },
+      { label: 'Roles', value: '3 (Customer / Owner / Admin)' },
+      { label: 'Auth', value: 'JWT + RBAC' },
+      { label: 'Payments', value: 'Stripe' },
     ],
     outcomes: [
-      'Standardized infrastructure changes across delivery environments.',
-      'Made container releases easier to repeat and troubleshoot.',
-      'Improved deployment reliability through more consistent automation.',
+      'Server-enforced deal status workflow with admin review queue and owner portal.',
+      'AI chat widget converts plain-language queries into live deal filters.',
+      'Shopping cart with localStorage persistence, order history, and Stripe checkout.',
     ],
   },
   {
-    title: 'Mercedes-Benz DMS Modernization',
-    timeframe: '2023-2024',
-    role: 'DevOps Engineer',
+    title: 'Global PACS — Hybrid Cloud Medical Imaging',
+    timeframe: 'Jul – Nov 2025',
+    role: 'Lead Engineer',
     featured: true,
     summary:
-      'Improved CI/CD, artifact handling, and environment support across Jenkins, Azure DevOps, Docker, Ansible, and Kubernetes.',
+      'Dual-site Orthanc PACS deployment with Docker Compose, PostgreSQL, and S3/Wasabi object storage — production-grade medical imaging infrastructure built and operated from scratch.',
     challenge:
-      'Release workflows needed better consistency, clearer artifact handling, and stronger day-to-day support when deployments failed.',
+      'Stand up a reliable, dual-site medical imaging system integrating local and cloud PACS nodes with shared object storage, and document every storage, networking, and database failure for repeatable remediation.',
     solution:
-      'Refined CI/CD flows, improved release handling, and used container and automation tooling to stabilize routine delivery work.',
-    stack: ['Jenkins', 'Azure DevOps', 'Docker', 'Ansible', 'Kubernetes'],
+      'Composed the full stack with Docker Compose (Orthanc, PostgreSQL, S3/Wasabi). Wrote Python automation for environment validation and initialization. Captured every troubleshooting path in structured runbooks.',
+    stack: ['Docker Compose', 'Orthanc PACS', 'PostgreSQL', 'S3 / Wasabi', 'Python'],
     metrics: [
-      { label: 'Toolchain', value: 'Jenkins + Azure DevOps' },
-      { label: 'Delivery', value: 'Containers' },
-      { label: 'Focus', value: 'Operational stability' },
+      { label: 'Architecture', value: 'Dual-site (local + cloud)' },
+      { label: 'Storage', value: 'S3 / Wasabi' },
+      { label: 'Automation', value: 'Python' },
     ],
     outcomes: [
-      'Reduced manual friction in release work.',
-      'Improved troubleshooting around build and deployment failures.',
-      'Strengthened overall delivery confidence and environment stability.',
+      'Operational dual-site PACS with shared S3-compatible object storage.',
+      'Python scripts reduced manual setup steps and enforced consistent initialization.',
+      'Runbooks documented every failure mode for repeatable remediation.',
     ],
   },
   {
-    title: 'Kubeflow Workflow Automation',
-    timeframe: 'Dominion Systems engagement',
-    role: 'Platform / DevOps Engineer',
+    title: 'Mercedes-Benz DMS — Pipeline Modernization',
+    timeframe: '2023 – 2024',
+    role: 'DevOps Engineer',
     featured: false,
     summary:
-      'Automated Kubernetes-based Kubeflow workflows to make machine learning delivery and support work easier to operate.',
+      'Delivered Jenkins and Azure DevOps pipelines, Docker/Ansible/Kubernetes automation, and JFrog artifact workflows — improving deployment efficiency by ~30% and cutting vulnerabilities by ~15%.',
     challenge:
-      'Machine learning workloads needed a more repeatable way to orchestrate pipeline runs and support them in production.',
+      'Release workflows lacked consistency, artifact handling was fragile, and security controls inside the pipeline were insufficient for an enterprise delivery cadence.',
     solution:
-      'Integrated Kubeflow into Kubernetes workflows and supported the operational tooling around those pipelines.',
-    stack: ['Kubeflow', 'Kubernetes', 'Python', 'Bash', 'Prometheus'],
+      'Rebuilt CI/CD flows across Jenkins and Azure DevOps, introduced Docker and Ansible automation, tightened Kubernetes deployment practices, and hardened artifact promotion with JFrog.',
+    stack: ['Jenkins', 'Azure DevOps', 'Docker', 'Ansible', 'Kubernetes', 'JFrog'],
     metrics: [
-      { label: 'Platform', value: 'Kubernetes' },
-      { label: 'Workflow', value: 'Kubeflow' },
-      { label: 'Support', value: 'ML operations' },
+      { label: 'Deploy efficiency', value: '~30% improvement' },
+      { label: 'Automation', value: '~20% gain' },
+      { label: 'Vulnerabilities', value: '~15% reduction' },
     ],
     outcomes: [
-      'Made machine learning workflows easier to deploy and scale.',
-      'Improved day-to-day support around Kubernetes-based analytics delivery.',
-      'Added structure to operational workflows that had previously been more manual.',
+      'CI/CD pipelines improved deployment efficiency and code reuse by ~30%.',
+      'Docker, Ansible, and Kubernetes automation cut manual effort by ~20%.',
+      'Pipeline security controls reduced vulnerabilities by ~15%.',
     ],
   },
 ]

@@ -12,46 +12,46 @@ import type {
 
 export const fallbackProfile: ProfileContent = {
   name: 'Ali Achille Traore',
-  title: 'DevOps Engineer',
-  location: 'Newark, NJ',
+  title: 'Software / Platform Engineer · AWS DevOps Pro',
+  location: 'Remote / Hybrid / On-site (US-wide)',
   availability:
-    'Open to DevOps, platform engineering, cloud infrastructure, and full-stack software engineering roles.',
+    'EAD — authorized to work in the US. Open to DevOps, platform engineering, and full-stack software engineering roles.',
   summary:
-    'AWS-certified DevOps engineer with hands-on work across CI/CD, infrastructure automation, cloud delivery, and production support in AWS, Azure, and GCP. I focus on making deployment paths clearer, environments easier to operate, and releases more dependable.',
+    'Software/platform engineer with a deep DevOps background building automation, delivery pipelines, and scalable runtime platforms. Delivered measurable improvements in release speed, reliability, and developer productivity across cloud-native systems on AWS, Azure, and GCP.',
   intro:
-    'Currently expanding into full-stack software engineering with React, TypeScript, Express, and MongoDB — bringing the same discipline around maintainability and structured delivery to application work.',
+    'Expanding into full-stack product delivery — shipping React/TypeScript frontends and Node.js/Express APIs — while bringing the same operational discipline to application code.',
   about:
-    'I work on the parts of engineering teams notice most when they break: deployment pipelines, cloud environments, release handoffs, and production support. My background is in DevOps and cloud delivery across AWS, Azure, and GCP, with an emphasis on automation, troubleshooting, and operating systems that stay predictable under pressure.',
+    'I work on the parts engineering teams notice most when they break: CI/CD pipelines, cloud environments, release handoffs, and production support. Seven years at Dominion Systems have covered Jenkins, Azure DevOps, Terraform, Kubernetes, OpenShift, and observability tooling (Prometheus, Grafana, Kibana), alongside hands-on AWS infrastructure and database operations. More recently I\'ve been shipping full-stack applications — MERN-stack marketplaces, containerized Rails platforms, and medical imaging systems — closing the loop between deployment automation and the applications running on top of it.',
   certifications: [
-    'AWS Certified DevOps Engineer - Professional',
+    'AWS Certified DevOps Engineer – Professional',
     'AWS Certified Cloud Practitioner',
-    'Google IT Support Specialization',
+    'Google IT Support Professional Certificate',
   ],
   strengths: [
-    'CI/CD pipeline design and optimization',
-    'Infrastructure as code with Terraform and related tooling',
-    'Cloud delivery across AWS, Azure, and GCP',
-    'Production troubleshooting and operational support',
-    'Cross-functional collaboration between engineering and operations',
+    'CI/CD pipeline design and optimization (Jenkins, Azure DevOps, GitHub Actions)',
+    'Infrastructure as code at scale — 50+ components automated with Terraform and Ansible',
+    'Kubernetes and OpenShift cluster operations across 10+ production clusters',
+    'Observability and incident response (Prometheus, Grafana, Kibana)',
+    'Full-stack delivery: React, TypeScript, Node.js, Express, MongoDB, PostgreSQL',
   ],
   timeline: [
     {
       title: 'DevOps Engineer, Dominion Systems',
-      period: 'August 2018 - Present',
+      period: 'August 2018 – Present',
       detail:
-        'Supported CI/CD workflows, infrastructure automation, and delivery operations across AWS and GCP engagements.',
+        'Improved CI/CD pipelines (Jenkins, Azure DevOps), cutting build/deploy time by ~30% and sustaining ~99.9% uptime across 10+ Kubernetes/OpenShift clusters. Automated 50+ infrastructure components with Terraform and Ansible.',
     },
     {
       title: 'AWS Cloud Engineer, Dominion Systems',
-      period: 'June 2017 - July 2018',
+      period: 'June 2017 – July 2018',
       detail:
-        'Handled AWS infrastructure operations, networking, database administration, and production change work.',
+        'AWS infrastructure operations — CloudFormation, CodePipeline, API Gateway, RDS, DynamoDB, Aurora, Transit Gateway, and hybrid connectivity.',
     },
     {
-      title: 'Full-Stack Engineering Growth',
-      period: 'Current',
+      title: 'Full-Stack & AI-Native Development',
+      period: '2025 – Present',
       detail:
-        'Building React, TypeScript, Express, and MongoDB applications on top of a DevOps foundation.',
+        'Per Scholas Software Engineer / AI-Native program. Shipped MERN-stack marketplace, containerized Rails platform, and cloud-hosted medical imaging system.',
     },
   ],
   links: {
@@ -63,141 +63,155 @@ export const fallbackProfile: ProfileContent = {
 
 export const highlightMetrics: Highlight[] = [
   {
-    label: 'Certification',
-    value: 'AWS-certified',
-    detail: 'Professional-level AWS certification backed by day-to-day delivery work.',
+    label: 'Deploy time',
+    value: '~30% faster',
+    detail: 'CI/CD pipeline improvements (Jenkins, Azure DevOps) cut build and deploy time by approximately 30%.',
   },
   {
-    label: 'Platforms',
-    value: 'AWS, Azure, GCP',
-    detail: 'Multi-cloud experience across delivery, support, and environment automation.',
+    label: 'Infra automated',
+    value: '50+ components',
+    detail: 'Terraform and Ansible automation across 50+ infrastructure components, reducing deployment time by ~40%.',
   },
   {
-    label: 'Core focus',
-    value: 'CI/CD + IaC',
-    detail: 'Release engineering, Terraform-led automation, and repeatable deployment workflows.',
+    label: 'Cluster uptime',
+    value: '~99.9%',
+    detail: 'Sustained across 10+ Kubernetes/OpenShift clusters via standardized manifests and runbooks.',
   },
   {
-    label: 'Engineering range',
-    value: 'Ops-minded full stack',
-    detail: 'Application development in React, TypeScript, Express, and MongoDB grounded in operational thinking.',
+    label: 'Incidents reduced',
+    value: '~50% fewer',
+    detail: '15+ security audits and remediation cycles cut security incidents by approximately 50%.',
   },
 ]
 
 export const projectSummaries: ProjectSummary[] = [
   {
-    title: 'Hilton Cloud Delivery',
-    timeframe: '2021-2022',
-    role: 'DevOps Engineer',
+    title: 'Restaurant Deals — MERN Marketplace',
+    timeframe: '2026',
+    role: 'Full-Stack Developer',
     featured: true,
     summary:
-      'Supported GCP delivery automation with Jenkins, Terraform, Docker, and Kubernetes to make infrastructure and application releases more repeatable.',
+      'Full-stack marketplace with Customer, Owner, and Admin role flows — JWT auth, RBAC, deal lifecycle workflow, Stripe payments, and an AI chat assistant powered by Groq.',
     challenge:
-      'Infrastructure changes and container releases needed a cleaner, more consistent path from build to deployment.',
+      'Build a production-quality marketplace where restaurant owners submit deals, admins review and publish them, and customers can browse, filter, and purchase — all with proper role isolation and workflow enforcement.',
     solution:
-      'Used Jenkins to standardize delivery steps, managed environment changes with Terraform, and tightened the handoff into container deployment workflows.',
-    stack: ['GCP', 'Jenkins', 'Terraform', 'Docker', 'Kubernetes'],
+      'Designed a REST API with Express + TypeScript enforcing a Draft → Submitted → Published/Rejected lifecycle. MongoDB schemas and indexes support a public feed, admin queue, and owner portal. React 19 SPA with Redux Toolkit, Stripe Elements, and a floating Groq-powered AI chat widget that translates natural language into deal filters.',
+    stack: ['MongoDB', 'Express', 'React 19', 'Node.js', 'TypeScript', 'Redux Toolkit', 'Stripe', 'Groq API', 'Tailwind CSS v4'],
     metrics: [
-      { label: 'Environment', value: 'GCP' },
-      { label: 'Delivery', value: 'Jenkins' },
-      { label: 'Focus', value: 'Terraform' },
+      { label: 'Roles', value: '3 (Customer / Owner / Admin)' },
+      { label: 'Auth', value: 'JWT + RBAC' },
+      { label: 'Payments', value: 'Stripe' },
     ],
     outcomes: [
-      'Standardized infrastructure changes across delivery environments.',
-      'Made container releases easier to repeat and troubleshoot.',
-      'Improved deployment reliability through more consistent automation.',
+      'Server-enforced deal status workflow with admin review queue and owner portal.',
+      'AI chat widget converts plain-language queries into live deal filters.',
+      'Shopping cart with localStorage persistence, order history, and Stripe checkout.',
     ],
   },
   {
-    title: 'Mercedes-Benz DMS Modernization',
-    timeframe: '2023-2024',
-    role: 'DevOps Engineer',
+    title: 'Global PACS — Hybrid Cloud Medical Imaging',
+    timeframe: 'Jul – Nov 2025',
+    role: 'Lead Engineer',
     featured: true,
     summary:
-      'Improved CI/CD, artifact handling, and environment support across Jenkins, Azure DevOps, Docker, Ansible, and Kubernetes.',
+      'Dual-site Orthanc PACS deployment with Docker Compose, PostgreSQL, and S3/Wasabi object storage — production-grade medical imaging infrastructure built and operated from scratch.',
     challenge:
-      'Release workflows needed better consistency, clearer artifact handling, and stronger day-to-day support when deployments failed.',
+      'Stand up a reliable, dual-site medical imaging system integrating local and cloud PACS nodes with shared object storage, and document every storage, networking, and database failure for repeatable remediation.',
     solution:
-      'Refined CI/CD flows, improved release handling, and used container and automation tooling to stabilize routine delivery work.',
-    stack: ['Jenkins', 'Azure DevOps', 'Docker', 'Ansible', 'Kubernetes'],
+      'Composed the full stack with Docker Compose (Orthanc, PostgreSQL, S3/Wasabi). Wrote Python automation for environment validation and initialization. Captured every troubleshooting path in structured runbooks.',
+    stack: ['Docker Compose', 'Orthanc PACS', 'PostgreSQL', 'S3 / Wasabi', 'Python'],
     metrics: [
-      { label: 'Toolchain', value: 'Jenkins + Azure DevOps' },
-      { label: 'Delivery', value: 'Containers' },
-      { label: 'Focus', value: 'Operational stability' },
+      { label: 'Architecture', value: 'Dual-site (local + cloud)' },
+      { label: 'Storage', value: 'S3 / Wasabi' },
+      { label: 'Automation', value: 'Python' },
     ],
     outcomes: [
-      'Reduced manual friction in release work.',
-      'Improved troubleshooting around build and deployment failures.',
-      'Strengthened overall delivery confidence and environment stability.',
+      'Operational dual-site PACS with shared S3-compatible object storage.',
+      'Python scripts reduced manual setup steps and enforced consistent initialization.',
+      'Runbooks documented every failure mode for repeatable remediation.',
     ],
   },
   {
-    title: 'Kubeflow Workflow Automation',
-    timeframe: 'Dominion Systems engagement',
-    role: 'Platform / DevOps Engineer',
+    title: 'Mercedes-Benz DMS — Pipeline Modernization',
+    timeframe: '2023 – 2024',
+    role: 'DevOps Engineer',
     featured: false,
     summary:
-      'Automated Kubernetes-based Kubeflow workflows to make machine learning delivery and support work easier to operate.',
+      'Delivered Jenkins and Azure DevOps pipelines, Docker/Ansible/Kubernetes automation, and JFrog artifact workflows — improving deployment efficiency by ~30% and cutting vulnerabilities by ~15%.',
     challenge:
-      'Machine learning workloads needed a more repeatable way to orchestrate pipeline runs and support them in production.',
+      'Release workflows lacked consistency, artifact handling was fragile, and security controls inside the pipeline were insufficient for an enterprise delivery cadence.',
     solution:
-      'Integrated Kubeflow into Kubernetes workflows and supported the operational tooling around those pipelines.',
-    stack: ['Kubeflow', 'Kubernetes', 'Python', 'Bash', 'Prometheus'],
+      'Rebuilt CI/CD flows across Jenkins and Azure DevOps, introduced Docker and Ansible automation, tightened Kubernetes deployment practices, and hardened artifact promotion with JFrog.',
+    stack: ['Jenkins', 'Azure DevOps', 'Docker', 'Ansible', 'Kubernetes', 'JFrog'],
     metrics: [
-      { label: 'Platform', value: 'Kubernetes' },
-      { label: 'Workflow', value: 'Kubeflow' },
-      { label: 'Support', value: 'ML operations' },
+      { label: 'Deploy efficiency', value: '~30% improvement' },
+      { label: 'Automation', value: '~20% gain' },
+      { label: 'Vulnerabilities', value: '~15% reduction' },
     ],
     outcomes: [
-      'Made machine learning workflows easier to deploy and scale.',
-      'Improved day-to-day support around Kubernetes-based analytics delivery.',
-      'Added structure to operational workflows that had previously been more manual.',
+      'CI/CD pipelines improved deployment efficiency and code reuse by ~30%.',
+      'Docker, Ansible, and Kubernetes automation cut manual effort by ~20%.',
+      'Pipeline security controls reduced vulnerabilities by ~15%.',
     ],
   },
 ]
 
 export const skillGroups: SkillGroup[] = [
   {
-    eyebrow: 'Cloud platforms',
-    title: 'AWS, Azure, and GCP',
+    eyebrow: 'Languages',
+    title: 'TypeScript, JavaScript, Python, Ruby',
     description:
-      'Hands-on delivery and support work across major cloud environments, with a bias toward stable deployment patterns and operational clarity.',
-    items: ['AWS', 'Azure', 'GCP', 'IAM', 'Compute', 'Storage'],
+      'Primary languages used across full-stack applications, DevOps automation scripts, and infrastructure tooling.',
+    items: ['TypeScript', 'JavaScript', 'Python', 'Ruby'],
   },
   {
-    eyebrow: 'CI/CD and automation',
+    eyebrow: 'Frontend',
+    title: 'React and modern UI tooling',
+    description:
+      'Client-side development with component-based architecture, state management, and utility-first styling.',
+    items: ['React', 'React Router', 'Redux Toolkit', 'Tailwind CSS', 'Vite'],
+  },
+  {
+    eyebrow: 'Backend and APIs',
+    title: 'Node.js, Express, and REST API design',
+    description:
+      'Server-side application development with structured API design, authentication, and role-based access control.',
+    items: ['Node.js', 'Express', 'REST APIs', 'JWT Authentication', 'Zod', 'Stripe'],
+  },
+  {
+    eyebrow: 'Databases',
+    title: 'MongoDB, PostgreSQL, and cloud-managed stores',
+    description:
+      'Data modeling, schema design, and query optimization across document and relational databases.',
+    items: ['MongoDB', 'Mongoose', 'PostgreSQL', 'DynamoDB', 'RDS / Aurora', 'Redshift'],
+  },
+  {
+    eyebrow: 'CI/CD and delivery',
     title: 'Release workflows that hold up in production',
     description:
-      'Pipeline tooling and automation used to reduce manual release steps and make delivery easier to trust under pressure.',
-    items: ['Jenkins', 'GitLab CI/CD', 'CircleCI', 'Azure DevOps', 'Maven', 'SonarQube'],
+      'Pipeline tooling used to reduce manual release steps and cut build/deploy time by ~30% in production.',
+    items: ['GitHub Actions', 'Jenkins', 'Azure DevOps', 'Docker Compose', 'JFrog', 'SonarQube'],
   },
   {
-    eyebrow: 'Infrastructure as code',
-    title: 'Repeatable environment delivery',
+    eyebrow: 'Cloud and IaC',
+    title: 'AWS, Terraform, and multi-cloud infrastructure',
     description:
-      'Infrastructure automation focused on consistency, change control, and easier handoff between engineering and operations.',
-    items: ['Terraform', 'CloudFormation', 'ARM', 'Ansible'],
+      'Infrastructure as code and cloud delivery across AWS, Azure, and GCP — 50+ components automated with Terraform and Ansible.',
+    items: ['AWS (S3, CloudFront, CodePipeline, API Gateway)', 'Terraform', 'CloudFormation', 'Ansible', 'Azure', 'GCP'],
   },
   {
     eyebrow: 'Containers and orchestration',
-    title: 'Containerized platform operations',
+    title: 'Kubernetes, OpenShift, and Docker',
     description:
-      'Container build and orchestration tooling used to support modern deployment workflows and platform reliability.',
-    items: ['Docker', 'Kubernetes', 'OpenShift', 'Kubeflow'],
+      'Container build and cluster operations sustaining ~99.9% uptime across 10+ Kubernetes and OpenShift environments.',
+    items: ['Docker', 'Kubernetes', 'OpenShift', 'Docker Compose'],
   },
   {
-    eyebrow: 'Backend / full-stack',
-    title: 'Application work with an infrastructure mindset',
+    eyebrow: 'Observability and operations',
+    title: 'Prometheus, Grafana, and Kibana',
     description:
-      'Application development that connects front-end, API, and data-layer decisions back to delivery and maintainability concerns.',
-    items: ['React', 'TypeScript', 'Node.js', 'Express', 'MongoDB', 'REST APIs'],
-  },
-  {
-    eyebrow: 'Operations',
-    title: 'Troubleshooting, monitoring, and support',
-    description:
-      'Operational support focused on diagnosing failures, improving visibility, and keeping release workflows moving.',
-    items: ['Prometheus', 'Production support', 'Release validation', 'Incident troubleshooting'],
+      'Monitoring and incident response tooling that improved detection time by ~25% and cut resolution time by ~35%.',
+    items: ['Prometheus', 'Grafana', 'Kibana', 'CloudWatch', 'Linux'],
   },
 ]
 
@@ -243,7 +257,7 @@ export const contactItems: ContactItem[] = [
   },
   {
     label: 'Location',
-    value: 'Newark, NJ',
+    value: 'Remote / Hybrid / On-site (US-wide)',
   },
 ]
 

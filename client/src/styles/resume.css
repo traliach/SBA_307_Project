@@ -205,6 +205,21 @@
   font-family: Arial, sans-serif;
 }
 
+/* ── Main — strengths ───────────────────────────────────────────────── */
+.resume-strengths {
+  margin: 0 0 0 0.85rem;
+  padding: 0;
+  list-style: disc;
+}
+
+.resume-strengths li {
+  font-size: 8.5pt;
+  color: #333;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  margin-bottom: 0.15rem;
+}
+
 /* ── Main — certifications ──────────────────────────────────────────── */
 .resume-certs {
   display: flex;

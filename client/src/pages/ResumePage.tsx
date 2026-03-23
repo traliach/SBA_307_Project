@@ -134,20 +134,41 @@ export function ResumePage() {
               ))}
             </div>
           </div>
-        </div>
-      </div>
 
-      {/* ── PAGE 2 ── Core Strengths | Projects · Technical Skills */}
-      <div className="resume-page resume-page-2">
-        {/* Sidebar */}
-        <div className="resume-sidebar">
-          <div className="resume-sidebar-section">
-            <p className="resume-sidebar-heading">Core Strengths</p>
-            <ul className="resume-sidebar-list">
+          {/* Core Strengths — fills remaining space on page 1 */}
+          <div className="resume-section">
+            <p className="resume-section-title">Core Strengths</p>
+            <ul className="resume-strengths">
               {profile.strengths.map((strength) => (
                 <li key={strength}>{strength}</li>
               ))}
             </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* ── PAGE 2 ── Projects · Technical Skills */}
+      <div className="resume-page resume-page-2">
+        {/* Sidebar — page 2 brand accent */}
+        <div className="resume-sidebar">
+          <div>
+            <p className="resume-name" style={{ fontSize: '13pt' }}>{profile.name}</p>
+            <p className="resume-title">{profile.title}</p>
+          </div>
+          <div className="resume-sidebar-section">
+            <p className="resume-sidebar-heading">Availability</p>
+            <p className="resume-summary">{profile.availability}</p>
+          </div>
+          <div className="resume-sidebar-section">
+            <p className="resume-sidebar-heading">Contact</p>
+            <div className="resume-contact-item">
+              <a href={profile.links.email}>{formatEmail(profile.links.email)}</a>
+            </div>
+            <div className="resume-contact-item">
+              <a href={profile.links.linkedin} target="_blank" rel="noreferrer">
+                {formatUrl(profile.links.linkedin)}
+              </a>
+            </div>
           </div>
         </div>
 

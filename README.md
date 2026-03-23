@@ -8,6 +8,7 @@
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=node.js&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white)
 ![Terraform](https://img.shields.io/badge/Terraform-844FBA?style=flat-square&logo=terraform&logoColor=white)
+[![Live](https://img.shields.io/badge/live-achille.tech-000?style=flat-square&logo=vercel)](https://achille.tech)
 
 
 # achille.tech
@@ -283,3 +284,8 @@ cd server
 npm run admin:login
 # use the printed JWT as: Authorization: Bearer <token>
 ```
+MIT License
+
+Copyright (c) 2025 Achille Traore
+
+Permission is hereby granted, free of charge, to any person obtaining a copy...

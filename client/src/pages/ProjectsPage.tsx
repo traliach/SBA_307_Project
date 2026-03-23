@@ -75,7 +75,7 @@ export function ProjectsPage({ projects }: ProjectsPageProps) {
 
       <div className="mt-14 flex flex-wrap gap-3">
         <ButtonLink href="/contact">Discuss a role or project</ButtonLink>
-        <ButtonLink download href="/ali-achille-traore-resume.txt" variant="secondary">
+        <ButtonLink href="/resume" target="_blank" rel="noreferrer" variant="secondary">
           Download resume
         </ButtonLink>
       </div>

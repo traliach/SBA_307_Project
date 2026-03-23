@@ -91,7 +91,7 @@ export function HomePage({
               </div>
 
               <div className="flex flex-wrap gap-3">
-                <ButtonLink download href={profile.links.resume}>
+                <ButtonLink href="/resume" target="_blank" rel="noreferrer">
                   Download resume
                 </ButtonLink>
                 <ButtonLink href="/projects" variant="secondary">

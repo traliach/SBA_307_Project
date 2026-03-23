@@ -1,12 +1,16 @@
+import { useEffect } from 'react'
 import { usePortfolioData } from '../hooks/usePortfolioData'
 
 export function ResumePage() {
   const { profile, projects, skills } = usePortfolioData()
   const featuredProjects = projects.filter((p) => p.featured)
 
-  function handlePrint() {
-    window.print()
-  }
+  useEffect(() => {
+    document.title = `${profile.name} | Resume`
+    return () => {
+      document.title = 'Ali Achille Traore | Portfolio'
+    }
+  }, [profile.name])
 
   function formatEmail(raw: string) {
     return raw.replace('mailto:', '')
@@ -19,9 +23,8 @@ export function ResumePage() {
   return (
     <div className="resume-shell">
       {/* Toolbar — hidden on print */}
-      <div className="resume-toolbar no-print">
+      <div className="resume-toolbar">
         <a
-          className="resume-btn-secondary"
           href="/"
           style={{
             display: 'inline-flex',
@@ -34,13 +37,12 @@ export function ResumePage() {
             fontFamily: 'Arial, sans-serif',
             color: '#333',
             textDecoration: 'none',
-            cursor: 'pointer',
           }}
         >
           ← Back to site
         </a>
         <button
-          onClick={handlePrint}
+          onClick={() => window.print()}
           style={{
             display: 'inline-flex',
             alignItems: 'center',
@@ -58,20 +60,23 @@ export function ResumePage() {
         </button>
       </div>
 
-      {/* ── PAGE 1 ── Header · Summary · Experience · Certifications ── */}
+      {/* ── PAGE 1 — Header · Summary · Experience · Certifications · Strengths ── */}
       <div className="resume-page">
         {/* Header */}
-        <div style={{ borderBottom: '2px solid #111', paddingBottom: '0.5rem', marginBottom: '0.1rem' }}>
+        <div style={{ borderBottom: '2.5px solid #111', paddingBottom: '0.5rem', marginBottom: '0.6rem' }}>
           <h1 className="resume-name">{profile.name}</h1>
           <p className="resume-title">{profile.title}</p>
           <div className="resume-contacts">
             <a href={profile.links.email}>{formatEmail(profile.links.email)}</a>
+            <span>·</span>
             <a href={profile.links.linkedin} target="_blank" rel="noreferrer">
               {formatUrl(profile.links.linkedin)}
             </a>
+            <span>·</span>
             <a href={profile.links.github} target="_blank" rel="noreferrer">
               {formatUrl(profile.links.github)}
             </a>
+            <span>·</span>
             <span>{profile.location}</span>
           </div>
         </div>
@@ -103,15 +108,23 @@ export function ResumePage() {
           <p className="resume-section-title">Certifications</p>
           <div className="resume-certs">
             {profile.certifications.map((cert) => (
-              <span className="resume-cert" key={cert}>
-                {cert}
-              </span>
+              <span className="resume-cert" key={cert}>· {cert}</span>
             ))}
           </div>
         </div>
+
+        {/* Core Strengths — moved here to fill page 1 */}
+        <div className="resume-section">
+          <p className="resume-section-title">Core Strengths</p>
+          <ul className="resume-strengths">
+            {profile.strengths.map((strength) => (
+              <li key={strength}>{strength}</li>
+            ))}
+          </ul>
+        </div>
       </div>
 
-      {/* ── PAGE 2 ── Projects · Skills · Strengths ── */}
+      {/* ── PAGE 2 — Projects · Technical Skills ── */}
       <div className="resume-page resume-page-2">
         {/* Projects */}
         {featuredProjects.length > 0 && (
@@ -126,9 +139,7 @@ export function ResumePage() {
                       {project.role} · {project.timeframe}
                     </span>
                   </div>
-                  <p className="resume-project-stack">
-                    {project.stack.join(' · ')}
-                  </p>
+                  <p className="resume-project-stack">{project.stack.join(' · ')}</p>
                   <ul className="resume-project-outcomes">
                     {project.outcomes.slice(0, 3).map((outcome) => (
                       <li key={outcome}>{outcome}</li>
@@ -140,7 +151,7 @@ export function ResumePage() {
           </div>
         )}
 
-        {/* Skills */}
+        {/* Technical Skills */}
         <div className="resume-section">
           <p className="resume-section-title">Technical Skills</p>
           <div className="resume-skills">
@@ -151,16 +162,6 @@ export function ResumePage() {
               </div>
             ))}
           </div>
-        </div>
-
-        {/* Core Strengths */}
-        <div className="resume-section">
-          <p className="resume-section-title">Core Strengths</p>
-          <ul className="resume-strengths">
-            {profile.strengths.map((strength) => (
-              <li key={strength}>{strength}</li>
-            ))}
-          </ul>
         </div>
       </div>
     </div>

@@ -133,6 +133,29 @@ export const projectSummaries: ProjectSummary[] = [
     ],
   },
   {
+    title: 'achille.tech — Developer Portfolio',
+    timeframe: '2025 – 2026',
+    role: 'Full-Stack Developer & DevOps',
+    featured: true,
+    summary:
+      'Production-grade portfolio platform built end-to-end: React 19 SPA, Express API, MongoDB Atlas, Terraform-provisioned infrastructure, and a GitHub Actions CI/CD pipeline deploying to Render and Vercel.',
+    challenge:
+      'Design a portfolio that demonstrates full-stack and DevOps competency as a single live system — not just screenshots, but a real deployment with quality gates, observability, and infrastructure as code.',
+    solution:
+      'React 19 + TypeScript frontend on Vercel, Node.js/Express API on Render, MongoDB Atlas provisioned with Terraform. Four-job GitHub Actions pipeline (server build, client lint/build, security audit, deploy) gates every push to main. Includes a print-optimized two-page PDF resume, dark mode with smooth CSS transitions, and a bilingual EN/FR toggle.',
+    stack: ['React 19', 'TypeScript', 'Node.js', 'Express', 'MongoDB', 'Tailwind CSS', 'Vite', 'Terraform', 'GitHub Actions', 'Render', 'Vercel'],
+    metrics: [
+      { label: 'CI jobs', value: '4 (build · lint · audit · deploy)' },
+      { label: 'Infra', value: 'Terraform + MongoDB Atlas' },
+      { label: 'Hosting', value: 'Render + Vercel' },
+    ],
+    outcomes: [
+      'Parallel CI/CD pipeline gates deployment on server build, client build, and security audit.',
+      'Terraform provisions MongoDB Atlas cluster; one command stands up or tears down the full stack.',
+      'PDF resume rendered from live data — two-page print layout with navy sidebar and EN/FR toggle.',
+    ],
+  },
+  {
     title: 'Mercedes-Benz DMS — Pipeline Modernization',
     timeframe: '2023 – 2024',
     role: 'DevOps Engineer',

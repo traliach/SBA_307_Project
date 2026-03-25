@@ -77,6 +77,18 @@ export const projectsFr = [
     featured: true,
   },
   {
+    title: 'achille.tech — Portfolio Développeur',
+    role: 'Développeur Full-Stack & DevOps',
+    timeframe: '2025 – 2026',
+    stack: ['React 19', 'TypeScript', 'Node.js', 'Express', 'MongoDB', 'Tailwind CSS', 'Terraform', 'GitHub Actions', 'Render', 'Vercel'],
+    outcomes: [
+      "Pipeline CI/CD parallèle (4 jobs) bloquant le déploiement sur le build serveur, le build client et l'audit de sécurité.",
+      "Infrastructure provisionnée avec Terraform — un seul commande pour déployer ou supprimer l'ensemble de la stack.",
+      "CV PDF généré depuis les données live — mise en page 2 pages avec sidebar navy et bascule EN/FR.",
+    ],
+    featured: true,
+  },
+  {
     title: 'Global PACS — Imagerie Médicale Hybride',
     role: 'Ingénieur principal',
     timeframe: 'Juil – Nov 2025',

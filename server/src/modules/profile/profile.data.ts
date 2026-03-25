@@ -41,7 +41,7 @@ export const profile: ProfileContent = {
       title: 'Full-Stack & AI-Native Development',
       period: '2025 – Present',
       detail:
-        'Per Scholas Software Engineer / AI-Native program. Shipped MERN-stack marketplace, containerized Rails platform, and cloud-hosted medical imaging system.',
+        'Per Scholas Software Engineer / AI-Native track — intensive program in full-stack and AI-integrated development covering React, TypeScript, Node.js, and cloud-native patterns.',
     },
   ],
   links: {

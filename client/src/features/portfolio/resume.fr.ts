@@ -4,7 +4,7 @@ import type { ProfileContent } from '../../types/site'
 export const profileFr: ProfileContent = {
   name: 'Ali Achille Traore',
   title: 'Ingénieur DevOps & Développeur Full-Stack',
-  location: 'Télétravail / Hybride / Sur site (France & International)',
+  location: 'Télétravail / Hybride / Sur site (États-Unis)',
   availability:
     'Ouvert aux postes en ingénierie DevOps, infrastructure cloud et développement full-stack.',
   summary:
@@ -41,7 +41,7 @@ export const profileFr: ProfileContent = {
       title: 'Développement Full-Stack & IA',
       period: '2025 – Présent',
       detail:
-        "Programme Software Engineer / AI-Native chez Per Scholas. Livraison d'une marketplace MERN, d'une plateforme Rails conteneurisée et d'un système d'imagerie médicale hébergé dans le cloud.",
+        "Parcours Software Engineer / AI-Native chez Per Scholas — programme intensif couvrant le développement full-stack et l'intégration IA : React, TypeScript, Node.js et patterns cloud-native.",
     },
   ],
   links: {

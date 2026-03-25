@@ -23,6 +23,7 @@
   },
   "overrides": {
     "vite": "^5.4.0",
-    "@vitejs/plugin-react": "^4.3.1"
+    "@vitejs/plugin-react": "^4.3.1",
+    "picomatch": "^4.0.4"
   }
 }

@@ -3,6 +3,7 @@ import { contactItems, contactTopics } from '../features/portfolio/content'
 import { usePortfolioData } from '../hooks/usePortfolioData'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 import { PortfolioHeader } from '../components/home/PortfolioHeader'
+import { ScrollProgressBar } from '../components/site/ScrollProgressBar'
 import { siteContainerClass } from '../components/site/styles'
 import { AboutPage } from './AboutPage'
 import { ContactPage } from './ContactPage'
@@ -116,6 +117,7 @@ export function PublicSite() {
 
   return (
     <div className="app-shell" ref={revealRef}>
+      <ScrollProgressBar />
       <PortfolioHeader
         currentPath={currentPath}
         name={portfolio.profile.name}

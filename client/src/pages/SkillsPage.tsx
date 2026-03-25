@@ -1,4 +1,4 @@
-import { PageIntro, SiteSection, SurfaceCard, Tag } from '../components/site/ui'
+import { PageIntro, SiteSection, SurfaceCard } from '../components/site/ui'
 import {
   bodyClass,
   cx,
@@ -6,6 +6,7 @@ import {
   headingClasses,
   metaClass,
 } from '../components/site/styles'
+import { levelLabels, skillLevels } from '../features/portfolio/skillLevels'
 import type { SkillGroup } from '../types/site'
 
 interface SkillsPageProps {
@@ -71,10 +72,30 @@ export function SkillsPage({ skills }: SkillsPageProps) {
               <p className={cx(metaClass, 'whitespace-nowrap')}>{group.items.length} tools / topics</p>
             </div>
 
-            <div className="flex flex-wrap gap-2">
-              {group.items.map((item) => (
-                <Tag key={item}>{item}</Tag>
-              ))}
+            <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+              {group.items.map((item) => {
+                const level = skillLevels[item] ?? 3
+                return (
+                  <div key={item} className="space-y-1">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-[0.82rem] font-medium text-ink dark:text-gray-200">{item}</span>
+                      <span className="shrink-0 text-[0.65rem] font-semibold uppercase tracking-wide text-muted dark:text-gray-500">
+                        {levelLabels[level]}
+                      </span>
+                    </div>
+                    <div className="h-1.5 overflow-hidden rounded-full bg-black/[0.06] dark:bg-white/[0.08]">
+                      <div
+                        className="h-full rounded-full"
+                        style={{
+                          width: `${(level / 5) * 100}%`,
+                          background: 'linear-gradient(90deg, #4338ca, #818cf8)',
+                          transition: 'width 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
+                        }}
+                      />
+                    </div>
+                  </div>
+                )
+              })}
             </div>
           </SurfaceCard>
         ))}

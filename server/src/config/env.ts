@@ -68,6 +68,10 @@ const envSchema = z.object({
   // browser knows it is allowed to call our API from that origin.
   CLIENT_ORIGIN: z.string().default('http://localhost:5173'),
 
+  // Optional secondary origin allowed by CORS — used for resume.achille.tech
+  // hosted on AWS CloudFront while the primary client stays on Vercel.
+  CLIENT_ORIGIN_SECONDARY: z.string().optional(),
+
   // Admin login credentials.  These are optional so the server starts even
   // without them — the admin panel will simply be unavailable.
   ADMIN_EMAIL: z.preprocess(

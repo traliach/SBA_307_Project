@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useAdminPanel } from '../hooks/useAdminPanel'
+import { useVisitorCounter } from '../hooks/useVisitorCounter'
 import type {
   AdminContactSubmission,
   AdminProject,
@@ -431,6 +432,7 @@ function getTestimonialDraftError(draft: TestimonialDraft) {
 }
 
 export function AdminPage() {
+  const visitorCount = useVisitorCounter()
   const {
     adminSession,
     authError,
@@ -1094,6 +1096,13 @@ export function AdminPage() {
           <strong>{contactCounts.new}</strong>
           <p className="admin-meta">New inbound contact items needing review.</p>
         </article>
+        {visitorCount !== null && (
+          <article className="surface admin-summary-card">
+            <span className="eyebrow">Visitors</span>
+            <strong>{visitorCount.toLocaleString()}</strong>
+            <p className="admin-meta">Total visits to resume.achille.tech.</p>
+          </article>
+        )}
       </section>
 
       {notice ? (

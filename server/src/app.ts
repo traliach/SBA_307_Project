@@ -22,7 +22,14 @@ app.set('trust proxy', 1)
 app.use(helmet())
 app.use(
   cors({
-    origin: env.CLIENT_ORIGIN,
+    origin: (origin, callback) => {
+      const allowed = [env.CLIENT_ORIGIN, env.CLIENT_ORIGIN_SECONDARY].filter(Boolean)
+      if (!origin || allowed.includes(origin)) {
+        callback(null, true)
+      } else {
+        callback(new Error('Not allowed by CORS'))
+      }
+    },
     credentials: true,
   }),
 )

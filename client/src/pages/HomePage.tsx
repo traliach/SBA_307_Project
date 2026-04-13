@@ -82,8 +82,6 @@ export function HomePage({
                 <p className="max-w-3xl text-[1.05rem] leading-8 text-muted sm:text-lg">
                   {profile.summary}
                 </p>
-
-                <BodyCopy className="max-w-3xl">{profile.intro}</BodyCopy>
               </div>
 
               <div className="flex flex-wrap gap-3">
@@ -108,7 +106,6 @@ export function HomePage({
                     <p className="mt-2 font-display text-base font-semibold tracking-[-0.02em] text-ink">
                       {item.value}
                     </p>
-                    <p className={cx(bodyClass, 'mt-2 text-sm')}>{item.detail}</p>
                   </div>
                 ))}
               </div>
@@ -163,17 +160,10 @@ export function HomePage({
 
             </SurfaceCard>
 
-            <SurfaceCard className="flex flex-col gap-5" padding="compact">
-              <p className={finePrintClass}>What I do</p>
-              <ul className="grid gap-2">
-                {profile.strengths.map((item) => (
-                  <li className="flex gap-2" key={item}>
-                    <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
-                    <span className={cx(bodyClass, 'text-sm')}>{item}</span>
-                  </li>
-                ))}
-              </ul>
-              <p className={cx(bodyClass, 'text-sm border-t border-line/60 pt-4')}>{profile.intro}</p>
+            <SurfaceCard className="flex flex-col gap-4" padding="compact">
+              <p className={finePrintClass}>Approach</p>
+              <p className={bodyClass}>{profile.intro}</p>
+              <p className={cx(metaClass, 'border-t border-line/60 pt-4')}>{profile.availability}</p>
             </SurfaceCard>
           </div>
         </div>

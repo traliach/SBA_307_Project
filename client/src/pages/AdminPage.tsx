@@ -159,7 +159,7 @@ function toProfileDraft(profile: ProfileContent): ProfileDraft {
     timelineText: joinTimeline(profile.timeline),
     email: profile.links.email,
     linkedin: profile.links.linkedin,
-    github: profile.links.github,
+    github: profile.links.github ?? '',
     resume: profile.links.resume,
   }
 }

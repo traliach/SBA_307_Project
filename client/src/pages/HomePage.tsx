@@ -7,7 +7,6 @@ import {
   PageIntro,
   SiteSection,
   SurfaceCard,
-  Tag,
   TextLink,
 } from '../components/site/ui'
 import {
@@ -162,11 +161,6 @@ export function HomePage({
                 })}
               </ul>
 
-              <div className="flex flex-wrap gap-2">
-                {coreFocus.map((item) => (
-                  <Tag key={item}>{item}</Tag>
-                ))}
-              </div>
             </SurfaceCard>
 
             <SurfaceCard className="flex flex-col gap-5" padding="compact">

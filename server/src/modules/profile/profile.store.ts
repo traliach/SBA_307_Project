@@ -19,14 +19,30 @@ async function readMongoProfile() {
     | ProfileRecord
     | null
 
-  if (document) {
-    return stripProfileMetadata(document)
+  if (!document) {
+    await ProfileModel.create({ key: 'main', ...seedProfile })
+    logInfo('Seeded profile collection from static data.')
+    return seedProfile
   }
 
-  await ProfileModel.create({ key: 'main', ...seedProfile })
-  logInfo('Seeded profile collection from static data.')
+  // Sync scalar text fields that may have been updated in seed data.
+  // Array fields (strengths, certifications, timeline) are intentionally
+  // excluded — admins may have edited those via the admin panel.
+  const textFields = ['summary', 'intro', 'about', 'availability', 'title', 'location'] as const
+  const stale = textFields.filter(
+    (field) => document[field] !== seedProfile[field],
+  )
 
-  return seedProfile
+  if (stale.length > 0) {
+    await ProfileModel.updateOne(
+      { key: 'main' },
+      { $set: Object.fromEntries(stale.map((f) => [f, seedProfile[f]])) },
+    )
+    logInfo(`Synced profile field(s) from static data: ${stale.join(', ')}.`)
+    return { ...stripProfileMetadata(document), ...Object.fromEntries(stale.map((f) => [f, seedProfile[f]])) }
+  }
+
+  return stripProfileMetadata(document)
 }
 
 export async function getProfileContent() {

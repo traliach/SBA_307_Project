@@ -50,11 +50,20 @@ export function AboutPage({ profile }: AboutPageProps) {
 
           <div className="grid gap-6">
             <SurfaceCard className="flex flex-col gap-5">
-              <p className={finePrintClass}>Career direction</p>
+              <p className={finePrintClass}>Career arc</p>
               <h2 className={headingClasses.card}>
-                Bridging DevOps and full-stack software engineering.
+                From cloud operations to platform engineering.
               </h2>
-              <p className={bodyClass}>{profile.intro}</p>
+              <p className={bodyClass}>
+                Seven years of progressive infrastructure work: started
+                provisioning AWS environments (CodePipeline, API Gateway, RDS),
+                moved into DevOps — owning CI/CD pipelines, Kubernetes clusters,
+                and observability across 10+ environments — and now building
+                production-grade platforms independently. The infrastructure
+                projects (cloud_resume_infra, k8s-platform-lab, devops_platform)
+                show the next step: designing and operating full delivery
+                platforms end-to-end, not just contributing to them.
+              </p>
             </SurfaceCard>
 
             <SurfaceCard className="flex flex-col gap-5" tone="subdued">

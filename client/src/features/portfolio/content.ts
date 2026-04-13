@@ -50,6 +50,12 @@ export const fallbackProfile: ProfileContent = {
         'Improved CI/CD pipelines (Jenkins, Azure DevOps), cutting build/deploy time by ~30% and sustaining ~99.9% uptime across 10+ Kubernetes/OpenShift clusters. Automated 50+ infrastructure components with Terraform and Ansible.',
     },
     {
+      title: 'Independent Platform Engineering',
+      period: '2025 – 2026',
+      detail:
+        'Built three production-grade infrastructure projects independently: cloud_resume_infra (20 AWS resources via Terraform, live at resume.achille.tech), k8s-platform-lab (self-hosted k3s cluster on EC2 with ArgoCD GitOps and Prometheus/Grafana), and devops_platform (Terraform + Ansible + Jenkins + Docker Compose, SSM access, no open SSH).',
+    },
+    {
       title: 'AWS Cloud Engineer, Dominion Systems',
       period: 'June 2017 – July 2018',
       detail:
@@ -259,32 +265,11 @@ export const projectSummaries: ProjectSummary[] = [
 
 export const skillGroups: SkillGroup[] = [
   {
-    eyebrow: 'Languages',
-    title: 'TypeScript, JavaScript, Python, Ruby',
+    eyebrow: 'Cloud and IaC',
+    title: 'AWS, Terraform, and multi-cloud infrastructure',
     description:
-      'Primary languages used across full-stack applications, DevOps automation scripts, and infrastructure tooling.',
-    items: ['TypeScript', 'JavaScript', 'Python', 'Ruby'],
-  },
-  {
-    eyebrow: 'Frontend',
-    title: 'React and modern UI tooling',
-    description:
-      'Client-side development with component-based architecture, state management, and utility-first styling.',
-    items: ['React', 'React Router', 'Redux Toolkit', 'Tailwind CSS', 'Vite'],
-  },
-  {
-    eyebrow: 'Backend and APIs',
-    title: 'Node.js, Express, and REST API design',
-    description:
-      'Server-side application development with structured API design, authentication, and role-based access control.',
-    items: ['Node.js', 'Express', 'REST APIs', 'JWT Authentication', 'Zod', 'Stripe'],
-  },
-  {
-    eyebrow: 'Databases',
-    title: 'MongoDB, PostgreSQL, and cloud-managed stores',
-    description:
-      'Data modeling, schema design, and query optimization across document and relational databases.',
-    items: ['MongoDB', 'Mongoose', 'PostgreSQL', 'DynamoDB', 'RDS / Aurora', 'Redshift'],
+      'Infrastructure as code and cloud delivery across AWS, Azure, and GCP — 50+ components automated with Terraform and Ansible.',
+    items: ['AWS (S3, CloudFront, CodePipeline, API Gateway)', 'Terraform', 'CloudFormation', 'Ansible', 'Azure', 'GCP'],
   },
   {
     eyebrow: 'CI/CD and delivery',
@@ -292,13 +277,6 @@ export const skillGroups: SkillGroup[] = [
     description:
       'Pipeline tooling used to reduce manual release steps and cut build/deploy time by ~30% in production.',
     items: ['GitHub Actions', 'Jenkins', 'Azure DevOps', 'Docker Compose', 'JFrog', 'SonarQube', 'GHCR'],
-  },
-  {
-    eyebrow: 'Cloud and IaC',
-    title: 'AWS, Terraform, and multi-cloud infrastructure',
-    description:
-      'Infrastructure as code and cloud delivery across AWS, Azure, and GCP — 50+ components automated with Terraform and Ansible.',
-    items: ['AWS (S3, CloudFront, CodePipeline, API Gateway)', 'Terraform', 'CloudFormation', 'Ansible', 'Azure', 'GCP'],
   },
   {
     eyebrow: 'Containers and orchestration',
@@ -313,6 +291,34 @@ export const skillGroups: SkillGroup[] = [
     description:
       'Monitoring and incident response tooling that improved detection time by ~25% and cut resolution time by ~35%.',
     items: ['Prometheus', 'Grafana', 'Kibana', 'CloudWatch', 'Linux'],
+  },
+  {
+    eyebrow: 'Languages',
+    title: 'TypeScript, JavaScript, Python, Ruby',
+    description:
+      'Primary languages used across full-stack applications, DevOps automation scripts, and infrastructure tooling.',
+    items: ['TypeScript', 'JavaScript', 'Python', 'Ruby'],
+  },
+  {
+    eyebrow: 'Backend and APIs',
+    title: 'Node.js, Express, and REST API design',
+    description:
+      'Server-side application development with structured API design, authentication, and role-based access control.',
+    items: ['Node.js', 'Express', 'REST APIs', 'JWT Authentication', 'Zod', 'Stripe'],
+  },
+  {
+    eyebrow: 'Frontend',
+    title: 'React and modern UI tooling',
+    description:
+      'Client-side development with component-based architecture, state management, and utility-first styling.',
+    items: ['React', 'React Router', 'Redux Toolkit', 'Tailwind CSS', 'Vite'],
+  },
+  {
+    eyebrow: 'Databases',
+    title: 'MongoDB, PostgreSQL, and cloud-managed stores',
+    description:
+      'Data modeling, schema design, and query optimization across document and relational databases.',
+    items: ['MongoDB', 'Mongoose', 'PostgreSQL', 'DynamoDB', 'RDS / Aurora', 'Redshift'],
   },
 ]
 

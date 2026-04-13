@@ -47,6 +47,26 @@ async function readMongoSkillGroups() {
   }
   if (synced > 0) {
     logInfo(`Synced ${synced} new skill item(s) from static data.`)
+  }
+
+  // Sync order field to match seed ordering (controls display sequence on the skills page).
+  let orderSynced = 0
+  for (let i = 0; i < seedSkillGroups.length; i++) {
+    const seedGroup = seedSkillGroups[i]
+    const doc = documents.find((d) => d.eyebrow === seedGroup.eyebrow)
+    if (doc && doc.order !== i) {
+      await SkillGroupModel.updateOne(
+        { eyebrow: seedGroup.eyebrow },
+        { $set: { order: i } },
+      )
+      orderSynced++
+    }
+  }
+  if (orderSynced > 0) {
+    logInfo(`Synced order for ${orderSynced} skill group(s) from static data.`)
+  }
+
+  if (synced > 0 || orderSynced > 0) {
     const updated = (await SkillGroupModel.find()
       .sort({ order: 1 })
       .lean()

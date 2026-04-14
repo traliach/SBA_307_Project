@@ -8,14 +8,15 @@ export const profileFr: ProfileContent = {
   availability:
     "Ouvert aux postes en ingénierie DevOps, infrastructure cloud et développement full stack.",
   summary:
-    "Ingénieur plateforme et DevOps avec plus de 7 ans d'expérience dans la conception de pipelines CI/CD, d'infrastructures cloud et de plateformes Kubernetes — avec une composante full stack en production (React/TypeScript, Node.js/Express).",
+    "Ingénieur plateforme et DevOps avec plus de 8 ans d'expérience dans la conception de pipelines CI/CD, d'infrastructures cloud et de plateformes Kubernetes — avec une composante full stack en production (React/TypeScript, Node.js/Express).",
   intro:
     "Mon portfolio couvre les deux disciplines : projets cloud et IaC (infrastructure AWS provisionnée avec Terraform, Kubernetes auto-hébergé sur EC2, plateformes Jenkins + Ansible) et applications full stack (marketplace MERN, système d'imagerie médicale, ce site).",
   about:
-    "Je travaille sur les parties de l'infrastructure que les équipes remarquent le plus quand elles tombent en panne : pipelines CI/CD, environnements cloud, handoffs de livraison et support en production. Sept ans chez Dominion Systems m'ont permis de couvrir Jenkins, Azure DevOps, Terraform, Kubernetes, OpenShift et les outils d'observabilité (Prometheus, Grafana, Kibana). Mes projets récents vont plus loin : cloud_resume_infra provisionne 20 ressources AWS avec Terraform et expose un compteur serverless en production ; k8s-platform-lab fait tourner un cluster k3s sur EC2 avec ArgoCD GitOps, Prometheus et Grafana ; devops_platform combine Terraform, Ansible, Jenkins et Docker Compose avec accès SSM sans clé SSH.",
+    "Je travaille sur les parties de l'infrastructure que les équipes remarquent le plus quand elles tombent en panne : pipelines CI/CD, environnements cloud, handoffs de livraison et support en production. Huit ans chez Dominion Systems m'ont permis de couvrir Jenkins, Azure DevOps, Terraform, Kubernetes, OpenShift et les outils d'observabilité (Prometheus, Grafana, Kibana), ainsi que des opérations AWS et base de données en conditions réelles. Mes projets récents vont plus loin : cloud_resume_infra provisionne 20 ressources AWS avec Terraform et expose un compteur serverless en production sur resume.achille.tech ; k8s-platform-lab fait tourner un cluster k3s sur EC2 avec ArgoCD GitOps, Prometheus et Grafana, 21/21 contrôles de santé validés ; devops_platform combine Terraform, Ansible, Jenkins et Docker Compose avec accès SSM sans clé SSH. En parallèle, je livre des applications full stack — une marketplace MERN avec Stripe et IA, un système d'imagerie médicale dual-site, et ce portfolio.",
   certifications: [
-    'AWS Certified DevOps Engineer - Professional',
+    'AWS Certified DevOps Engineer – Professional',
     'AWS Certified Cloud Practitioner',
+    'IBM Software Engineering Essentials',
     'Google IT Support Professional Certificate',
   ],
   strengths: [
@@ -28,21 +29,27 @@ export const profileFr: ProfileContent = {
   timeline: [
     {
       title: 'Ingénieur DevOps, Dominion Systems',
-      period: 'Août 2018 - Présent',
+      period: 'Août 2018 – Présent',
       detail:
-        "Optimisation des pipelines CI/CD (Jenkins, Azure DevOps), avec une réduction d'environ 30 % du temps de build et de déploiement, tout en maintenant une disponibilité d'environ 99,9 % sur plus de 10 clusters Kubernetes/OpenShift. Automatisation de plus de 50 composants d'infrastructure avec Terraform et Ansible.",
+        "Résolution de pipelines Jenkins défaillants, réduction des dépenses cloud de 500 à 2 000 $/mois via des audits Cost Explorer, élimination des risques de déplacement latéral en consolidant les rôles IAM selon le principe du moindre privilège, réduction du provisionnement d'un nouvel environnement client de ~30 minutes à moins de 5 minutes avec Terraform + Ansible + Bash, et résolution d'incidents CrashLoopBackOff via kubectl sur 10+ clusters Kubernetes/OpenShift.",
+    },
+    {
+      title: 'Ingénierie plateforme indépendante',
+      period: '2025 – 2026',
+      detail:
+        "Trois projets d'infrastructure de niveau production : cloud_resume_infra (20 ressources AWS via Terraform, 0,00 $/mois, en ligne sur resume.achille.tech), k8s-platform-lab (k3s sur EC2 avec ArgoCD GitOps, 21/21 contrôles de santé, RTO ~30 min validé), et devops_platform (pipeline Jenkins ~46 secondes, JCasC, Ansible Vault, accès SSM sans port SSH ouvert).",
     },
     {
       title: 'Ingénieur Cloud AWS, Dominion Systems',
-      period: 'Juin 2017 - Juillet 2018',
+      period: 'Juin 2017 – Juillet 2018',
       detail:
-        "Exploitation d'infrastructures AWS avec CloudFormation, CodePipeline, API Gateway, RDS, DynamoDB, Aurora, Transit Gateway et connectivité hybride.",
+        "Amélioration de l'efficacité de livraison d'infrastructure de ~25 % en migrant vers CloudFormation, CodePipeline, CodeBuild et CodeCommit. Augmentation du taux d'utilisation EC2 de ~20 % grâce au dimensionnement adaptatif et à l'auto-scaling. Taux de réussite de 100 % aux audits de sécurité avec IAM au moindre privilège et réseau hybride via Transit Gateway.",
     },
     {
       title: 'Développement Full Stack et IA',
-      period: '2025 - Présent',
+      period: '2025 – Présent',
       detail:
-        "Formation intensive Software Engineer / AI-Native chez Per Scholas, axée sur le développement full stack et l'intégration de l'IA : React, TypeScript, Node.js et architectures cloud native.",
+        "Formation AI-Native Software Engineering chez Per Scholas — livraison d'applications MERN full stack : une marketplace à 3 rôles (Stripe, Groq IA, RBAC) et cette plateforme portfolio (React 19, Node.js, MongoDB Atlas, Terraform, pipeline CI/CD en 4 jobs).",
     },
   ],
   links: {
@@ -54,61 +61,62 @@ export const profileFr: ProfileContent = {
 }
 
 export const skillsFr = [
-  { eyebrow: 'Langages', items: ['TypeScript', 'JavaScript', 'Python', 'Ruby'] },
-  { eyebrow: 'Frontend', items: ['React', 'React Router', 'Redux Toolkit', 'Tailwind CSS', 'Vite'] },
-  { eyebrow: 'Backend et API', items: ['Node.js', 'Express', 'API REST', 'Authentification JWT', 'Zod', 'Stripe'] },
-  { eyebrow: 'Bases de données', items: ['MongoDB', 'Mongoose', 'PostgreSQL', 'DynamoDB', 'RDS / Aurora', 'Redshift'] },
+  { eyebrow: 'Cloud et IaC', items: ['AWS', 'Terraform', 'CloudFormation', 'Ansible', 'Azure', 'GCP'] },
   { eyebrow: 'CI/CD et livraison', items: ['GitHub Actions', 'Jenkins', 'Azure DevOps', 'Docker Compose', 'JFrog', 'SonarQube', 'GHCR'] },
-  { eyebrow: 'Cloud et IaC', items: ['AWS (S3, CloudFront, CodePipeline, API Gateway)', 'Terraform', 'CloudFormation', 'Ansible', 'Azure', 'GCP'] },
   { eyebrow: 'Conteneurs et orchestration', items: ['Docker', 'Kubernetes', 'k3s', 'ArgoCD', 'Helm', 'OpenShift', 'Docker Compose'] },
   { eyebrow: 'Observabilité et opérations', items: ['Prometheus', 'Grafana', 'Kibana', 'CloudWatch', 'Linux'] },
+  { eyebrow: 'Langages', items: ['TypeScript', 'JavaScript', 'Python', 'Ruby'] },
+  { eyebrow: 'Backend et API', items: ['Node.js', 'Express', 'API REST', 'Authentification JWT', 'Zod', 'Stripe'] },
+  { eyebrow: 'Frontend', items: ['React', 'React Router', 'Redux Toolkit', 'Tailwind CSS', 'Vite'] },
+  { eyebrow: 'Bases de données', items: ['MongoDB', 'Mongoose', 'PostgreSQL', 'DynamoDB', 'RDS / Aurora', 'Redshift'] },
 ]
 
 export const projectsFr = [
   {
+    // Title must match the EN lookup key used in ResumePage.tsx
     title: 'k8s-platform-lab — Self-Hosted Kubernetes Platform',
     role: 'Ingénieur DevOps',
     timeframe: '2025 – 2026',
     stack: ['Kubernetes', 'k3s', 'ArgoCD', 'Helm', 'Prometheus', 'Grafana', 'Terraform', 'AWS EC2', 'GitHub Actions', 'Docker', 'Node.js'],
     outcomes: [
-      'Chaque push sur main synchronise automatiquement tous les workloads via ArgoCD — sans kubectl apply manuel.',
-      'Dashboard Grafana personnalisé affichant les métriques de l\'application scrappées par Prometheus.',
-      'verify-cluster.sh exécute 21 contrôles de santé end-to-end en une seule commande.',
+      '21/21 contrôles de santé automatisés via verify-cluster.sh — cluster k3s avec 5 applications ArgoCD Synced + Healthy, politiques réseau sur 3 namespaces, PDB enforcing minAvailable: 1.',
+      'RTO ~30 minutes validé en conditions réelles : dr-timer.sh automatise la reconstruction complète depuis terraform apply jusqu\'aux 21/21 contrôles — testé le 2026-04-13 après un vrai terraform destroy.',
+      'Pipeline CI (helm lint + kubectl dry-run + terraform validate) vert sur chaque PR ; 6 ADR ; v1.0.0 publié avec image Docker poussée sur GHCR.',
     ],
     featured: true,
   },
   {
-    title: 'cloud_resume_infra — Plateforme résumé AWS',
+    title: 'cloud_resume_infra — AWS Resume Platform',
     role: 'Ingénieur DevOps',
     timeframe: '2025',
     stack: ['Terraform', 'AWS', 'S3', 'CloudFront', 'Lambda', 'DynamoDB', 'API Gateway', 'ACM', 'Python', 'GitHub Actions'],
     outcomes: [
-      'Déployé sur resume.achille.tech — HTTPS via CloudFront + ACM, S3 entièrement privé derrière OAC.',
-      'Compteur Lambda atomique avec rôle IAM au moindre privilège et CORS limité à l\'origine.',
-      'Trois alarmes CloudWatch surveillent le taux d\'erreur, la durée p95 et les limitations Lambda.',
+      '20 ressources AWS provisionnées par Terraform sans aucun clic console ; rôle IAM Lambda limité à GetItem + UpdateItem sur un seul ARN de table ; 4/4 tests unitaires réussis ; en ligne sur resume.achille.tech.',
+      '0,00 $ de coût mensuel réel vérifié via AWS Cost Explorer — tous les services dans la tranche gratuite.',
+      '3 alarmes CloudWatch actives : taux d\'erreur via metric math, durée p95 > 3s et limitations — avec abonnement SNS email confirmé.',
     ],
     featured: true,
   },
   {
-    title: 'devops_platform — Plateforme DevOps auto-hébergée',
+    title: 'devops_platform — Self-Hosted DevOps Platform',
     role: 'Ingénieur DevOps',
     timeframe: '2025 – 2026',
     stack: ['Terraform', 'Ansible', 'Jenkins', 'Docker Compose', 'Prometheus', 'Grafana', 'AWS EC2', 'GitHub Actions', 'React', 'Nginx', 'GHCR'],
     outcomes: [
-      'Chaque push déclenche un build complet, un push GHCR et un redéploiement EC2 via Jenkins en ~60 secondes.',
-      'Jenkins entièrement configuré en tant que code avec JCasC — aucune configuration manuelle.',
-      'Accès EC2 via AWS SSM Session Manager — pas de port 22 ouvert, pas de clé SSH.',
+      'Pipeline CI/CD end-to-end en ~46 secondes (Checkout → Build → Docker Build → Push GHCR → Deploy) — 4 règles d\'alerte Prometheus vérifiées en action, dont une alerte JenkinsDown déclenchée en direct.',
+      '0 secret commis dans git : Ansible Vault AES256 chiffre tous les identifiants ; Ansible écrit un .env root:root 600 au moment du déploiement.',
+      'Plateforme entière reproductible depuis un seul make deploy sur une instance EC2 fraîchement provisionnée — Jenkins via JCasC, dashboards Grafana en tant que code, zéro configuration manuelle.',
     ],
     featured: true,
   },
   {
-    title: 'Restaurant Deals, marketplace MERN',
+    title: 'Restaurant Deals — MERN Marketplace',
     role: 'Développeur Full Stack',
     timeframe: '2026',
     stack: ['MongoDB', 'Express', 'React 19', 'Node.js', 'TypeScript', 'Redux Toolkit', 'Stripe', 'Groq API', 'Tailwind CSS v4'],
     outcomes: [
-      "Workflow de validation des offres côté serveur, avec file d'approbation administrateur et portail propriétaire.",
-      "Widget IA convertissant des requêtes en langage naturel en filtres d'offres en temps réel.",
+      'Workflow de validation des offres côté serveur avec file d\'approbation administrateur et portail propriétaire.',
+      'Widget IA convertissant des requêtes en langage naturel en filtres d\'offres en temps réel.',
       'Panier avec persistance via localStorage, historique des commandes et paiement Stripe.',
     ],
     featured: true,

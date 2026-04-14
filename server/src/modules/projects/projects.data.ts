@@ -145,7 +145,7 @@ export const projects: ProjectSummary[] = [
     ],
     outcomes: [
       '21/21 automated health checks passing via verify-cluster.sh — k3s cluster with 5 ArgoCD-managed apps Synced + Healthy, network policies on 3 namespaces, PDB enforcing minAvailable: 1.',
-      '~30-minute RTO validated live: dr-timer.sh automates full rebuild from terraform apply through 21/21 checks — tested on 2026-04-13 after a real terraform destroy.',
+      '~30-minute RTO validated live: dr-timer.sh automates full rebuild from terraform apply through 21/21 checks — tested after a real terraform destroy.',
       'CI pipeline (helm lint + kubectl dry-run + terraform validate) green on every PR; 6 Architecture Decision Records; v1.0.0 released with Docker image pushed to GHCR.',
     ],
     repoUrl: 'https://github.com/traliach/k8s-platform-lab',

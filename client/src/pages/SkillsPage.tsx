@@ -42,8 +42,8 @@ export function SkillsPage({ skills }: SkillsPageProps) {
         <PageIntro
           description="Organized around the disciplines teams hire for: cloud platforms, CI/CD, infrastructure as code, containers, observability, and application delivery."
           eyebrow="Skills"
-          size="page"
-          title="Technical depth across cloud, automation, platforms, and full-stack development."
+          size="section"
+          title="Technical depth across cloud infrastructure, platforms, automation, and delivery."
         />
 
         <SurfaceCard className="flex flex-col gap-4" padding="compact" tone="subdued">

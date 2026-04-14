@@ -29,9 +29,9 @@ export const headingClasses = {
   display:
     'max-w-5xl font-display text-[clamp(2.8rem,5.5vw,5rem)] font-semibold leading-[0.95] tracking-[-0.03em] text-ink dark:text-gray-100',
   page:
-    'max-w-4xl font-display text-[clamp(2.4rem,4.5vw,4.2rem)] font-semibold leading-[0.97] tracking-[-0.025em] text-ink dark:text-gray-100',
+    'max-w-4xl font-display text-[clamp(2rem,3.5vw,3.2rem)] font-semibold leading-[1.02] tracking-[-0.02em] text-ink dark:text-gray-100',
   section:
-    'max-w-3xl font-display text-[clamp(1.8rem,3vw,2.6rem)] font-semibold leading-[1.05] tracking-[-0.02em] text-ink dark:text-gray-100',
+    'max-w-3xl font-display text-[clamp(1.6rem,2.5vw,2.2rem)] font-semibold leading-[1.08] tracking-[-0.018em] text-ink dark:text-gray-100',
   card: 'font-display text-[1.35rem] font-semibold leading-snug tracking-[-0.015em] text-ink sm:text-[1.55rem] dark:text-gray-100',
 } as const
 

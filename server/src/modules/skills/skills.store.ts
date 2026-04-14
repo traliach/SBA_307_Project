@@ -51,8 +51,7 @@ async function readMongoSkillGroups() {
 
   // Sync order field to match seed ordering (controls display sequence on the skills page).
   let orderSynced = 0
-  for (let i = 0; i < seedSkillGroups.length; i++) {
-    const seedGroup = seedSkillGroups[i]
+  for (const [i, seedGroup] of seedSkillGroups.entries()) {
     const doc = documents.find((d) => d.eyebrow === seedGroup.eyebrow)
     if (doc && doc.order !== i) {
       await SkillGroupModel.updateOne(

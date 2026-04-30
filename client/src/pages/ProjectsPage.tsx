@@ -7,6 +7,11 @@ interface ProjectsPageProps {
   projects: ProjectSummary[]
 }
 
+const PROFESSIONAL_TITLES = new Set([
+  'Enterprise Kubernetes Platform Modernization',
+  'AWS Cloud Infrastructure Automation and Optimization',
+])
+
 const DEVOPS_TITLES = new Set([
   'cloud_resume_infra — AWS Resume Platform',
   'k8s-platform-lab — Self-Hosted Kubernetes Platform',
@@ -19,6 +24,11 @@ const FULLSTACK_TITLES = new Set([
   'Restaurant Deals — MERN Marketplace',
   'achille.tech — Developer Portfolio',
 ])
+
+const PROFESSIONAL_ORDER = [
+  'Enterprise Kubernetes Platform Modernization',
+  'AWS Cloud Infrastructure Automation and Optimization',
+]
 
 // Preserve intentional display order within each category
 const DEVOPS_ORDER = [
@@ -73,6 +83,10 @@ function CategorySection({
 }
 
 export function ProjectsPage({ projects }: ProjectsPageProps) {
+  const professionalProjects = orderBy(
+    projects.filter((p) => PROFESSIONAL_TITLES.has(p.title)),
+    PROFESSIONAL_ORDER,
+  )
   const devopsProjects = orderBy(
     projects.filter((p) => DEVOPS_TITLES.has(p.title)),
     DEVOPS_ORDER,
@@ -112,6 +126,13 @@ export function ProjectsPage({ projects }: ProjectsPageProps) {
       </div>
 
       <CategorySection
+        eyebrow="Professional Work"
+        title="Production engineering at scale."
+        description="Enterprise infrastructure and platform projects — Kubernetes modernization, cloud automation, and DevOps transformation delivered in professional environments."
+        projects={professionalProjects}
+      />
+
+      <CategorySection
         eyebrow="DevOps / Cloud / IaC"
         title="Infrastructure, platform, and automation engineering."
         description="Kubernetes platforms, cloud infrastructure as code, CI/CD systems, and observability — projects that demonstrate production-grade DevOps depth."
@@ -126,7 +147,7 @@ export function ProjectsPage({ projects }: ProjectsPageProps) {
       />
 
       <div className="mt-14 flex flex-wrap gap-3">
-        <ButtonLink href="/contact">Discuss a role or project</ButtonLink>
+        <ButtonLink href="/contact">Start a conversation</ButtonLink>
         <ButtonLink href="/resume" target="_blank" rel="noreferrer" variant="secondary">
           Download resume
         </ButtonLink>

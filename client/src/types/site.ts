@@ -12,6 +12,7 @@ export interface ProfileContent {
   name: string
   title: string
   location: string
+  currentEmployer?: string
   availability: string
   summary: string
   intro: string

@@ -10,13 +10,13 @@ export default {
         muted: '#64625d',
         line: '#e4e2dd',
         accent: {
-          DEFAULT: '#4338ca',
-          deep: '#3730a3',
-          soft: '#eef2ff',
+          DEFAULT: '#b45309',
+          deep: '#92400e',
+          soft: '#fef3c7',
         },
         warm: {
           DEFAULT: '#d97706',
-          soft: '#fef3c7',
+          soft: '#fef9ee',
         },
         surface: {
           DEFAULT: '#ffffff',

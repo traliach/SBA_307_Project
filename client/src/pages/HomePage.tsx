@@ -59,40 +59,44 @@ export function HomePage({
       <SiteSection className="pt-12 sm:pt-16 lg:pt-20">
         <div className="reveal grid gap-6 xl:grid-cols-[minmax(0,1.4fr)_minmax(320px,1fr)]">
           <SurfaceCard
-            className="relative overflow-hidden"
-            padding="roomy"
+            className="relative overflow-hidden p-10 shadow-inner border-amber-100 dark:border-amber-900/30"
+            padding="flush"
             tone="accent"
           >
             <div className="pointer-events-none absolute -right-20 -top-20 h-80 w-80 rounded-full bg-accent/[0.06] blur-3xl" />
             <div className="pointer-events-none absolute -bottom-32 -left-16 h-64 w-64 rounded-full bg-warm/[0.06] blur-3xl" />
 
-            <div className="relative flex h-full flex-col gap-10">
+            <div className="relative flex h-full flex-col gap-y-6">
               <div className="flex flex-wrap items-center gap-3">
                 <Eyebrow>{profile.location}</Eyebrow>
+                {profile.currentEmployer && (
+                  <span className="inline-flex items-center rounded-full border border-line/60 bg-white/70 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-muted dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-gray-400">
+                    {profile.currentEmployer}
+                  </span>
+                )}
                 <ApiStatusBadge health={health} state={apiState} />
               </div>
 
               <div className="space-y-7">
-                <h1 className="max-w-[22ch] font-display text-[clamp(1.8rem,3vw,2.8rem)] font-semibold leading-[1.02] tracking-[-0.025em] text-ink">
-                  DevOps Engineer & Full-Stack Software Engineer — Kubernetes
-                  platforms, cloud infrastructure, CI/CD automation, and
-                  production-ready applications.
+                <h1 className="max-w-[20ch] font-display text-4xl font-semibold leading-tight tracking-[-0.025em] text-ink lg:text-5xl xl:text-6xl dark:text-gray-100">
+                  DevOps and platform engineer — I build the infrastructure
+                  engineering teams depend on.
                 </h1>
 
-                <p className="max-w-3xl text-[1.05rem] leading-8 text-muted sm:text-lg">
-                  {profile.summary}
+                <p className="max-w-[52ch] text-[1.05rem] leading-8 text-muted sm:text-lg dark:text-gray-400">
+                  AWS Certified. 5+ years in production — CI/CD pipelines, Kubernetes, and cloud infrastructure on AWS and Azure.
                 </p>
               </div>
 
               <div className="flex flex-wrap gap-3">
-                <ButtonLink href="/resume" target="_blank" rel="noreferrer">
-                  Download resume
+                <ButtonLink href="/contact">
+                  Get in touch
                 </ButtonLink>
                 <ButtonLink href="/projects" variant="secondary">
-                  View projects
+                  View work
                 </ButtonLink>
-                <ButtonLink href="/contact" variant="secondary">
-                  Contact me
+                <ButtonLink href="/resume" variant="ghost" target="_blank" rel="noreferrer">
+                  Download resume
                 </ButtonLink>
               </div>
 
@@ -113,7 +117,7 @@ export function HomePage({
           </SurfaceCard>
 
           <div className="grid gap-6">
-            <SurfaceCard className="flex flex-col gap-6">
+            <SurfaceCard className="flex flex-col gap-6 border border-stone-200 shadow-sm dark:border-stone-700">
               <div className="space-y-3">
                 <Eyebrow>What teams rely on</Eyebrow>
                 <h2 className={headingClasses.card}>
@@ -132,7 +136,7 @@ export function HomePage({
               </ul>
             </SurfaceCard>
 
-            <SurfaceCard className="flex flex-col gap-6" tone="subdued">
+            <SurfaceCard className="flex flex-col gap-6 border border-stone-200 shadow-sm dark:border-stone-700" tone="subdued">
               <div className="space-y-3">
                 <Eyebrow>Credentials</Eyebrow>
                 <h2 className={headingClasses.card}>
@@ -160,10 +164,9 @@ export function HomePage({
 
             </SurfaceCard>
 
-            <SurfaceCard className="flex flex-col gap-4" padding="compact">
+            <SurfaceCard className="flex flex-col gap-4 border border-stone-200 shadow-sm dark:border-stone-700" padding="compact">
               <p className={finePrintClass}>Approach</p>
               <p className={bodyClass}>{profile.intro}</p>
-              <p className={cx(metaClass, 'border-t border-line/60 pt-4')}>{profile.availability}</p>
             </SurfaceCard>
           </div>
         </div>
@@ -255,9 +258,8 @@ export function HomePage({
             <div className="space-y-5">
               <Eyebrow>Contact</Eyebrow>
               <h2 className={headingClasses.card}>
-                Reach me for roles, interviews, or delivery conversations.
+                Get in touch.
               </h2>
-              <BodyCopy>{profile.availability}</BodyCopy>
             </div>
 
             <div className="grid gap-4">

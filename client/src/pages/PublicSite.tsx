@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { contactItems, contactTopics } from '../features/portfolio/content'
 import { usePortfolioData } from '../hooks/usePortfolioData'
 import { useScrollReveal } from '../hooks/useScrollReveal'
+import { useVisitorCounter } from '../hooks/useVisitorCounter'
 import { PortfolioHeader } from '../components/home/PortfolioHeader'
 import { ScrollProgressBar } from '../components/site/ScrollProgressBar'
 import { siteContainerClass } from '../components/site/styles'
@@ -14,37 +15,37 @@ import { SkillsPage } from './SkillsPage'
 
 const pageMetadata = {
   '/': {
-    title: 'Achille Traore | DevOps Engineer & Full-Stack Software Engineer',
+    title: 'Ali Achille Traore | DevOps Engineer & Full-Stack Software Engineer',
     description:
-      'Portfolio for Achille Traore, focused on DevOps, cloud infrastructure, CI/CD, and modern full-stack engineering.',
+      'Portfolio for Ali Achille Traore, focused on DevOps, cloud infrastructure, CI/CD, and modern full-stack engineering.',
   },
   '/about': {
-    title: 'About | Achille Traore',
+    title: 'About | Ali Achille Traore',
     description:
-      'Background, strengths, timeline, and engineering focus for Achille Traore.',
+      'Background, strengths, timeline, and engineering focus for Ali Achille Traore.',
   },
   '/projects': {
-    title: 'Projects | Achille Traore',
+    title: 'Projects | Ali Achille Traore',
     description:
       'Project case studies covering cloud delivery, CI/CD, infrastructure automation, and platform reliability.',
   },
   '/skills': {
-    title: 'Skills | Achille Traore',
+    title: 'Skills | Ali Achille Traore',
     description:
       'Curated technical skills across cloud platforms, automation, infrastructure as code, and full-stack application work.',
   },
   '/contact': {
-    title: 'Contact | Achille Traore',
+    title: 'Contact | Ali Achille Traore',
     description:
-      'Contact Achille Traore for DevOps roles, cloud delivery work, and engineering conversations.',
+      'Contact Ali Achille Traore for DevOps roles, cloud delivery work, and engineering conversations.',
   },
 } as const
 
 function updateMetadata(currentPath: string) {
   const metadata = pageMetadata[currentPath as keyof typeof pageMetadata] ?? {
-    title: 'Achille Traore | Portfolio',
+    title: 'Ali Achille Traore | Portfolio',
     description:
-      'Portfolio for Achille Traore covering DevOps, cloud delivery, and full-stack engineering.',
+      'Portfolio for Ali Achille Traore covering DevOps, cloud delivery, and full-stack engineering.',
   }
 
   document.title = metadata.title
@@ -68,6 +69,7 @@ function updateMetadata(currentPath: string) {
 export function PublicSite() {
   const portfolio = usePortfolioData()
   const revealRef = useScrollReveal()
+  const visitorCount = useVisitorCounter()
   const currentPath = window.location.pathname
 
   useEffect(() => {
@@ -139,6 +141,11 @@ export function PublicSite() {
               <p className="max-w-2xl text-sm leading-7 text-muted">
                 {portfolio.profile.summary}
               </p>
+              {visitorCount != null && (
+                <p className="text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-stone-400">
+                  {visitorCount.toLocaleString()} portfolio visits
+                </p>
+              )}
             </div>
 
             <div className="flex items-center gap-3">

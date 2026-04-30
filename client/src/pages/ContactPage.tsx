@@ -60,13 +60,12 @@ export function ContactPage({
                 <Eyebrow>Contact</Eyebrow>
                 <div className="space-y-5">
                   <h1 className={headingClasses.page}>
-                    Reach out for roles, interviews, or practical delivery
-                    conversations.
+                    Let's talk about what you're building.
                   </h1>
                   <p className="max-w-3xl text-[1.05rem] leading-8 text-muted sm:text-lg">
-                    Whether you are hiring for DevOps, platform engineering,
-                    cloud infrastructure, or a software role with operational
-                    depth — I would welcome the conversation.
+                    Whether you have a DevOps challenge, a platform problem, or
+                    want to talk through a technical decision — I read every
+                    message and respond to all of them.
                   </p>
                 </div>
               </div>
@@ -127,12 +126,12 @@ export function ContactPage({
               <Eyebrow>Message</Eyebrow>
               <div className="space-y-4">
                 <h2 className={headingClasses.section}>
-                  Send a note with the role, project, or delivery problem you want
-                  to discuss.
+                  Tell me what you're working on or what you need help with.
                 </h2>
                 <p className={bodyClass}>
-                  I respond to messages about roles, delivery engagements, CI/CD
-                  modernization, platform work, and engineering collaboration.
+                  I respond to every message — whether it's a delivery
+                  challenge, a platform question, CI/CD modernization, or
+                  engineering collaboration.
                 </p>
               </div>
             </div>

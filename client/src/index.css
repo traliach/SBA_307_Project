@@ -6,11 +6,11 @@
 
 @layer base {
   :root {
-    --accent: #4338ca;
-    --accent-soft: #eef2ff;
-    --accent-deep: #3730a3;
+    --accent: #b45309;
+    --accent-soft: #fef3c7;
+    --accent-deep: #92400e;
     --warm: #d97706;
-    --warm-soft: #fef3c7;
+    --warm-soft: #fef9ee;
     --surface-strong: rgba(255, 255, 255, 0.96);
     --border: #e4e2dd;
     --danger: #dc2626;
@@ -30,15 +30,15 @@
   body {
     @apply min-h-screen bg-canvas text-base leading-7 text-muted;
     background-image:
-      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(67,56,202,0.04), transparent),
-      radial-gradient(ellipse 60% 40% at 80% 0%, rgba(217,119,6,0.03), transparent);
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(180,83,9,0.04), transparent),
+      radial-gradient(ellipse 60% 40% at 80% 0%, rgba(180,83,9,0.02), transparent);
   }
 
   .dark body {
     @apply bg-[#0f1117] text-gray-400;
     background-image:
-      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99,102,241,0.07), transparent),
-      radial-gradient(ellipse 60% 40% at 80% 0%, rgba(217,119,6,0.04), transparent);
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(180,83,9,0.06), transparent),
+      radial-gradient(ellipse 60% 40% at 80% 0%, rgba(180,83,9,0.03), transparent);
   }
 
   .dark h1, .dark h2, .dark h3, .dark h4 {

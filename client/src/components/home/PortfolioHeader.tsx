@@ -15,10 +15,10 @@ interface PortfolioHeaderProps {
 }
 
 const navItems = [
-  { href: '/', label: 'Overview' },
+  { href: '/', label: 'Home' },
+  { href: '/projects', label: 'Work' },
   { href: '/about', label: 'About' },
-  { href: '/projects', label: 'Projects' },
-  { href: '/skills', label: 'Skills' },
+  { href: '/skills', label: 'Stack' },
   { href: '/contact', label: 'Contact' },
 ]
 
@@ -50,7 +50,7 @@ export function PortfolioHeader({
   const toggleBtnClass = cx(
     'inline-flex items-center justify-center rounded-full border p-2.5 transition duration-200',
     'border-line/80 bg-white text-muted hover:border-accent/25 hover:text-ink',
-    'dark:border-white/[0.08] dark:bg-[#161920] dark:text-gray-400 dark:hover:border-indigo-400/30 dark:hover:text-gray-100',
+    'dark:border-white/[0.08] dark:bg-[#161920] dark:text-gray-400 dark:hover:border-amber-400/30 dark:hover:text-gray-100',
   )
 
   return (
@@ -62,7 +62,7 @@ export function PortfolioHeader({
         )}
       >
         <a className="group min-w-0 flex-1 lg:flex-none" href="/">
-          <span className="block truncate text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-muted transition-colors group-hover:text-accent-deep dark:text-gray-500 dark:group-hover:text-indigo-400">
+          <span className="block truncate text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-muted transition-colors group-hover:text-accent-deep dark:text-gray-500 dark:group-hover:text-amber-400">
             {name}
           </span>
           <span className="mt-1 block truncate text-sm font-medium text-ink sm:text-base dark:text-gray-100">

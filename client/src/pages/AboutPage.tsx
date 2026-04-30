@@ -49,23 +49,6 @@ export function AboutPage({ profile }: AboutPageProps) {
           </SurfaceCard>
 
           <div className="grid gap-6">
-            <SurfaceCard className="flex flex-col gap-5">
-              <p className={finePrintClass}>Career arc</p>
-              <h2 className={headingClasses.card}>
-                From cloud operations to platform engineering.
-              </h2>
-              <p className={bodyClass}>
-                Seven years of progressive infrastructure work: started
-                provisioning AWS environments (CodePipeline, API Gateway, RDS),
-                moved into DevOps — owning CI/CD pipelines, Kubernetes clusters,
-                and observability across 10+ environments — and now building
-                production-grade platforms independently. The infrastructure
-                projects (cloud_resume_infra, k8s-platform-lab, devops_platform)
-                show the next step: designing and operating full delivery
-                platforms end-to-end, not just contributing to them.
-              </p>
-            </SurfaceCard>
-
             <SurfaceCard className="flex flex-col gap-5" tone="subdued">
               <p className={finePrintClass}>Certifications</p>
               <ul className="grid gap-3">
@@ -86,49 +69,19 @@ export function AboutPage({ profile }: AboutPageProps) {
                 })}
               </ul>
             </SurfaceCard>
-
-            <SurfaceCard className="flex flex-col gap-4" padding="compact">
-              <p className={finePrintClass}>Availability</p>
-              <p className={bodyClass}>{profile.availability}</p>
-            </SurfaceCard>
           </div>
         </div>
       </SiteSection>
 
       <SiteSection tone="compact">
-        <div className="reveal grid gap-6 xl:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.95fr)]">
-          <SurfaceCard className="flex flex-col gap-8">
-            <div className="space-y-5">
-              <Eyebrow>Experience</Eyebrow>
-              <h2 className={headingClasses.section}>
-                Professional timeline.
-              </h2>
-            </div>
-
-            <div className="grid gap-6">
-              {profile.timeline.map((item) => (
-                <div
-                  className="relative border-l-2 border-accent/15 pl-6"
-                  key={`${item.title}-${item.period}`}
-                >
-                  <span className="absolute -left-[5px] top-1 h-2 w-2 rounded-full border-2 border-accent bg-white" />
-                  <p className={finePrintClass}>{item.period}</p>
-                  <h3 className="mt-2 font-display text-xl font-semibold tracking-[-0.02em] text-ink">
-                    {item.title}
-                  </h3>
-                  <p className={bodyClass + ' mt-3'}>{item.detail}</p>
-                </div>
-              ))}
-            </div>
-          </SurfaceCard>
-
+        <div className="reveal">
           <SurfaceCard className="flex flex-col gap-6" tone="subdued">
             <div className="space-y-4">
               <Eyebrow>Core strengths</Eyebrow>
               <h2 className={headingClasses.card}>Where I add the most leverage.</h2>
             </div>
 
-            <ul className="grid gap-4">
+            <ul className="grid gap-4 sm:grid-cols-2">
               {profile.strengths.map((item) => (
                 <li
                   className="rounded-2xl border border-line/60 bg-white p-5 transition duration-200 hover:shadow-soft"

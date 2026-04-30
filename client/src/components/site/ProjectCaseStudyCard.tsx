@@ -14,6 +14,11 @@ interface ProjectCaseStudyCardProps {
   layout?: 'full' | 'stacked'
 }
 
+const PROFESSIONAL_TITLES = new Set([
+  'Enterprise Kubernetes Platform Modernization',
+  'AWS Cloud Infrastructure Automation and Optimization',
+])
+
 const DEVOPS_TITLES = new Set([
   'cloud_resume_infra — AWS Resume Platform',
   'k8s-platform-lab — Self-Hosted Kubernetes Platform',
@@ -23,7 +28,9 @@ const DEVOPS_TITLES = new Set([
 ])
 
 function getCategory(title: string): string {
-  return DEVOPS_TITLES.has(title) ? 'DevOps / Cloud / IaC' : 'Full-Stack Application'
+  if (PROFESSIONAL_TITLES.has(title)) return 'Professional Work'
+  if (DEVOPS_TITLES.has(title)) return 'DevOps / Cloud / IaC'
+  return 'Full-Stack Application'
 }
 
 function ExternalLinkIcon() {
@@ -89,21 +96,16 @@ export function ProjectCaseStudyCard({
       {isFeaturedLayout ? (
         <div className="grid gap-8 xl:grid-cols-[minmax(0,1.25fr)_minmax(290px,0.75fr)]">
           <div className="flex flex-col gap-7">
-            <div className="flex flex-wrap items-start justify-between gap-4">
-              <div className="space-y-4">
-                <Eyebrow>{getCategory(project.title)}</Eyebrow>
-                <div className="space-y-3">
-                  <h2 className={headingClasses.section}>{project.title}</h2>
-                  <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-                    <p className={metaClass}>{project.role}</p>
-                    <span className="h-1 w-1 rounded-full bg-stone-300" />
-                    <p className={metaClass}>{project.timeframe}</p>
-                  </div>
+            <div className="space-y-4">
+              <Eyebrow>{getCategory(project.title)}</Eyebrow>
+              <div className="space-y-3">
+                <h2 className={headingClasses.section}>{project.title}</h2>
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                  <p className={metaClass}>{project.role}</p>
+                  <span className="h-1 w-1 rounded-full bg-stone-300" />
+                  <p className={metaClass}>{project.timeframe}</p>
                 </div>
               </div>
-              <Tag className="border-accent/15 bg-accent-soft/60 text-accent-deep">
-                {project.timeframe}
-              </Tag>
             </div>
 
             <p className="max-w-3xl text-[1.05rem] leading-8 text-muted sm:text-lg">
@@ -162,63 +164,39 @@ export function ProjectCaseStudyCard({
           </aside>
         </div>
       ) : (
-        <div className="flex h-full flex-col gap-6">
-          <div className="space-y-4">
-            <div className="flex flex-wrap items-start justify-between gap-4">
-              <div className="space-y-3">
-                <Eyebrow>{getCategory(project.title)}</Eyebrow>
-                <div className="space-y-2">
-                  <h2 className={headingClasses.card}>{project.title}</h2>
-                  <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-                    <p className={metaClass}>{project.role}</p>
-                    <span className="h-1 w-1 rounded-full bg-stone-300" />
-                    <p className={metaClass}>{project.timeframe}</p>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {project.metrics.slice(0, 2).map((metric) => (
-                  <Tag className="bg-surface-tinted text-muted" key={metric.label}>
-                    {metric.value}
-                  </Tag>
-                ))}
-              </div>
+        <div className="flex h-full flex-col gap-5">
+          <div className="space-y-3">
+            <div className="flex items-start justify-between gap-3">
+              <Eyebrow>{getCategory(project.title)}</Eyebrow>
+              {project.metrics[0] && (
+                <span className="shrink-0 rounded-full border border-line/60 bg-surface-tinted px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-ink">
+                  {project.metrics[0].value}
+                </span>
+              )}
             </div>
-
-            <p className="text-base leading-8 text-muted">{project.summary}</p>
+            <h2 className={headingClasses.card}>{project.title}</h2>
+            <p className={metaClass}>{project.role} · {project.timeframe}</p>
           </div>
 
-          <div className="grid gap-4">
-            <div className="rounded-2xl border border-line/60 bg-surface-tinted p-5">
-              <p className={finePrintClass}>Delivery need</p>
-              <p className={cx(bodyClass, 'mt-3')}>{project.challenge}</p>
+          <p className={cx(bodyClass, 'line-clamp-3')}>{project.summary}</p>
+
+          {project.outcomes[0] && (
+            <div className="rounded-xl border border-line/60 bg-surface-tinted px-4 py-3">
+              <p className={finePrintClass}>Key outcome</p>
+              <p className={cx(bodyClass, 'mt-1.5 line-clamp-2')}>{project.outcomes[0]}</p>
             </div>
+          )}
 
-            <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(220px,0.88fr)]">
-              <div className="rounded-2xl border border-line/60 bg-surface-tinted p-5">
-                <p className={finePrintClass}>Execution</p>
-                <p className={cx(bodyClass, 'mt-3')}>{project.solution}</p>
-              </div>
-
-              <div className="rounded-2xl border border-line/60 bg-white p-5">
-                <p className={finePrintClass}>Operational result</p>
-                <ul className="mt-3 grid gap-3">
-                  {visibleOutcomes.map((item) => (
-                    <li className="flex gap-3" key={item}>
-                      <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
-                      <span className={bodyClass}>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-auto space-y-3 border-t border-line/60 pt-5">
-            <div className="flex flex-wrap items-center gap-2">
-              {project.stack.map((item) => (
+          <div className="mt-auto space-y-3 border-t border-line/60 pt-4">
+            <div className="flex flex-wrap gap-1.5">
+              {project.stack.slice(0, 6).map((item) => (
                 <Tag key={item}>{item}</Tag>
               ))}
+              {project.stack.length > 6 && (
+                <span className={cx(finePrintClass, 'self-center')}>
+                  +{project.stack.length - 6}
+                </span>
+              )}
             </div>
             <ProjectLinks repoUrl={project.repoUrl} liveUrl={project.liveUrl} />
           </div>

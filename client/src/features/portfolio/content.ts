@@ -20,17 +20,17 @@ export const certificationLinks: Record<string, string> = {
 }
 
 export const fallbackProfile: ProfileContent = {
-  name: 'Achille Traore',
+  name: 'Ali Achille Traore',
   title: 'DevOps Engineer & Full-Stack Software Engineer',
-  location: 'Remote / Hybrid / On-site (US-wide)',
-  availability:
-    'EAD — authorized to work in the US. Open to DevOps, platform engineering, and full-stack software engineering roles.',
+  location: 'Newark, NJ',
+  currentEmployer: 'Teledyne Technologies Inc',
+  availability: '',
   summary:
-    'Platform and DevOps engineer with 8+ years building CI/CD pipelines, cloud infrastructure, and Kubernetes platforms — plus a full-stack track shipping React/TypeScript frontends and Node.js/Express APIs into production.',
+    'DevOps engineer with 5+ years designing, automating, and optimizing cloud-native infrastructure across AWS and Azure. Expertise in Kubernetes, Docker, Terraform, and CI/CD pipelines — plus full-stack delivery with React, TypeScript, and Node.js shipped to production.',
   intro:
     'My portfolio spans both disciplines: cloud and IaC projects (Terraform-provisioned AWS infrastructure, self-hosted Kubernetes on EC2, Jenkins + Ansible platforms) and full-stack applications (MERN marketplace, medical imaging system, this site).',
   about:
-    "I work on the parts engineering teams notice most when they break: CI/CD pipelines, cloud environments, release handoffs, and production support. Seven years at Dominion Systems have covered Jenkins, Azure DevOps, Terraform, Kubernetes, OpenShift, and observability tooling (Prometheus, Grafana, Kibana), alongside hands-on AWS infrastructure and database operations. My recent infrastructure projects go deeper: cloud_resume_infra provisions 20 AWS resources with Terraform and runs a live serverless visitor counter at resume.achille.tech; k8s-platform-lab runs a self-hosted k3s cluster on EC2 with ArgoCD GitOps, Prometheus, and Grafana; devops_platform combines Terraform, Ansible, Jenkins, and Docker Compose into a full delivery platform with SSM access and no open SSH port. Alongside that I ship full-stack applications — a MERN marketplace with Stripe and AI chat, a dual-site medical imaging system, and this portfolio — closing the loop between the platform and the applications running on top of it.",
+    "I work on the parts engineering teams notice most when they break: CI/CD pipelines, cloud infrastructure, and production deployments. My portfolio projects go deeper than most: cloud_resume_infra provisions 20 AWS resources with Terraform at $0.00/month actual cost; k8s-platform-lab runs a self-hosted k3s cluster on EC2 with ArgoCD GitOps, 21/21 health checks passing, and ~30-minute RTO validated live; devops_platform combines Terraform, Ansible, Jenkins, and Docker Compose into a full delivery platform with no open SSH port.",
   certifications: [
     'AWS Certified DevOps Engineer – Professional',
     'AWS Certified Cloud Practitioner',
@@ -38,38 +38,13 @@ export const fallbackProfile: ProfileContent = {
     'Google IT Support Professional Certificate',
   ],
   strengths: [
-    'CI/CD pipeline design and optimization (Jenkins, Azure DevOps, GitHub Actions)',
-    'Infrastructure as code at scale — 50+ components automated with Terraform and Ansible',
-    'Kubernetes and OpenShift cluster operations across 10+ production clusters',
-    'Observability and incident response (Prometheus, Grafana, Kibana)',
-    'Full-stack delivery: React, TypeScript, Node.js, Express, MongoDB, PostgreSQL',
+    'CI/CD pipeline design and optimization — GitHub Actions, Jenkins, GitLab CI/CD, and Azure DevOps',
+    'Infrastructure as Code — Terraform modules, remote state, and multi-environment provisioning on AWS and Azure',
+    'Kubernetes cluster operations — EKS, Helm, Kustomize, ArgoCD GitOps, and self-hosted k3s',
+    'DevSecOps — security scanning (SAST/DAST, Trivy) and secrets management embedded in delivery pipelines',
+    'Full-stack delivery — React, TypeScript, Node.js, Express, MongoDB, and PostgreSQL',
   ],
-  timeline: [
-    {
-      title: 'DevOps Engineer, Dominion Systems',
-      period: 'August 2018 – Present',
-      detail:
-        'Restored failed Jenkins pipelines, reduced cloud spend by $500–$2,000/month through Cost Explorer audits, eliminated lateral movement risk by consolidating IAM roles into least-privilege per-service policies, cut new client environment provisioning from ~30 minutes to sub-5 minutes with Terraform + Ansible + Bash, and resolved CrashLoopBackOff incidents via kubectl diagnostics across 10+ Kubernetes/OpenShift clusters.',
-    },
-    {
-      title: 'Independent Platform Engineering',
-      period: '2025 – 2026',
-      detail:
-        'Built three production-grade infrastructure projects: cloud_resume_infra (20 AWS resources via Terraform, $0.00/month, live at resume.achille.tech), k8s-platform-lab (k3s on EC2 with ArgoCD GitOps, 21/21 health checks, ~30-min RTO validated), and devops_platform (~46-second Jenkins pipeline, JCasC, Ansible Vault, SSM access, no open SSH port).',
-    },
-    {
-      title: 'AWS Cloud Engineer, Dominion Systems',
-      period: 'June 2017 – July 2018',
-      detail:
-        'Improved infrastructure delivery efficiency ~25% migrating to CloudFormation, CodePipeline, CodeBuild, and CodeCommit. Increased EC2 utilization ~20% through right-sizing and auto-scaling. Achieved 100% pass rate across security audits with least-privilege IAM and Transit Gateway hybrid networking.',
-    },
-    {
-      title: 'Full-Stack & AI-Native Development',
-      period: '2025 – Present',
-      detail:
-        'Per Scholas AI-Native Software Engineering track — shipped full-stack MERN applications including a 3-role marketplace (Stripe, Groq AI, RBAC) and this portfolio platform (React 19, Node.js, MongoDB Atlas, Terraform, 4-job CI/CD pipeline).',
-    },
-  ],
+  timeline: [],
   links: {
     email: 'mailto:t.achille.tech@gmail.com',
     linkedin: 'https://www.linkedin.com/in/achille-traore',
@@ -80,28 +55,80 @@ export const fallbackProfile: ProfileContent = {
 
 export const highlightMetrics: Highlight[] = [
   {
-    label: 'Deploy time',
-    value: '~30% faster',
-    detail: 'CI/CD pipeline improvements (Jenkins, Azure DevOps) cut build and deploy time by approximately 30%.',
+    label: 'AWS resources',
+    value: '20',
+    detail: 'cloud_resume_infra provisions 20 AWS resources with Terraform — $0.00/month actual cost verified via Cost Explorer.',
   },
   {
-    label: 'Infra automated',
-    value: '50+ components',
-    detail: 'Terraform and Ansible automation across 50+ infrastructure components, reducing deployment time by ~40%.',
+    label: 'Platform checks',
+    value: '21 / 21',
+    detail: 'k8s-platform-lab automated health checks — k3s cluster with ArgoCD, Prometheus, and Grafana all passing.',
   },
   {
-    label: 'Cluster uptime',
-    value: '~99.9%',
-    detail: 'Sustained across 10+ Kubernetes/OpenShift clusters via standardized manifests and runbooks.',
+    label: 'Pipeline time',
+    value: '~60 sec',
+    detail: 'devops_platform end-to-end CI/CD: Checkout → Build → Docker → Push GHCR → Deploy in ~60 seconds.',
   },
   {
-    label: 'Incidents reduced',
-    value: '~50% fewer',
-    detail: '15+ security audits and remediation cycles cut security incidents by approximately 50%.',
+    label: 'Certifications',
+    value: '4 active',
+    detail: 'AWS DevOps Engineer Professional, AWS Cloud Practitioner, IBM Software Engineering Essentials, Google IT Support Professional.',
   },
 ]
 
 export const projectSummaries: ProjectSummary[] = [
+  {
+    title: 'Enterprise Kubernetes Platform Modernization',
+    timeframe: 'Sept 2024 – Present',
+    role: 'DevOps Engineer',
+    featured: true,
+    summary:
+      'Transformed manual deployment processes into a fully automated, cloud-native Kubernetes platform on AWS EKS — 50+ microservices, GitOps delivery with ArgoCD, CI/CD with GitHub Actions and Jenkins, and full observability with Prometheus, Grafana, and ELK.',
+    challenge:
+      'Legacy deployment processes were manual and inconsistent across dev, staging, and production environments — limiting release velocity, creating configuration drift, and leaving security vulnerabilities undetected until late in the lifecycle.',
+    solution:
+      'Deployed AWS EKS clusters across multiple availability zones with Terraform IaC. Implemented GitOps with ArgoCD, automated CI/CD with GitHub Actions and Jenkins, configured HPA for dynamic scaling, embedded Trivy and SAST/DAST scanning into pipelines, and delivered centralized observability with Prometheus, Grafana, and the ELK stack.',
+    stack: ['AWS EKS', 'Kubernetes', 'Terraform', 'Docker', 'Helm', 'Kustomize', 'ArgoCD', 'GitHub Actions', 'Jenkins', 'Prometheus', 'Grafana', 'ELK Stack', 'Trivy', 'IAM / RBAC'],
+    metrics: [
+      { label: 'System uptime', value: '99.9%' },
+      { label: 'Deployment time', value: '−40%' },
+      { label: 'Infrastructure costs', value: '−25%' },
+      { label: 'Config drift', value: '−45%' },
+    ],
+    outcomes: [
+      '99.9% uptime achieved — EKS clusters across multiple AZs with HPA auto-scaling handling 50+ microservices.',
+      'Deployment time cut by 40% — release cadence moved from weekly to daily through automated CI/CD and GitOps workflows.',
+      'Infrastructure costs reduced by 25% via FinOps rightsizing; incident detection time improved by 35% through ELK centralized logging.',
+    ],
+    repoUrl: '',
+    liveUrl: '',
+  },
+  {
+    title: 'AWS Cloud Infrastructure Automation and Optimization',
+    timeframe: 'June 2020 – Aug 2024',
+    role: 'AWS Cloud Engineer',
+    featured: true,
+    summary:
+      'Transformed manually managed AWS environments into fully automated, cost-optimized infrastructure using Terraform IaC — EC2, S3, RDS, VPC across multiple AZs — with Jenkins and GitLab CI/CD pipelines and CloudWatch/Prometheus/Grafana observability.',
+    challenge:
+      'Manual infrastructure provisioning caused inconsistent environments, high operational overhead, inflated cloud costs, and insufficient visibility into system performance and security posture.',
+    solution:
+      'Implemented Terraform modules with remote state management for repeatable multi-environment provisioning. Built CI/CD pipelines with Jenkins and GitLab CI/CD. Configured CloudWatch, Prometheus, and Grafana for observability. Applied IAM least-privilege policies and secrets management. Used FinOps rightsizing to eliminate over-provisioned resources.',
+    stack: ['AWS EC2', 'AWS S3', 'AWS RDS', 'VPC', 'IAM', 'CloudWatch', 'ELB', 'Terraform', 'Jenkins', 'GitLab CI/CD', 'Docker', 'Prometheus', 'Grafana'],
+    metrics: [
+      { label: 'System uptime', value: '99.8%' },
+      { label: 'Deployment time', value: '−50%' },
+      { label: 'Cloud costs', value: '−20%' },
+      { label: 'Manual config effort', value: '−70%' },
+    ],
+    outcomes: [
+      'Deployment time reduced by 50% — Terraform automation and CI/CD pipelines eliminated over 70% of manual configuration steps.',
+      '99.8% uptime maintained across production environments with multi-AZ architecture and load-balanced traffic distribution.',
+      'Cloud infrastructure costs reduced by 20% through FinOps rightsizing; improved incident detection time with CloudWatch and Prometheus alerting.',
+    ],
+    repoUrl: '',
+    liveUrl: '',
+  },
   {
     title: 'Restaurant Deals — MERN Marketplace',
     timeframe: '2026',
@@ -284,36 +311,43 @@ export const skillGroups: SkillGroup[] = [
     eyebrow: 'Cloud and IaC',
     title: 'AWS, Terraform, and multi-cloud infrastructure',
     description:
-      'Infrastructure as code and cloud delivery across AWS, Azure, and GCP — 50+ components automated with Terraform and Ansible.',
-    items: ['AWS', 'Terraform', 'CloudFormation', 'Ansible', 'Azure', 'GCP'],
+      'Infrastructure as code and cloud delivery across AWS, Azure, and GCP — provisioning, configuration management, and cost optimization.',
+    items: ['AWS', 'Azure', 'GCP', 'Terraform', 'CloudFormation', 'Pulumi', 'Ansible', 'FinOps'],
   },
   {
     eyebrow: 'CI/CD and delivery',
     title: 'Release workflows that hold up in production',
     description:
-      'Pipeline tooling used to reduce manual release steps and cut build/deploy time by ~30% in production.',
-    items: ['GitHub Actions', 'Jenkins', 'Azure DevOps', 'Docker Compose', 'JFrog', 'SonarQube', 'GHCR'],
+      'Pipeline tooling covering continuous integration, delivery, and artifact management across multiple platforms.',
+    items: ['GitHub Actions', 'Jenkins', 'GitLab CI/CD', 'Azure DevOps', 'Docker Compose', 'JFrog', 'SonarQube'],
   },
   {
     eyebrow: 'Containers and orchestration',
-    title: 'Kubernetes, OpenShift, and Docker',
+    title: 'Kubernetes, Helm, and GitOps',
     description:
-      'Container build and cluster operations sustaining ~99.9% uptime across 10+ Kubernetes and OpenShift environments.',
-    items: ['Docker', 'Kubernetes', 'k3s', 'ArgoCD', 'Helm', 'OpenShift', 'Docker Compose'],
+      'Container build, cluster operations, and GitOps delivery workflows across managed and self-hosted Kubernetes environments.',
+    items: ['Docker', 'Kubernetes', 'k3s', 'Helm', 'Kustomize', 'ArgoCD', 'FluxCD', 'OpenShift'],
+  },
+  {
+    eyebrow: 'DevSecOps and security',
+    title: 'Security tooling embedded in delivery pipelines',
+    description:
+      'Vulnerability scanning, secrets management, and compliance practices integrated into CI/CD workflows and cloud environments.',
+    items: ['Trivy', 'Aqua', 'SAST / DAST', 'HashiCorp Vault', 'AWS Secrets Manager', 'IAM and RBAC'],
   },
   {
     eyebrow: 'Observability and operations',
-    title: 'Prometheus, Grafana, and Kibana',
+    title: 'Prometheus, Grafana, and ELK Stack',
     description:
-      'Monitoring and incident response tooling that improved detection time by ~25% and cut resolution time by ~35%.',
-    items: ['Prometheus', 'Grafana', 'Kibana', 'CloudWatch', 'Linux'],
+      'Monitoring, alerting, and log management tooling enabling proactive incident detection and performance visibility.',
+    items: ['Prometheus', 'Grafana', 'ELK Stack', 'CloudWatch', 'OpenTelemetry', 'Datadog', 'New Relic'],
   },
   {
     eyebrow: 'Languages',
-    title: 'TypeScript, JavaScript, Python, Ruby',
+    title: 'TypeScript, Python, JavaScript, Bash',
     description:
-      'Primary languages used across full-stack applications, DevOps automation scripts, and infrastructure tooling.',
-    items: ['TypeScript', 'JavaScript', 'Python', 'Ruby'],
+      'Primary languages used across full-stack applications, infrastructure automation scripts, and DevOps tooling.',
+    items: ['TypeScript', 'JavaScript', 'Python', 'Bash'],
   },
   {
     eyebrow: 'Backend and APIs',
@@ -394,7 +428,7 @@ export function createInitialContactForm(): ContactSubmissionInput {
 }
 
 export const contactTopics: ContactTopic[] = [
-  { value: 'devops-role', label: 'DevOps role or interview conversation' },
+  { value: 'devops-role', label: 'Platform engineering or DevOps consultation' },
   { value: 'ci-cd-modernization', label: 'CI/CD modernization' },
   { value: 'cloud-migration', label: 'Cloud migration or infrastructure as code' },
   { value: 'platform-reliability', label: 'Containers, Kubernetes, or platform reliability' },

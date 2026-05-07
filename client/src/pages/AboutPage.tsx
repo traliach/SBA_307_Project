@@ -79,10 +79,22 @@ const STACK_GROUPS = [
   },
 ]
 
+function getEmployerContext(employer: string | undefined) {
+  if (!employer) return undefined
+
+  if (employer.toLowerCase().includes('teledyne')) {
+    return 'Industrial technology company serving high-reliability markets.'
+  }
+
+  return undefined
+}
+
 function SnapshotItem({
+  detail,
   label,
   value,
 }: {
+  detail?: string
   label: string
   value: string | undefined
 }) {
@@ -92,11 +104,16 @@ function SnapshotItem({
     <div className="rounded-lg border border-border bg-surface p-4">
       <p className={finePrintClass}>{label}</p>
       <p className="mt-2 text-sm font-semibold leading-6 text-text">{value}</p>
+      {detail ? (
+        <p className="mt-2 text-xs italic leading-5 text-text-muted">{detail}</p>
+      ) : null}
     </div>
   )
 }
 
 export function AboutPage({ profile }: AboutPageProps) {
+  const currentEmployerContext = getEmployerContext(profile.currentEmployer)
+
   return (
     <>
       <SiteSection className="pt-10 sm:pt-14 lg:pt-16">
@@ -148,7 +165,11 @@ export function AboutPage({ profile }: AboutPageProps) {
 
           <SurfaceCard className="flex flex-col gap-4" padding="compact">
             <p className={finePrintClass}>Snapshot</p>
-            <SnapshotItem label="Current role" value={profile.currentEmployer} />
+            <SnapshotItem
+              detail={currentEmployerContext}
+              label="Current role"
+              value={profile.currentEmployer}
+            />
             <SnapshotItem label="Previous role" value={profile.previousEmployer} />
             <SnapshotItem label="Education" value={profile.education} />
             <SnapshotItem label="Location" value={profile.location} />

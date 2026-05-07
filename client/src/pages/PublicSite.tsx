@@ -11,8 +11,12 @@ import { ContactPage } from './ContactPage'
 import { ComponentPreviewPage } from './ComponentPreviewPage'
 import { HomePage } from './HomePage'
 import { NotFoundPage } from './NotFoundPage'
-import { ProjectsPage } from './ProjectsPage'
+import { ServicesPage } from './ServicesPage'
 import { SkillsPage } from './SkillsPage'
+import { WorkDetailPage } from './WorkDetailPage'
+import { WorkIndexPage } from './WorkIndexPage'
+import { findProjectBySlug, getProjectDisplayTitle } from '../utils/projects'
+import type { ProjectSummary } from '../types/site'
 
 const pageMetadata = {
   '/': {
@@ -25,10 +29,20 @@ const pageMetadata = {
     description:
       'Background, strengths, timeline, and engineering focus for Ali Achille Traore.',
   },
-  '/projects': {
-    title: 'Projects | Ali Achille Traore',
+  '/services': {
+    title: 'Services | Ali Achille Traore',
     description:
-      'Project case studies covering cloud delivery, CI/CD, infrastructure automation, and platform reliability.',
+      'DevOps consulting services for cloud foundations, CI/CD modernization, Terraform, Kubernetes, observability, security, and full-stack delivery.',
+  },
+  '/work': {
+    title: 'Work | Ali Achille Traore',
+    description:
+      'Case studies covering AWS infrastructure, Kubernetes platforms, CI/CD modernization, observability, and full-stack delivery.',
+  },
+  '/projects': {
+    title: 'Work | Ali Achille Traore',
+    description:
+      'Case studies covering cloud delivery, CI/CD, infrastructure automation, and platform reliability.',
   },
   '/skills': {
     title: 'Skills | Ali Achille Traore',
@@ -42,12 +56,28 @@ const pageMetadata = {
   },
 } as const
 
-function updateMetadata(currentPath: string) {
-  const metadata = pageMetadata[currentPath as keyof typeof pageMetadata] ?? {
+function getMetadata(currentPath: string, projects: ProjectSummary[]) {
+  if (currentPath.startsWith('/work/')) {
+    const slug = currentPath.replace('/work/', '')
+    const project = findProjectBySlug(projects, slug)
+
+    if (project) {
+      return {
+        title: `${getProjectDisplayTitle(project)} | Work | Ali Achille Traore`,
+        description: project.summary,
+      }
+    }
+  }
+
+  return pageMetadata[currentPath as keyof typeof pageMetadata] ?? {
     title: 'Ali Achille Traore | Portfolio',
     description:
       'Portfolio for Ali Achille Traore covering DevOps, cloud delivery, and full-stack engineering.',
   }
+}
+
+function updateMetadata(currentPath: string, projects: ProjectSummary[]) {
+  const metadata = getMetadata(currentPath, projects)
 
   document.title = metadata.title
 
@@ -71,13 +101,25 @@ export function PublicSite() {
   const portfolio = usePortfolioData()
   const revealRef = useScrollReveal()
   const visitorCount = useVisitorCounter()
-  const currentPath = window.location.pathname
+  const currentPath =
+    window.location.pathname === '/'
+      ? '/'
+      : window.location.pathname.replace(/\/+$/, '')
 
   useEffect(() => {
-    updateMetadata(currentPath)
-  }, [currentPath])
+    updateMetadata(currentPath, portfolio.projects)
+  }, [currentPath, portfolio.projects])
 
   function renderPage() {
+    if (currentPath.startsWith('/work/')) {
+      return (
+        <WorkDetailPage
+          projects={portfolio.projects}
+          slug={currentPath.replace('/work/', '')}
+        />
+      )
+    }
+
     switch (currentPath) {
       case '/':
         return (
@@ -91,8 +133,11 @@ export function PublicSite() {
         )
       case '/about':
         return <AboutPage profile={portfolio.profile} />
+      case '/services':
+        return <ServicesPage />
+      case '/work':
       case '/projects':
-        return <ProjectsPage projects={portfolio.projects} />
+        return <WorkIndexPage projects={portfolio.projects} />
       case '/skills':
         return <SkillsPage skills={portfolio.skills} />
       case '/contact':
@@ -125,6 +170,7 @@ export function PublicSite() {
       <ScrollProgressBar />
       <PortfolioHeader
         currentPath={currentPath}
+        links={portfolio.profile.links}
         name={portfolio.profile.name}
         title={portfolio.profile.title}
       />

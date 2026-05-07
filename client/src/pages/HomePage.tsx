@@ -176,7 +176,7 @@ export function HomePage({
             </div>
 
             <div className="grid gap-3 sm:flex sm:flex-wrap">
-              <ButtonLink className="w-full sm:w-auto" href="/projects">
+              <ButtonLink className="w-full sm:w-auto" href="/work">
                 View work
               </ButtonLink>
               <ButtonLink className="w-full sm:w-auto" href="/contact" variant="secondary">

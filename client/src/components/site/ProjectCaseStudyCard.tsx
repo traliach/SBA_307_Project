@@ -1,5 +1,10 @@
 import type { ProjectSummary } from '../../types/site'
 import {
+  getProjectCategory,
+  getProjectDisplayTitle,
+  getProjectPath,
+} from '../../utils/projects'
+import {
   bodyClass,
   cx,
   finePrintClass,
@@ -14,38 +19,11 @@ interface ProjectCaseStudyCardProps {
   layout?: 'full' | 'stacked'
 }
 
-const DEVOPS_TITLES = new Set([
-  'cloud_resume_infra — AWS Resume Platform',
-  'k8s-platform-lab — Self-Hosted Kubernetes Platform',
-  'devops_platform — Self-Hosted DevOps Platform',
-  'Mercedes-Benz DMS — Pipeline Modernization',
-])
-
-const PROFESSIONAL_TITLES = new Set([
-  'Enterprise Kubernetes Platform Modernization',
-  'AWS Cloud Infrastructure Automation and Optimization',
-])
-
-function getCategory(title: string): string {
-  if (title.includes('cloud_resume')) return 'Cloud Resume Challenge'
-  if (PROFESSIONAL_TITLES.has(title)) return 'Professional Work'
-  if (DEVOPS_TITLES.has(title)) return 'Cloud / DevOps'
-  return 'Full-Stack App'
-}
-
 function getVisualLabel(title: string): string {
   if (title.includes('k8s')) return 'Demonstrates'
   if (title.includes('cloud_resume')) return 'Demonstrates'
   if (title.includes('Portfolio')) return 'Portfolio system'
   return 'Demonstrates'
-}
-
-function getDisplayTitle(title: string): string {
-  if (title === 'cloud_resume_infra — AWS Resume Platform') {
-    return 'Serverless Resume Platform on AWS'
-  }
-
-  return title
 }
 
 function getPositioning(project: ProjectSummary): string {
@@ -91,16 +69,22 @@ function ExternalLinkIcon() {
 }
 
 function ProjectLinks({
+  caseStudyPath,
   liveUrl,
   repoUrl,
 }: {
+  caseStudyPath: string
   liveUrl?: string
   repoUrl?: string
 }) {
-  if (!repoUrl && !liveUrl) return null
-
   return (
     <div className="flex flex-wrap items-center gap-2">
+      <a
+        className="inline-flex items-center gap-1.5 rounded-md border border-transparent bg-primary px-3 py-1.5 text-xs font-semibold text-white transition duration-200 hover:bg-primary/90"
+        href={caseStudyPath}
+      >
+        Case study
+      </a>
       {repoUrl ? (
         <a
           className="inline-flex items-center gap-1.5 rounded-md border border-line bg-white px-3 py-1.5 text-xs font-semibold text-muted transition duration-200 hover:border-accent/30 hover:text-accent-deep"
@@ -155,10 +139,11 @@ export function ProjectCaseStudyCard({
   project,
 }: ProjectCaseStudyCardProps) {
   const isFeaturedLayout = layout === 'full'
-  const displayTitle = getDisplayTitle(project.title)
+  const displayTitle = getProjectDisplayTitle(project)
   const visibleOutcomes = isFeaturedLayout ? project.outcomes.slice(0, 2) : []
   const primaryMetric = project.metrics[0]
   const summary = isFeaturedLayout ? project.summary : getPositioning(project)
+  const caseStudyPath = getProjectPath(project)
 
   return (
     <SurfaceCard
@@ -181,7 +166,7 @@ export function ProjectCaseStudyCard({
           <div className="space-y-2">
             <div className="flex flex-wrap items-center gap-2">
               <span className="rounded-md border border-accent/20 bg-accent-soft px-2.5 py-1 text-xs font-semibold text-accent-deep">
-                {getCategory(project.title)}
+                {getProjectCategory(project)}
               </span>
               <span className={metaClass}>{project.timeframe}</span>
             </div>
@@ -238,7 +223,11 @@ export function ProjectCaseStudyCard({
                 <Tag key={item}>{item}</Tag>
               ))}
             </div>
-            <ProjectLinks repoUrl={project.repoUrl} liveUrl={project.liveUrl} />
+            <ProjectLinks
+              caseStudyPath={caseStudyPath}
+              repoUrl={project.repoUrl}
+              liveUrl={project.liveUrl}
+            />
           </div>
         </div>
       </div>

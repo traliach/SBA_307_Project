@@ -130,6 +130,7 @@ export function SurfaceCard({
   className,
   padding = 'default',
   tone = 'default',
+  ...props
 }: CardProps) {
   return (
     <div
@@ -138,6 +139,7 @@ export function SurfaceCard({
         surfacePaddingClasses[padding],
         className,
       )}
+      {...props}
     >
       {children}
     </div>

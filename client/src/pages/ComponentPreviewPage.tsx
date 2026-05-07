@@ -97,7 +97,7 @@ export function ComponentPreviewPage() {
                 <ButtonLink href="/contact" variant="secondary">
                   Get in touch
                 </ButtonLink>
-                <ButtonLink href="/projects" variant="ghost">
+                <ButtonLink href="/work" variant="ghost">
                   View work
                 </ButtonLink>
               </>

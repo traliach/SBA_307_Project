@@ -15,7 +15,7 @@ jobs:
     env:
       ZAP_TARGET_URL: ${{ vars.ZAP_TARGET_URL || 'https://achille.tech' }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Run ZAP baseline scan
         run: |

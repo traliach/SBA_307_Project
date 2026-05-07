@@ -7,30 +7,73 @@ import {
   metaClass,
   metricBadgeClass,
 } from './styles'
-import { Eyebrow, SurfaceCard, Tag } from './ui'
+import { SurfaceCard, Tag } from './ui'
 
 interface ProjectCaseStudyCardProps {
   project: ProjectSummary
   layout?: 'full' | 'stacked'
 }
 
+const DEVOPS_TITLES = new Set([
+  'cloud_resume_infra — AWS Resume Platform',
+  'k8s-platform-lab — Self-Hosted Kubernetes Platform',
+  'devops_platform — Self-Hosted DevOps Platform',
+  'Mercedes-Benz DMS — Pipeline Modernization',
+])
+
 const PROFESSIONAL_TITLES = new Set([
   'Enterprise Kubernetes Platform Modernization',
   'AWS Cloud Infrastructure Automation and Optimization',
 ])
 
-const DEVOPS_TITLES = new Set([
-  'cloud_resume_infra — AWS Resume Platform',
-  'k8s-platform-lab — Self-Hosted Kubernetes Platform',
-  'devops_platform — Self-Hosted DevOps Platform',
-  'Global PACS — Hybrid Cloud Medical Imaging',
-  'Mercedes-Benz DMS — Pipeline Modernization',
-])
-
 function getCategory(title: string): string {
+  if (title.includes('cloud_resume')) return 'Cloud Resume Challenge'
   if (PROFESSIONAL_TITLES.has(title)) return 'Professional Work'
-  if (DEVOPS_TITLES.has(title)) return 'DevOps / Cloud / IaC'
-  return 'Full-Stack Application'
+  if (DEVOPS_TITLES.has(title)) return 'Cloud / DevOps'
+  return 'Full-Stack App'
+}
+
+function getVisualLabel(title: string): string {
+  if (title.includes('k8s')) return 'Demonstrates'
+  if (title.includes('cloud_resume')) return 'Demonstrates'
+  if (title.includes('Portfolio')) return 'Portfolio system'
+  return 'Demonstrates'
+}
+
+function getDisplayTitle(title: string): string {
+  if (title === 'cloud_resume_infra — AWS Resume Platform') {
+    return 'Serverless Resume Platform on AWS'
+  }
+
+  return title
+}
+
+function getPositioning(project: ProjectSummary): string {
+  if (project.title === 'cloud_resume_infra — AWS Resume Platform') {
+    return 'Terraform-managed AWS infrastructure, serverless API, and CI/CD deployment.'
+  }
+
+  if (project.title.includes('k8s-platform-lab')) {
+    return 'Kubernetes lab with GitOps, monitoring, and health checks.'
+  }
+
+  return project.summary
+}
+
+function getVisualItems(project: ProjectSummary): string[] {
+  if (project.title === 'cloud_resume_infra — AWS Resume Platform') {
+    return ['Terraform IaC', 'S3 + CloudFront', 'Lambda + DynamoDB', 'GitHub Actions']
+  }
+
+  if (project.title.includes('k8s-platform-lab')) {
+    return ['k3s on EC2', 'ArgoCD GitOps', 'Prometheus/Grafana', 'Terraform']
+  }
+
+  if (project.title.includes('devops_platform')) {
+    return ['Jenkins CI/CD', 'Ansible', 'Docker Compose', 'Prometheus']
+  }
+
+  return project.stack.slice(0, 4)
 }
 
 function ExternalLinkIcon() {
@@ -39,169 +82,166 @@ function ExternalLinkIcon() {
       <path
         d="M3.5 1H1v10h10V8.5M11 1H6.5M11 1v4.5M11 1L5.5 6.5"
         stroke="currentColor"
-        strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
+        strokeWidth="1.5"
       />
     </svg>
   )
 }
 
-function ProjectLinks({ repoUrl, liveUrl }: { repoUrl?: string; liveUrl?: string }) {
+function ProjectLinks({
+  liveUrl,
+  repoUrl,
+}: {
+  liveUrl?: string
+  repoUrl?: string
+}) {
   if (!repoUrl && !liveUrl) return null
+
   return (
     <div className="flex flex-wrap items-center gap-2">
-      {repoUrl && (
+      {repoUrl ? (
         <a
+          className="inline-flex items-center gap-1.5 rounded-md border border-line bg-white px-3 py-1.5 text-xs font-semibold text-muted transition duration-200 hover:border-accent/30 hover:text-accent-deep"
           href={repoUrl}
-          target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-1.5 rounded-full border border-line bg-white px-4 py-1.5 text-xs font-semibold text-muted transition duration-200 hover:border-accent/25 hover:text-accent-deep"
+          target="_blank"
         >
           <ExternalLinkIcon />
-          View repo
+          Repo
         </a>
-      )}
-      {liveUrl && (
+      ) : null}
+      {liveUrl ? (
         <a
+          className="inline-flex items-center gap-1.5 rounded-md border border-line bg-white px-3 py-1.5 text-xs font-semibold text-muted transition duration-200 hover:border-accent/30 hover:text-accent-deep"
           href={liveUrl}
-          target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-1.5 rounded-full border border-line bg-white px-4 py-1.5 text-xs font-semibold text-muted transition duration-200 hover:border-accent/25 hover:text-accent-deep"
+          target="_blank"
         >
           <ExternalLinkIcon />
-          View live
+          Live
         </a>
-      )}
+      ) : null}
+    </div>
+  )
+}
+
+function ProjectVisual({ project }: { project: ProjectSummary }) {
+  const visualItems = getVisualItems(project)
+
+  return (
+    <div className="min-h-[118px] overflow-hidden rounded-lg border border-line/70 bg-surface-tinted p-3.5">
+      <div className="flex h-full flex-col justify-between gap-6">
+        <p className={cx(finePrintClass, 'leading-5')}>{getVisualLabel(project.title)}</p>
+
+        <div className="flex flex-wrap gap-2">
+          {visualItems.map((item) => (
+            <div
+              className="min-w-0 rounded-md border border-line bg-white px-3 py-2 text-xs font-semibold leading-4 text-ink"
+              key={item}
+            >
+              {item}
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
 
 export function ProjectCaseStudyCard({
-  project,
   layout = 'stacked',
+  project,
 }: ProjectCaseStudyCardProps) {
   const isFeaturedLayout = layout === 'full'
-  const visibleOutcomes = isFeaturedLayout ? project.outcomes : project.outcomes.slice(0, 2)
+  const displayTitle = getDisplayTitle(project.title)
+  const visibleOutcomes = isFeaturedLayout ? project.outcomes.slice(0, 2) : []
+  const primaryMetric = project.metrics[0]
+  const summary = isFeaturedLayout ? project.summary : getPositioning(project)
 
   return (
     <SurfaceCard
-      padding={isFeaturedLayout ? 'roomy' : 'default'}
-      tone={isFeaturedLayout ? 'accent' : 'default'}
       className={cx(
-        'group h-full transition duration-300 hover:-translate-y-0.5 hover:shadow-card-hover',
-        !isFeaturedLayout && 'hover:border-accent/15',
+        'group h-full max-w-full overflow-hidden transition duration-200 hover:border-accent/40',
+        isFeaturedLayout && 'border-accent/25',
       )}
+      padding="compact"
+      tone="default"
     >
-      {isFeaturedLayout ? (
-        <div className="grid gap-8 xl:grid-cols-[minmax(0,1.25fr)_minmax(290px,0.75fr)]">
-          <div className="flex flex-col gap-7">
-            <div className="space-y-4">
-              <Eyebrow>{getCategory(project.title)}</Eyebrow>
-              <div className="space-y-3">
-                <h2 className={headingClasses.section}>{project.title}</h2>
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-                  <p className={metaClass}>{project.role}</p>
-                  <span className="h-1 w-1 rounded-full bg-stone-300" />
-                  <p className={metaClass}>{project.timeframe}</p>
+      <div
+        className={cx(
+          'grid h-full gap-5',
+          isFeaturedLayout && 'lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start',
+        )}
+      >
+        <ProjectVisual project={project} />
+
+        <div className="flex min-w-0 flex-col gap-4">
+          <div className="space-y-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="rounded-md border border-accent/20 bg-accent-soft px-2.5 py-1 text-xs font-semibold text-accent-deep">
+                {getCategory(project.title)}
+              </span>
+              <span className={metaClass}>{project.timeframe}</span>
+            </div>
+            <h2
+              className={
+                isFeaturedLayout
+                  ? headingClasses.section
+                  : 'font-display text-[1.35rem] font-semibold leading-snug tracking-normal text-ink dark:text-gray-100'
+              }
+            >
+              {displayTitle}
+            </h2>
+            <p className={metaClass}>{project.role}</p>
+          </div>
+
+          <p className={cx(bodyClass, !isFeaturedLayout && 'line-clamp-2')}>
+            {summary}
+          </p>
+
+          {isFeaturedLayout ? (
+            <div className="grid gap-3 sm:grid-cols-3">
+              {project.metrics.slice(0, 3).map((metric) => (
+                <div className={metricBadgeClass} key={metric.label}>
+                  <p className={finePrintClass}>{metric.label}</p>
+                  <p className="mt-1 break-words text-sm font-semibold leading-6 text-ink">
+                    {metric.value}
+                  </p>
                 </div>
-              </div>
+              ))}
             </div>
-
-            <p className="max-w-3xl text-[1.05rem] leading-8 text-muted sm:text-lg">
-              {project.summary}
-            </p>
-
-            <div className="grid gap-4 lg:grid-cols-2">
-              <div className="rounded-2xl border border-line/60 bg-white/80 p-5 sm:p-6">
-                <p className={finePrintClass}>Delivery need</p>
-                <p className={cx(bodyClass, 'mt-3')}>{project.challenge}</p>
-              </div>
-              <div className="rounded-2xl border border-line/60 bg-white/80 p-5 sm:p-6">
-                <p className={finePrintClass}>Execution</p>
-                <p className={cx(bodyClass, 'mt-3')}>{project.solution}</p>
-              </div>
+          ) : primaryMetric ? (
+            <div className="rounded-lg border border-line/70 bg-white px-3.5 py-3 dark:border-white/[0.08] dark:bg-[#161920]">
+              <p className={finePrintClass}>{primaryMetric.label}</p>
+              <p className="mt-1 break-words text-sm font-semibold leading-6 text-ink">
+                {primaryMetric.value}
+              </p>
             </div>
-          </div>
+          ) : null}
 
-          <aside className="flex flex-col gap-5 rounded-2xl border border-line/60 bg-white/80 p-5 sm:p-6">
-            <div className="space-y-3">
-              <p className={finePrintClass}>Delivery profile</p>
-              <div className="grid gap-3">
-                {project.metrics.map((metric) => (
-                  <div className={metricBadgeClass} key={metric.label}>
-                    <p className={finePrintClass}>{metric.label}</p>
-                    <p className="mt-2 text-sm font-semibold leading-6 text-ink">
-                      {metric.value}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
+          {visibleOutcomes.length ? (
+            <ul className="grid gap-2">
+              {visibleOutcomes.map((item) => (
+                <li className="flex gap-3" key={item}>
+                  <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
+                  <span className={bodyClass}>{item}</span>
+                </li>
+              ))}
+            </ul>
+          ) : null}
 
-            <div className="space-y-3">
-              <p className={finePrintClass}>Operational result</p>
-              <ul className="grid gap-3">
-                {visibleOutcomes.map((item) => (
-                  <li className="flex gap-3" key={item}>
-                    <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
-                    <span className={bodyClass}>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="space-y-3">
-              <p className={finePrintClass}>Stack</p>
-              <div className="flex flex-wrap gap-2">
-                {project.stack.map((item) => (
-                  <Tag key={item}>{item}</Tag>
-                ))}
-              </div>
-            </div>
-
-            <ProjectLinks repoUrl={project.repoUrl} liveUrl={project.liveUrl} />
-          </aside>
-        </div>
-      ) : (
-        <div className="flex h-full flex-col gap-5">
-          <div className="space-y-3">
-            <div className="flex items-start justify-between gap-3">
-              <Eyebrow>{getCategory(project.title)}</Eyebrow>
-              {project.metrics[0] && (
-                <span className="shrink-0 rounded-full border border-line/60 bg-surface-tinted px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-ink">
-                  {project.metrics[0].value}
-                </span>
-              )}
-            </div>
-            <h2 className={headingClasses.card}>{project.title}</h2>
-            <p className={metaClass}>{project.role} · {project.timeframe}</p>
-          </div>
-
-          <p className={cx(bodyClass, 'line-clamp-3')}>{project.summary}</p>
-
-          {project.outcomes[0] && (
-            <div className="rounded-xl border border-line/60 bg-surface-tinted px-4 py-3">
-              <p className={finePrintClass}>Key outcome</p>
-              <p className={cx(bodyClass, 'mt-1.5 line-clamp-2')}>{project.outcomes[0]}</p>
-            </div>
-          )}
-
-          <div className="mt-auto space-y-3 border-t border-line/60 pt-4">
+          <div className="mt-auto space-y-4 border-t border-line/70 pt-4">
             <div className="flex flex-wrap gap-1.5">
-              {project.stack.slice(0, 6).map((item) => (
+              {project.stack.slice(0, isFeaturedLayout ? 9 : 4).map((item) => (
                 <Tag key={item}>{item}</Tag>
               ))}
-              {project.stack.length > 6 && (
-                <span className={cx(finePrintClass, 'self-center')}>
-                  +{project.stack.length - 6}
-                </span>
-              )}
             </div>
             <ProjectLinks repoUrl={project.repoUrl} liveUrl={project.liveUrl} />
           </div>
         </div>
-      )}
+      </div>
     </SurfaceCard>
   )
 }

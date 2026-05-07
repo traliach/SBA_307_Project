@@ -19,6 +19,7 @@ const linksSchema = new Schema<ProfileContent['links']>(
   {
     email: { type: String, required: true, trim: true },
     linkedin: { type: String, required: true, trim: true },
+    github: { type: String, required: true, trim: true },
     resume: { type: String, required: true, trim: true },
   },
   { _id: false },
@@ -31,6 +32,9 @@ const profileSchema = new Schema<ProfileDocument>(
     name: { type: String, required: true, trim: true },
     title: { type: String, required: true, trim: true },
     location: { type: String, required: true, trim: true },
+    currentEmployer: { type: String, trim: true },
+    previousEmployer: { type: String, trim: true },
+    education: { type: String, trim: true },
     availability: { type: String, required: true, trim: true },
     summary: { type: String, required: true, trim: true },
     intro: { type: String, required: true, trim: true },

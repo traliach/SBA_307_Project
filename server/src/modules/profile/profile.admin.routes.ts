@@ -7,6 +7,9 @@ const profileSchema = z.object({
   name: z.string().trim().min(2).max(100),
   title: z.string().trim().min(2).max(100),
   location: z.string().trim().min(2).max(100),
+  currentEmployer: z.string().trim().max(120).optional(),
+  previousEmployer: z.string().trim().max(120).optional(),
+  education: z.string().trim().max(160).optional(),
   availability: z.string().trim().min(2).max(200),
   summary: z.string().trim().min(10).max(500),
   intro: z.string().trim().min(10).max(500),
@@ -23,6 +26,7 @@ const profileSchema = z.object({
   links: z.object({
     email: z.string().trim().min(3).max(200),
     linkedin: z.string().trim().url(),
+    github: z.string().trim().url(),
     resume: z.string().trim().min(1).max(200),
   }),
 })

@@ -28,7 +28,18 @@ async function readMongoProfile() {
   let anyUpdate = false
 
   // Sync scalar text fields.
-  const textFields = ['summary', 'intro', 'about', 'availability', 'title', 'location'] as const
+  const textFields = [
+    'name',
+    'summary',
+    'intro',
+    'about',
+    'availability',
+    'title',
+    'location',
+    'currentEmployer',
+    'previousEmployer',
+    'education',
+  ] as const
   const stale = textFields.filter((field) => document[field] !== seedProfile[field])
   if (stale.length > 0) {
     await ProfileModel.updateOne(
@@ -59,40 +70,22 @@ async function readMongoProfile() {
     anyUpdate = true
   }
 
-  // Append new timeline entries not yet in MongoDB (matched by title).
-  const existingTimeline = ((document as any).timeline ?? []) as Array<{
-    title: string
-    period: string
-    detail: string
-  }>
-  const existingTitles = new Set(existingTimeline.map((t) => t.title))
-  const newTimelineEntries = seedProfile.timeline.filter((t) => !existingTitles.has(t.title))
-  if (newTimelineEntries.length > 0) {
+  if (JSON.stringify(document.links) !== JSON.stringify(seedProfile.links)) {
     await ProfileModel.updateOne(
       { key: 'main' },
-      { $push: { timeline: { $each: newTimelineEntries, $position: 0 } } },
+      { $set: { links: seedProfile.links } },
     )
-    logInfo(`Synced ${newTimelineEntries.length} timeline entry(ies) from static data.`)
+    logInfo('Synced profile links from static data.')
     anyUpdate = true
   }
 
-  // Update detail and period for existing timeline entries when seed values changed.
-  for (const seedEntry of seedProfile.timeline) {
-    const existing = existingTimeline.find((t) => t.title === seedEntry.title)
-    if (!existing) continue // newly inserted above
-    if (existing.detail !== seedEntry.detail || existing.period !== seedEntry.period) {
-      await ProfileModel.updateOne(
-        { key: 'main', 'timeline.title': seedEntry.title },
-        {
-          $set: {
-            'timeline.$.detail': seedEntry.detail,
-            'timeline.$.period': seedEntry.period,
-          },
-        },
-      )
-      logInfo(`Synced timeline entry "${seedEntry.title}" from static data.`)
-      anyUpdate = true
-    }
+  if (JSON.stringify(document.timeline) !== JSON.stringify(seedProfile.timeline)) {
+    await ProfileModel.updateOne(
+      { key: 'main' },
+      { $set: { timeline: seedProfile.timeline } },
+    )
+    logInfo('Synced profile timeline from static data.')
+    anyUpdate = true
   }
 
   if (anyUpdate) {

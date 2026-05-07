@@ -26,7 +26,7 @@ export function ResumePage() {
   useEffect(() => {
     document.title = `${profile.name} | Resume`
     return () => {
-      document.title = 'Achille Traore | Portfolio'
+      document.title = 'Ali Achille Traore | Portfolio'
     }
   }, [profile.name])
 
@@ -36,6 +36,22 @@ export function ResumePage() {
 
   function formatUrl(raw: string) {
     return raw.replace('https://', '').replace('http://', '')
+  }
+
+  function formatProjectTitle(raw: string) {
+    if (raw === 'cloud_resume_infra — AWS Resume Platform') {
+      return 'Serverless Resume Platform on AWS'
+    }
+
+    if (raw === 'k8s-platform-lab — Self-Hosted Kubernetes Platform') {
+      return 'Self-Hosted Kubernetes Platform'
+    }
+
+    if (raw === 'devops_platform — Self-Hosted DevOps Platform') {
+      return 'Self-Hosted DevOps Platform'
+    }
+
+    return raw
   }
 
   const toolbarBase: React.CSSProperties = {
@@ -247,7 +263,7 @@ export function ResumePage() {
                 {featuredProjects.map((project) => (
                   <div className="resume-project-item" key={project.title}>
                     <div className="resume-project-header">
-                      <span className="resume-project-title">{project.title}</span>
+                      <span className="resume-project-title">{formatProjectTitle(project.title)}</span>
                       <span className="resume-project-meta">
                         {project.role} · {project.timeframe}
                       </span>

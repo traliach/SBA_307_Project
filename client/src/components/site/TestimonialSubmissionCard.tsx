@@ -35,7 +35,7 @@ export function TestimonialSubmissionCard({
           </div>
         </div>
 
-        <div className="rounded-2xl border border-line/60 bg-white p-5">
+        <div className="rounded-lg border border-line/70 bg-white p-5">
           <p className={finePrintClass}>Review flow</p>
           <ul className="mt-3 grid gap-3">
             <li className="flex gap-3">

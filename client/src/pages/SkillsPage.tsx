@@ -37,13 +37,13 @@ const skillTones: Array<'default' | 'subdued' | 'accent' | 'warm'> = [
 
 export function SkillsPage({ skills }: SkillsPageProps) {
   return (
-    <SiteSection className="pt-12 sm:pt-16 lg:pt-20">
+    <SiteSection className="pt-10 sm:pt-14 lg:pt-16">
       <div className="reveal grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-end">
         <PageIntro
-          description="Organized around the disciplines teams hire for: cloud platforms, CI/CD, infrastructure as code, containers, observability, and application delivery."
+          description="The tools I use to provision AWS infrastructure, automate releases, run Kubernetes workloads, monitor systems, and support production applications."
           eyebrow="Skills"
           size="section"
-          title="Technical depth across cloud infrastructure, platforms, automation, and delivery."
+          title="AWS, CI/CD, Kubernetes, and infrastructure automation."
         />
 
         <SurfaceCard className="flex flex-col gap-4" padding="compact" tone="subdued">
@@ -76,7 +76,7 @@ export function SkillsPage({ skills }: SkillsPageProps) {
               {group.items.map((item) => (
                 <span
                   key={item}
-                  className="inline-flex items-center rounded-full border border-line/70 bg-white/70 px-3 py-1.5 text-[0.75rem] font-medium text-ink transition-colors duration-200 hover:border-accent/25 hover:text-accent-deep dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-gray-300 dark:hover:border-amber-400/30 dark:hover:text-amber-400"
+                  className="inline-flex items-center rounded-md border border-line/70 bg-white/70 px-3 py-1.5 text-[0.75rem] font-medium text-ink transition-colors duration-200 hover:border-accent/25 hover:text-accent-deep dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-gray-300 dark:hover:border-amber-400/30 dark:hover:text-amber-400"
                 >
                   {item}
                 </span>

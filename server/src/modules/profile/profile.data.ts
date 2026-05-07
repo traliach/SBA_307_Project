@@ -1,17 +1,20 @@
 import type { ProfileContent } from '../../types/content.js'
 
 export const profile: ProfileContent = {
-  name: 'Achille Traore',
-  title: 'DevOps Engineer & Full-Stack Software Engineer',
-  location: 'Remote / Hybrid / On-site (US-wide)',
+  name: 'Ali Achille Traore',
+  title: 'DevOps Engineer and Full-Stack Developer',
+  location: 'Newark, NJ',
+  currentEmployer: 'Teledyne Technologies Inc',
+  previousEmployer: 'Creative Newtech Ltd',
+  education: 'BS Software Engineering (In Progress), Arizona State University',
   availability:
-    'Open to DevOps, platform engineering, and full-stack software engineering roles.',
+    'Open to DevOps engineering roles, platform engineering work, and freelance cloud or full-stack delivery conversations.',
   summary:
-    'Platform and DevOps engineer with 8+ years building CI/CD pipelines, cloud infrastructure, and Kubernetes platforms — plus a full-stack track shipping React/TypeScript frontends and Node.js/Express APIs into production.',
+    'Newark-based DevOps Engineer and Full-Stack Developer with 5+ years designing cloud infrastructure, CI/CD pipelines, Kubernetes platforms, and production React/Node applications.',
   intro:
-    'My portfolio spans both disciplines: cloud and IaC projects (Terraform-provisioned AWS infrastructure, self-hosted Kubernetes on EC2, Jenkins + Ansible platforms) and full-stack applications (MERN marketplace, medical imaging system, this site).',
+    'I help teams build calmer release systems: AWS infrastructure with Terraform, GitHub Actions and Jenkins pipelines, Kubernetes platforms, observability, and full-stack applications with React, TypeScript, Node.js, and MongoDB.',
   about:
-    "I work on the parts engineering teams notice most when they break: CI/CD pipelines, cloud environments, release handoffs, and production support. Seven years at Dominion Systems have covered Jenkins, Azure DevOps, Terraform, Kubernetes, OpenShift, and observability tooling (Prometheus, Grafana, Kibana), alongside hands-on AWS infrastructure and database operations. My recent infrastructure projects go deeper: cloud_resume_infra provisions 20 AWS resources with Terraform and runs a live serverless visitor counter at resume.achille.tech; k8s-platform-lab runs a self-hosted k3s cluster on EC2 with ArgoCD GitOps, Prometheus, and Grafana; devops_platform combines Terraform, Ansible, Jenkins, and Docker Compose into a full delivery platform with SSM access and no open SSH port. Alongside that I ship full-stack applications — a MERN marketplace with Stripe and AI chat, a dual-site medical imaging system, and this portfolio — closing the loop between the platform and the applications running on top of it.",
+    'I work on the systems teams depend on when releases, infrastructure, or production support need to be reliable: CI/CD pipelines, AWS infrastructure, Kubernetes deployments, observability, and application delivery. At Teledyne Technologies Inc, I support DevOps delivery across AWS, Kubernetes, Terraform, GitHub Actions, Jenkins, observability, and security-minded release workflows. Before that, I worked as an AWS Cloud Engineer at Creative Newtech Ltd, automating infrastructure and improving cloud operations across AWS environments.',
   certifications: [
     'AWS Certified DevOps Engineer – Professional',
     'AWS Certified Cloud Practitioner',
@@ -19,36 +22,30 @@ export const profile: ProfileContent = {
     'Google IT Support Professional Certificate',
   ],
   strengths: [
-    'CI/CD pipeline design and optimization (Jenkins, Azure DevOps, GitHub Actions)',
-    'Infrastructure as code at scale — 50+ components automated with Terraform and Ansible',
-    'Kubernetes and OpenShift cluster operations across 10+ production clusters',
-    'Observability and incident response (Prometheus, Grafana, Kibana)',
-    'Full-stack delivery: React, TypeScript, Node.js, Express, MongoDB, PostgreSQL',
+    'CI/CD modernization with GitHub Actions, Jenkins, GitLab CI/CD, and Azure DevOps',
+    'Infrastructure as Code with Terraform, remote state, and repeatable AWS environments',
+    'Kubernetes operations with EKS, Helm, Kustomize, ArgoCD GitOps, and self-hosted k3s',
+    'DevSecOps practices with pipeline scanning, IAM/RBAC, and secrets-aware delivery',
+    'Full-stack delivery with React, TypeScript, Node.js, Express, MongoDB, and PostgreSQL',
   ],
   timeline: [
     {
-      title: 'DevOps Engineer, Dominion Systems',
-      period: 'August 2018 – Present',
+      title: 'DevOps Engineer, Teledyne Technologies Inc',
+      period: 'Sept 2024 - Present',
       detail:
-        'Restored failed Jenkins pipelines, reduced cloud spend by $500–$2,000/month through Cost Explorer audits, eliminated lateral movement risk by consolidating IAM roles into least-privilege per-service policies, cut new client environment provisioning from ~30 minutes to sub-5 minutes with Terraform + Ansible + Bash, and resolved CrashLoopBackOff incidents via kubectl diagnostics across 10+ Kubernetes/OpenShift clusters.',
+        'Supporting cloud-native DevOps delivery across AWS, Kubernetes, Terraform, CI/CD automation, observability, and secure production deployment workflows in Newark, NJ.',
     },
     {
-      title: 'Independent Platform Engineering',
-      period: '2025 – 2026',
+      title: 'AWS Cloud Engineer, Creative Newtech Ltd',
+      period: 'June 2020 - Aug 2024',
       detail:
-        'Built three production-grade infrastructure projects: cloud_resume_infra (20 AWS resources via Terraform, $0.00/month, live at resume.achille.tech), k8s-platform-lab (k3s on EC2 with ArgoCD GitOps, 21/21 health checks, ~30-min RTO validated), and devops_platform (~46-second Jenkins pipeline, JCasC, Ansible Vault, SSM access, no open SSH port).',
+        'Designed and operated AWS infrastructure across EC2, S3, RDS, VPC, IAM, CloudWatch, Terraform, Jenkins, GitLab CI/CD, Docker, and Kubernetes-backed delivery workflows.',
     },
     {
-      title: 'AWS Cloud Engineer, Dominion Systems',
-      period: 'June 2017 – July 2018',
+      title: 'Software Engineering, Arizona State University',
+      period: 'In progress',
       detail:
-        'Improved infrastructure delivery efficiency ~25% migrating to CloudFormation, CodePipeline, CodeBuild, and CodeCommit. Increased EC2 utilization ~20% through right-sizing and auto-scaling. Achieved 100% pass rate across security audits with least-privilege IAM and Transit Gateway hybrid networking.',
-    },
-    {
-      title: 'Full-Stack & AI-Native Development',
-      period: '2025 – Present',
-      detail:
-        'Per Scholas AI-Native Software Engineering track — shipped full-stack MERN applications including a 3-role marketplace (Stripe, Groq AI, RBAC) and this portfolio platform (React 19, Node.js, MongoDB Atlas, Terraform, 4-job CI/CD pipeline).',
+        'Continuing a BS in Software Engineering while applying cloud, DevOps, and full-stack systems work in production and portfolio projects.',
     },
   ],
   links: {

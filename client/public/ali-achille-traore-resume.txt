@@ -1,31 +1,38 @@
 ALI ACHILLE TRAORE
-DevOps Engineer
+DevOps Engineer and Full-Stack Developer
 Newark, NJ
-ali.achille.traore@gmail.com
-https://www.linkedin.com/in/ali-achille-traore
+t.achille.tech@gmail.com
+https://www.linkedin.com/in/achille-traore
+https://github.com/traliach
 
 SUMMARY
-DevOps engineer with over six years of experience across AWS, Azure, and GCP, focused on CI/CD, infrastructure automation, cloud operations, and delivery reliability.
+DevOps Engineer and Full-Stack Developer with 5+ years of experience designing, automating, and optimizing cloud-native infrastructure across AWS and Azure. Experienced with Kubernetes, Docker, Terraform, CI/CD pipelines, GitOps, observability, and production React/Node applications.
 
 CORE STRENGTHS
-- CI/CD pipeline delivery with Jenkins, GitLab CI/CD, CircleCI, and Azure DevOps
-- Infrastructure automation with Terraform, CloudFormation, ARM, and Ansible
-- Cloud delivery across AWS, Azure, and GCP
-- Production troubleshooting, reliability improvement, and cross-functional support
+- CI/CD modernization with GitHub Actions, Jenkins, GitLab CI/CD, and Azure DevOps
+- Infrastructure as Code with Terraform, remote state, and repeatable AWS environments
+- Kubernetes operations with EKS, Helm, Kustomize, ArgoCD GitOps, and self-hosted k3s
+- DevSecOps practices with pipeline scanning, IAM/RBAC, and secrets-aware delivery
+- Full-stack delivery with React, TypeScript, Node.js, Express, MongoDB, and PostgreSQL
 
 EXPERIENCE
-DevOps Engineer, Dominion Systems
-August 2018 - Present
-- Led CI/CD improvements that reduced build and deployment times by roughly 30%
-- Supported cloud delivery and automation efforts across AWS and GCP
-- Improved monitoring, operational workflows, and deployment reliability
+DevOps Engineer, Teledyne Technologies Inc
+Sept 2024 - Present
+- Support cloud-native DevOps delivery across AWS, Kubernetes, Terraform, CI/CD automation, observability, and secure production deployment workflows.
+- Build and optimize CI/CD pipelines using GitHub Actions and Jenkins.
+- Deploy and operate Kubernetes workloads with Helm, Kustomize, and GitOps practices.
 
-AWS Cloud Engineer, Dominion Systems
-June 2017 - July 2018
-- Supported AWS infrastructure operations, networking, database work, and production changes
-- Improved resource utilization, stability, and operational efficiency
+AWS Cloud Engineer, Creative Newtech Ltd
+June 2020 - Aug 2024
+- Managed AWS services including EC2, S3, RDS, VPC, IAM, CloudWatch, and load-balanced environments.
+- Automated infrastructure provisioning and environment consistency with Terraform.
+- Built and maintained CI/CD pipelines using Jenkins and GitLab CI/CD.
+
+EDUCATION
+BS Software Engineering (In Progress), Arizona State University
 
 CERTIFICATIONS
 - AWS Certified DevOps Engineer - Professional
 - AWS Certified Cloud Practitioner
-- Google IT Support Specialization
+- IBM Software Engineering Essentials
+- Google IT Support Professional Certificate

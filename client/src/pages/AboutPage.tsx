@@ -12,83 +12,123 @@ interface AboutPageProps {
   profile: ProfileContent
 }
 
+function FactCard({
+  label,
+  value,
+}: {
+  label: string
+  value: string | undefined
+}) {
+  if (!value) return null
+
+  return (
+    <div className="rounded-lg border border-line/70 bg-white p-4">
+      <p className={finePrintClass}>{label}</p>
+      <p className="mt-2 text-sm font-semibold leading-6 text-ink">{value}</p>
+    </div>
+  )
+}
+
 export function AboutPage({ profile }: AboutPageProps) {
   return (
     <>
-      <SiteSection className="pt-12 sm:pt-16 lg:pt-20">
-        <div className="reveal grid gap-6 xl:grid-cols-[minmax(0,1.12fr)_minmax(320px,0.88fr)]">
-          <SurfaceCard padding="roomy" tone="accent">
-            <div className="flex h-full flex-col gap-10">
-              <div className="space-y-6">
-                <Eyebrow>About</Eyebrow>
-                <div className="space-y-5">
-                  <h1 className={headingClasses.page}>
-                    Cloud, automation, and delivery engineering with a practical
-                    builder mindset.
-                  </h1>
-                  <p className="max-w-3xl text-[1.05rem] leading-8 text-muted sm:text-lg">
-                    {profile.about}
-                  </p>
-                </div>
-              </div>
+      <SiteSection className="pt-10 sm:pt-14 lg:pt-16">
+        <div className="reveal grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
+          <SurfaceCard className="flex flex-col gap-8" padding="roomy">
+            <div className="space-y-5">
+              <Eyebrow>About</Eyebrow>
+              <h1 className={headingClasses.page}>
+                DevOps engineering focused on reliable infrastructure and
+                calmer releases.
+              </h1>
+              <p className="max-w-3xl text-base leading-8 text-muted sm:text-lg">
+                {profile.about}
+              </p>
+            </div>
 
-              <div className="flex flex-wrap gap-3">
-                <ButtonLink href="/resume" target="_blank" rel="noreferrer">
-                  Download resume
-                </ButtonLink>
-                <ButtonLink
-                  href={profile.links.linkedin}
-                  rel="noreferrer"
-                  target="_blank"
-                  variant="secondary"
-                >
-                  View LinkedIn
-                </ButtonLink>
-              </div>
+            <div className="grid gap-3 sm:flex sm:flex-wrap">
+              <ButtonLink className="w-full sm:w-auto" href="/contact">
+                Contact me
+              </ButtonLink>
+              <ButtonLink
+                className="w-full sm:w-auto"
+                href="/resume"
+                rel="noreferrer"
+                target="_blank"
+                variant="secondary"
+              >
+                Download resume
+              </ButtonLink>
             </div>
           </SurfaceCard>
 
-          <div className="grid gap-6">
-            <SurfaceCard className="flex flex-col gap-5" tone="subdued">
+          <div className="grid gap-4">
+            <SurfaceCard className="flex flex-col gap-4" padding="compact" tone="subdued">
+              <p className={finePrintClass}>Snapshot</p>
+              <FactCard label="Current role" value={profile.currentEmployer} />
+              <FactCard label="Previous role" value={profile.previousEmployer} />
+              <FactCard label="Education" value={profile.education} />
+              <FactCard label="Location" value={profile.location} />
+            </SurfaceCard>
+
+            <SurfaceCard className="flex flex-col gap-4" padding="compact">
               <p className={finePrintClass}>Certifications</p>
-              <ul className="grid gap-3">
+              <div className="grid gap-3">
                 {profile.certifications.map((item) => {
                   const url = certificationLinks[item]
+
                   return (
-                    <li className="flex gap-3" key={item}>
-                      <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-warm" />
-                      {url ? (
-                        <a className={bodyClass} href={url} target="_blank" rel="noreferrer" style={{ textDecoration: 'underline', textUnderlineOffset: '3px' }}>
-                          {item}
-                        </a>
-                      ) : (
-                        <span className={bodyClass}>{item}</span>
-                      )}
-                    </li>
+                    <a
+                      className="rounded-lg border border-line/70 bg-surface-tinted p-4 text-sm font-semibold leading-6 text-ink transition hover:border-accent/40 hover:text-accent-deep"
+                      href={url ?? '#'}
+                      key={item}
+                      rel={url ? 'noreferrer' : undefined}
+                      target={url ? '_blank' : undefined}
+                    >
+                      {item}
+                    </a>
                   )
                 })}
-              </ul>
+              </div>
             </SurfaceCard>
           </div>
         </div>
       </SiteSection>
 
       <SiteSection tone="compact">
+        <div className="reveal grid gap-5 lg:grid-cols-[300px_minmax(0,1fr)]">
+          <div className="space-y-4">
+            <Eyebrow>Experience</Eyebrow>
+            <h2 className={headingClasses.section}>The path so far.</h2>
+          </div>
+
+          <div className="grid gap-4">
+            {profile.timeline.map((item) => (
+              <SurfaceCard className="flex flex-col gap-3" key={`${item.title}-${item.period}`} padding="compact">
+                <div className="flex flex-wrap items-baseline justify-between gap-2">
+                  <h3 className={headingClasses.card}>{item.title}</h3>
+                  <p className={metaClass}>{item.period}</p>
+                </div>
+                <p className={bodyClass}>{item.detail}</p>
+              </SurfaceCard>
+            ))}
+          </div>
+        </div>
+      </SiteSection>
+
+      <SiteSection tone="compact">
         <div className="reveal">
-          <SurfaceCard className="flex flex-col gap-6" tone="subdued">
-            <div className="space-y-4">
+          <SurfaceCard className="flex flex-col gap-5" tone="subdued">
+            <div className="space-y-3">
               <Eyebrow>Core strengths</Eyebrow>
-              <h2 className={headingClasses.card}>Where I add the most leverage.</h2>
+              <h2 className={headingClasses.section}>Where I add the most leverage.</h2>
             </div>
 
-            <ul className="grid gap-4 sm:grid-cols-2">
+            <ul className="grid gap-3 sm:grid-cols-2">
               {profile.strengths.map((item) => (
-                <li
-                  className="rounded-2xl border border-line/60 bg-white p-5 transition duration-200 hover:shadow-soft"
-                  key={item}
-                >
+                <li className="rounded-lg border border-line/70 bg-white p-4" key={item}>
                   <p className={metaClass}>Capability</p>
-                  <p className="mt-2 text-base font-semibold leading-7 text-ink">{item}</p>
+                  <p className="mt-2 text-sm font-semibold leading-6 text-ink">{item}</p>
                 </li>
               ))}
             </ul>

@@ -48,24 +48,24 @@ export function PortfolioHeader({
   const { dark, toggle } = useDarkMode()
 
   const toggleBtnClass = cx(
-    'inline-flex items-center justify-center rounded-full border p-2.5 transition duration-200',
+    'inline-flex h-9 w-9 items-center justify-center rounded-lg border p-0 transition duration-200 sm:h-auto sm:w-auto sm:p-2.5',
     'border-line/80 bg-white text-muted hover:border-accent/25 hover:text-ink',
     'dark:border-white/[0.08] dark:bg-[#161920] dark:text-gray-400 dark:hover:border-amber-400/30 dark:hover:text-gray-100',
   )
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line/40 bg-canvas/80 backdrop-blur-xl dark:border-white/[0.06] dark:bg-[#0f1117]/80">
+    <header className="sticky top-0 z-40 border-b border-line/60 bg-canvas/90 backdrop-blur-xl dark:border-white/[0.06] dark:bg-[#0f1117]/90">
       <div
         className={cx(
           siteContainerClass,
-          'flex items-center justify-between gap-6 py-4 sm:py-5',
+          'flex items-center justify-between gap-3 py-4 sm:gap-6 sm:py-5',
         )}
       >
         <a className="group min-w-0 flex-1 lg:flex-none" href="/">
-          <span className="block truncate text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-muted transition-colors group-hover:text-accent-deep dark:text-gray-500 dark:group-hover:text-amber-400">
+          <span className="block truncate text-[0.68rem] font-semibold uppercase tracking-normal text-muted transition-colors group-hover:text-accent-deep dark:text-gray-500 dark:group-hover:text-amber-400">
             {name}
           </span>
-          <span className="mt-1 block truncate text-sm font-medium text-ink sm:text-base dark:text-gray-100">
+          <span className="mt-1 block max-w-[170px] truncate text-sm font-medium text-ink sm:max-w-none sm:text-base dark:text-gray-100">
             {title}
           </span>
         </a>
@@ -98,7 +98,7 @@ export function PortfolioHeader({
         </div>
 
         {/* Mobile: dark toggle + hamburger */}
-        <div className="flex items-center gap-2 lg:hidden">
+        <div className="flex items-center gap-1.5 lg:hidden">
           <button
             aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
             className={toggleBtnClass}
@@ -110,7 +110,7 @@ export function PortfolioHeader({
           <button
             aria-expanded={menuOpen}
             aria-label="Toggle navigation menu"
-            className="inline-flex items-center justify-center gap-2 rounded-full border border-line bg-white px-4 py-2.5 text-sm font-semibold text-muted transition duration-200 hover:border-accent/25 hover:text-ink dark:border-white/[0.08] dark:bg-[#161920] dark:text-gray-400 dark:hover:text-gray-100"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-line bg-white p-0 text-sm font-semibold text-muted transition duration-200 hover:border-accent/25 hover:text-ink dark:border-white/[0.08] dark:bg-[#161920] dark:text-gray-400 dark:hover:text-gray-100"
             onClick={() => setMenuOpen((current) => !current)}
             type="button"
           >
@@ -118,7 +118,6 @@ export function PortfolioHeader({
               <span className={cx('h-0.5 w-3.5 rounded-full bg-current transition-all duration-300', menuOpen && 'translate-y-[3px] rotate-45')} />
               <span className={cx('h-0.5 w-3.5 rounded-full bg-current transition-all duration-300', menuOpen && '-translate-y-[3px] -rotate-45')} />
             </span>
-            Menu
           </button>
         </div>
       </div>
@@ -136,7 +135,7 @@ export function PortfolioHeader({
               <a
                 aria-current={currentPath === item.href ? 'page' : undefined}
                 className={cx(
-                  'rounded-2xl px-4 py-3 text-sm font-medium text-muted transition duration-200 dark:text-gray-400',
+                  'rounded-lg px-4 py-3 text-sm font-medium text-muted transition duration-200 dark:text-gray-400',
                   currentPath === item.href
                     ? 'bg-surface-tinted text-ink dark:bg-[#1c2028] dark:text-gray-100'
                     : 'hover:bg-surface-tinted hover:text-ink dark:hover:bg-[#1c2028] dark:hover:text-gray-100',

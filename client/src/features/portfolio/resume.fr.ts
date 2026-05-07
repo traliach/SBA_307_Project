@@ -2,17 +2,20 @@
 import type { ProfileContent } from '../../types/site'
 
 export const profileFr: ProfileContent = {
-  name: 'Achille Traore',
+  name: 'Ali Achille Traore',
   title: 'Ingénieur DevOps et Développeur Full Stack',
-  location: 'Télétravail / Hybride / Sur site (États-Unis)',
+  location: 'Newark, NJ',
+  currentEmployer: 'Teledyne Technologies Inc',
+  previousEmployer: 'Creative Newtech Ltd',
+  education: 'BS Software Engineering (en cours), Arizona State University',
   availability:
-    "Ouvert aux postes en ingénierie DevOps, infrastructure cloud et développement full stack.",
+    "Ouvert aux postes DevOps, à l'ingénierie plateforme et aux collaborations freelance cloud ou full stack.",
   summary:
-    "Ingénieur plateforme et DevOps avec plus de 8 ans d'expérience dans la conception de pipelines CI/CD, d'infrastructures cloud et de plateformes Kubernetes — avec une composante full stack en production (React/TypeScript, Node.js/Express).",
+    "Ingénieur DevOps et développeur full stack basé à Newark, NJ, avec plus de 5 ans d'expérience dans l'infrastructure cloud, les pipelines CI/CD, Kubernetes et les applications React/Node en production.",
   intro:
-    "Mon portfolio couvre les deux disciplines : projets cloud et IaC (infrastructure AWS provisionnée avec Terraform, Kubernetes auto-hébergé sur EC2, plateformes Jenkins + Ansible) et applications full stack (marketplace MERN, système d'imagerie médicale, ce site).",
+    "J'aide les équipes à rendre les livraisons plus calmes : infrastructure AWS avec Terraform, pipelines GitHub Actions et Jenkins, plateformes Kubernetes, observabilité, et applications full stack avec React, TypeScript, Node.js et MongoDB.",
   about:
-    "Je travaille sur les parties de l'infrastructure que les équipes remarquent le plus quand elles tombent en panne : pipelines CI/CD, environnements cloud, handoffs de livraison et support en production. Huit ans chez Dominion Systems m'ont permis de couvrir Jenkins, Azure DevOps, Terraform, Kubernetes, OpenShift et les outils d'observabilité (Prometheus, Grafana, Kibana), ainsi que des opérations AWS et base de données en conditions réelles. Mes projets récents vont plus loin : cloud_resume_infra provisionne 20 ressources AWS avec Terraform et expose un compteur serverless en production sur resume.achille.tech ; k8s-platform-lab fait tourner un cluster k3s sur EC2 avec ArgoCD GitOps, Prometheus et Grafana, 21/21 contrôles de santé validés ; devops_platform combine Terraform, Ansible, Jenkins et Docker Compose avec accès SSM sans clé SSH. En parallèle, je livre des applications full stack — une marketplace MERN avec Stripe et IA, un système d'imagerie médicale dual-site, et ce portfolio.",
+    "Je travaille sur les systèmes dont les équipes dépendent pour des livraisons fiables : pipelines CI/CD, infrastructure AWS, déploiements Kubernetes, observabilité et support applicatif. Chez Teledyne Technologies Inc, je contribue à la livraison DevOps autour d'AWS, Kubernetes, Terraform, GitHub Actions, Jenkins, l'observabilité et les workflows de déploiement sécurisés. Avant cela, j'ai travaillé comme AWS Cloud Engineer chez Creative Newtech Ltd, en automatisant l'infrastructure et les opérations cloud AWS.",
   certifications: [
     'AWS Certified DevOps Engineer – Professional',
     'AWS Certified Cloud Practitioner',
@@ -28,28 +31,22 @@ export const profileFr: ProfileContent = {
   ],
   timeline: [
     {
-      title: 'Ingénieur DevOps, Dominion Systems',
-      period: 'Août 2018 – Présent',
+      title: 'Ingénieur DevOps, Teledyne Technologies Inc',
+      period: 'Sept 2024 - Présent',
       detail:
-        "Résolution de pipelines Jenkins défaillants, réduction des dépenses cloud de 500 à 2 000 $/mois via des audits Cost Explorer, élimination des risques de déplacement latéral en consolidant les rôles IAM selon le principe du moindre privilège, réduction du provisionnement d'un nouvel environnement client de ~30 minutes à moins de 5 minutes avec Terraform + Ansible + Bash, et résolution d'incidents CrashLoopBackOff via kubectl sur 10+ clusters Kubernetes/OpenShift.",
+        "Livraison DevOps cloud-native autour d'AWS, Kubernetes, Terraform, CI/CD, observabilité et workflows de déploiement sécurisés à Newark, NJ.",
     },
     {
-      title: 'Ingénierie plateforme indépendante',
-      period: '2025 – 2026',
+      title: 'Ingénieur Cloud AWS, Creative Newtech Ltd',
+      period: 'Juin 2020 - Août 2024',
       detail:
-        "Trois projets d'infrastructure de niveau production : cloud_resume_infra (20 ressources AWS via Terraform, 0,00 $/mois, en ligne sur resume.achille.tech), k8s-platform-lab (k3s sur EC2 avec ArgoCD GitOps, 21/21 contrôles de santé, RTO ~30 min validé), et devops_platform (pipeline Jenkins ~46 secondes, JCasC, Ansible Vault, accès SSM sans port SSH ouvert).",
+        "Conception et exploitation d'infrastructures AWS avec EC2, S3, RDS, VPC, IAM, CloudWatch, Terraform, Jenkins, GitLab CI/CD, Docker et Kubernetes.",
     },
     {
-      title: 'Ingénieur Cloud AWS, Dominion Systems',
-      period: 'Juin 2017 – Juillet 2018',
+      title: 'Software Engineering, Arizona State University',
+      period: 'En cours',
       detail:
-        "Amélioration de l'efficacité de livraison d'infrastructure de ~25 % en migrant vers CloudFormation, CodePipeline, CodeBuild et CodeCommit. Augmentation du taux d'utilisation EC2 de ~20 % grâce au dimensionnement adaptatif et à l'auto-scaling. Taux de réussite de 100 % aux audits de sécurité avec IAM au moindre privilège et réseau hybride via Transit Gateway.",
-    },
-    {
-      title: 'Développement Full Stack et IA',
-      period: '2025 – Présent',
-      detail:
-        "Formation AI-Native Software Engineering chez Per Scholas — livraison d'applications MERN full stack : une marketplace à 3 rôles (Stripe, Groq IA, RBAC) et cette plateforme portfolio (React 19, Node.js, MongoDB Atlas, Terraform, pipeline CI/CD en 4 jobs).",
+        "BS Software Engineering en cours, avec application directe aux projets cloud, DevOps et full stack.",
     },
   ],
   links: {

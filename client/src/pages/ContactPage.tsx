@@ -52,20 +52,20 @@ export function ContactPage({
 }: ContactPageProps) {
   return (
     <>
-      <SiteSection className="pt-12 sm:pt-16 lg:pt-20">
+      <SiteSection className="pt-10 sm:pt-14 lg:pt-16">
         <div className="reveal grid gap-6 xl:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
           <SurfaceCard padding="roomy" tone="accent">
-            <div className="flex h-full flex-col gap-10">
+            <div className="flex h-full flex-col gap-8">
               <div className="space-y-6">
                 <Eyebrow>Contact</Eyebrow>
                 <div className="space-y-5">
                   <h1 className={headingClasses.page}>
-                    Let's talk about what you're building.
+                    Reach out for roles, interviews, or delivery work.
                   </h1>
                   <p className="max-w-3xl text-[1.05rem] leading-8 text-muted sm:text-lg">
-                    Whether you have a DevOps challenge, a platform problem, or
-                    want to talk through a technical decision — I read every
-                    message and respond to all of them.
+                    I am open to DevOps and platform engineering roles, freelance
+                    cloud delivery, CI/CD modernization, and full-stack projects
+                    where reliability and clear handoffs matter.
                   </p>
                 </div>
               </div>
@@ -73,13 +73,13 @@ export function ContactPage({
               <div className="grid gap-4">
                 {contactItems.map((item) => (
                   <div
-                    className="rounded-2xl border border-line/60 bg-white/80 p-5 transition duration-200 hover:shadow-soft"
+                    className="rounded-lg border border-line/70 bg-white/80 p-4 transition duration-200 hover:border-accent/30"
                     key={item.label}
                   >
                     <p className={finePrintClass}>{item.label}</p>
                     {item.href ? (
                       <a
-                        className="mt-2 block text-base font-semibold text-ink transition hover:text-accent-deep"
+                        className="mt-2 block break-words text-sm font-semibold text-ink transition hover:text-accent-deep"
                         href={item.href}
                         rel={item.href.startsWith('http') ? 'noreferrer' : undefined}
                         target={item.href.startsWith('http') ? '_blank' : undefined}
@@ -87,13 +87,13 @@ export function ContactPage({
                         {item.value}
                       </a>
                     ) : (
-                      <p className="mt-2 text-base font-semibold text-ink">{item.value}</p>
+                    <p className="mt-2 text-sm font-semibold text-ink">{item.value}</p>
                     )}
                   </div>
                 ))}
               </div>
 
-              <div className="rounded-2xl border border-line/60 bg-white/80 p-5">
+              <div className="rounded-lg border border-line/70 bg-white/80 p-4">
                 <p className={finePrintClass}>Good topics to lead with</p>
                 <ul className="mt-3 grid gap-3">
                   {contactTopics.slice(0, 4).map((topic) => (
@@ -105,11 +105,12 @@ export function ContactPage({
                 </ul>
               </div>
 
-              <div className="flex flex-wrap gap-3">
-                <ButtonLink href="/resume" target="_blank" rel="noreferrer">
-                  Download resume
+              <div className="grid gap-3 sm:flex sm:flex-wrap">
+                <ButtonLink className="w-full sm:w-auto" href={profile.links.email}>
+                  Email me
                 </ButtonLink>
                 <ButtonLink
+                  className="w-full sm:w-auto"
                   href={profile.links.linkedin}
                   rel="noreferrer"
                   target="_blank"
@@ -126,12 +127,12 @@ export function ContactPage({
               <Eyebrow>Message</Eyebrow>
               <div className="space-y-4">
                 <h2 className={headingClasses.section}>
-                  Tell me what you're working on or what you need help with.
+                  Tell me the role, project, or delivery problem.
                 </h2>
                 <p className={bodyClass}>
-                  I respond to every message — whether it's a delivery
-                  challenge, a platform question, CI/CD modernization, or
-                  engineering collaboration.
+                  Share enough context for a useful reply: team goal, current
+                  stack, timeline, and whether this is hiring, contract work, or
+                  a technical conversation.
                 </p>
               </div>
             </div>

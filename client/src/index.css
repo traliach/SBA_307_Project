@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,16 +6,18 @@
 
 @layer base {
   :root {
+    --primary: #1c1917;
     --accent: #b45309;
-    --accent-soft: #fef3c7;
+    --accent-soft: #fff7ed;
     --accent-deep: #92400e;
-    --warm: #d97706;
-    --warm-soft: #fef9ee;
+    --neutral: #f7f2ea;
+    --warm: #b45309;
+    --warm-soft: #fff7ed;
     --surface-strong: rgba(255, 255, 255, 0.96);
-    --border: #e4e2dd;
+    --border: #e7dfd3;
     --danger: #dc2626;
     --shadow-soft: 0 1px 3px rgba(0,0,0,0.04), 0 6px 16px -4px rgba(0,0,0,0.06);
-    --text-muted: #64625d;
+    --text-muted: #68615a;
   }
 
   html {
@@ -29,16 +31,10 @@
 
   body {
     @apply min-h-screen bg-canvas text-base leading-7 text-muted;
-    background-image:
-      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(180,83,9,0.04), transparent),
-      radial-gradient(ellipse 60% 40% at 80% 0%, rgba(180,83,9,0.02), transparent);
   }
 
   .dark body {
     @apply bg-[#0f1117] text-gray-400;
-    background-image:
-      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(180,83,9,0.06), transparent),
-      radial-gradient(ellipse 60% 40% at 80% 0%, rgba(180,83,9,0.03), transparent);
   }
 
   .dark h1, .dark h2, .dark h3, .dark h4 {
@@ -62,7 +58,7 @@
   }
 
   input, select, textarea {
-    @apply w-full rounded-2xl border border-line bg-white px-4 py-3.5 text-sm text-ink shadow-sm outline-none transition duration-200 placeholder:text-stone-400 focus:border-accent focus:ring-4 focus:ring-accent/10;
+    @apply w-full rounded-lg border border-line bg-white px-4 py-3.5 text-sm text-ink shadow-sm outline-none transition duration-200 placeholder:text-stone-400 focus:border-accent focus:ring-4 focus:ring-accent/10;
   }
 
   textarea {
@@ -76,7 +72,7 @@
   }
 
   .surface {
-    @apply rounded-3xl border border-line/80 bg-white p-6 shadow-card backdrop-blur sm:p-8;
+    @apply rounded-lg border border-line/80 bg-white p-6 shadow-card backdrop-blur sm:p-8;
     transition: background-color 0.35s ease, border-color 0.35s ease;
   }
 
@@ -90,7 +86,7 @@
   }
 
   .eyebrow {
-    @apply inline-flex items-center gap-2.5 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-accent-deep;
+    @apply inline-flex items-center gap-2.5 text-[0.7rem] font-semibold uppercase tracking-normal text-accent-deep;
   }
 
   .section-intro {
@@ -98,7 +94,7 @@
   }
 
   .button {
-    @apply inline-flex items-center justify-center rounded-full border px-6 py-3.5 text-sm font-semibold transition duration-200 focus:outline-none focus:ring-4 focus:ring-accent/10;
+    @apply inline-flex items-center justify-center rounded-lg border px-6 py-3.5 text-sm font-semibold transition duration-200 focus:outline-none focus:ring-4 focus:ring-accent/10;
   }
 
   .button--primary {
@@ -161,8 +157,8 @@
 
   /* Scroll reveal utility */
   .reveal {
-    opacity: 0;
-    transform: translateY(16px);
+    opacity: 1;
+    transform: none;
     transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
                 transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
   }

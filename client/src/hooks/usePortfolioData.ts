@@ -105,7 +105,7 @@ function mergeProjects(projects: unknown): ProjectSummary[] {
     return fallbackProjects
   }
 
-  return projects.map((project, index) => {
+  const mergedProjects = projects.map((project, index) => {
     const fallbackProject = fallbackProjects[index]
 
     return {
@@ -124,6 +124,15 @@ function mergeProjects(projects: unknown): ProjectSummary[] {
       featured: project.featured ?? fallbackProject?.featured ?? false,
     }
   })
+
+  const apiProjectTitles = new Set(
+    mergedProjects.map((project) => project.title).filter(Boolean),
+  )
+  const missingFallbackProjects = fallbackProjects.filter(
+    (project) => !apiProjectTitles.has(project.title),
+  )
+
+  return [...mergedProjects, ...missingFallbackProjects]
 }
 
 /** Merges skill groups from the API with fallback skill groups. */

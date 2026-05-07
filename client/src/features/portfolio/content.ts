@@ -21,16 +21,19 @@ export const certificationLinks: Record<string, string> = {
 
 export const fallbackProfile: ProfileContent = {
   name: 'Ali Achille Traore',
-  title: 'DevOps Engineer & Full-Stack Software Engineer',
+  title: 'DevOps Engineer and Full-Stack Developer',
   location: 'Newark, NJ',
   currentEmployer: 'Teledyne Technologies Inc',
-  availability: '',
+  previousEmployer: 'Creative Newtech Ltd',
+  education: 'BS Software Engineering (In Progress), Arizona State University',
+  availability:
+    'Open to DevOps engineering roles, platform engineering work, and freelance cloud or full-stack delivery conversations.',
   summary:
-    'DevOps engineer with 5+ years designing, automating, and optimizing cloud-native infrastructure across AWS and Azure. Expertise in Kubernetes, Docker, Terraform, and CI/CD pipelines — plus full-stack delivery with React, TypeScript, and Node.js shipped to production.',
+    'Newark-based DevOps Engineer and Full-Stack Developer with 5+ years designing cloud infrastructure, CI/CD pipelines, Kubernetes platforms, and production React/Node applications.',
   intro:
-    'My portfolio spans both disciplines: cloud and IaC projects (Terraform-provisioned AWS infrastructure, self-hosted Kubernetes on EC2, Jenkins + Ansible platforms) and full-stack applications (MERN marketplace, medical imaging system, this site).',
+    'I help teams build calmer release systems: AWS infrastructure with Terraform, GitHub Actions and Jenkins pipelines, Kubernetes platforms, observability, and full-stack applications with React, TypeScript, Node.js, and MongoDB.',
   about:
-    "I work on the parts engineering teams notice most when they break: CI/CD pipelines, cloud infrastructure, and production deployments. My portfolio projects go deeper than most: cloud_resume_infra provisions 20 AWS resources with Terraform at $0.00/month actual cost; k8s-platform-lab runs a self-hosted k3s cluster on EC2 with ArgoCD GitOps, 21/21 health checks passing, and ~30-minute RTO validated live; devops_platform combines Terraform, Ansible, Jenkins, and Docker Compose into a full delivery platform with no open SSH port.",
+    'I work on the systems teams depend on when releases, infrastructure, or production support need to be reliable: CI/CD pipelines, AWS infrastructure, Kubernetes deployments, observability, and application delivery. At Teledyne Technologies Inc, I support DevOps delivery across AWS, Kubernetes, Terraform, GitHub Actions, Jenkins, observability, and security-minded release workflows. Before that, I worked as an AWS Cloud Engineer at Creative Newtech Ltd, automating infrastructure and improving cloud operations across AWS environments.',
   certifications: [
     'AWS Certified DevOps Engineer – Professional',
     'AWS Certified Cloud Practitioner',
@@ -38,13 +41,32 @@ export const fallbackProfile: ProfileContent = {
     'Google IT Support Professional Certificate',
   ],
   strengths: [
-    'CI/CD pipeline design and optimization — GitHub Actions, Jenkins, GitLab CI/CD, and Azure DevOps',
-    'Infrastructure as Code — Terraform modules, remote state, and multi-environment provisioning on AWS and Azure',
-    'Kubernetes cluster operations — EKS, Helm, Kustomize, ArgoCD GitOps, and self-hosted k3s',
-    'DevSecOps — security scanning (SAST/DAST, Trivy) and secrets management embedded in delivery pipelines',
-    'Full-stack delivery — React, TypeScript, Node.js, Express, MongoDB, and PostgreSQL',
+    'CI/CD modernization with GitHub Actions, Jenkins, GitLab CI/CD, and Azure DevOps',
+    'Infrastructure as Code with Terraform, remote state, and repeatable AWS environments',
+    'Kubernetes operations with EKS, Helm, Kustomize, ArgoCD GitOps, and self-hosted k3s',
+    'DevSecOps practices with pipeline scanning, IAM/RBAC, and secrets-aware delivery',
+    'Full-stack delivery with React, TypeScript, Node.js, Express, MongoDB, and PostgreSQL',
   ],
-  timeline: [],
+  timeline: [
+    {
+      title: 'DevOps Engineer, Teledyne Technologies Inc',
+      period: 'Sept 2024 - Present',
+      detail:
+        'Supporting cloud-native DevOps delivery across AWS, Kubernetes, Terraform, CI/CD automation, observability, and secure production deployment workflows in Newark, NJ.',
+    },
+    {
+      title: 'AWS Cloud Engineer, Creative Newtech Ltd',
+      period: 'June 2020 - Aug 2024',
+      detail:
+        'Designed and operated AWS infrastructure across EC2, S3, RDS, VPC, IAM, CloudWatch, Terraform, Jenkins, GitLab CI/CD, Docker, and Kubernetes-backed delivery workflows.',
+    },
+    {
+      title: 'Software Engineering, Arizona State University',
+      period: 'In progress',
+      detail:
+        'Continuing a BS in Software Engineering while applying cloud, DevOps, and full-stack systems work in production and portfolio projects.',
+    },
+  ],
   links: {
     email: 'mailto:t.achille.tech@gmail.com',
     linkedin: 'https://www.linkedin.com/in/achille-traore',
@@ -55,8 +77,13 @@ export const fallbackProfile: ProfileContent = {
 
 export const highlightMetrics: Highlight[] = [
   {
+    label: 'Experience',
+    value: '5+ years',
+    detail: 'DevOps and cloud delivery across Teledyne Technologies Inc and Creative Newtech Ltd.',
+  },
+  {
     label: 'AWS resources',
-    value: '20',
+    value: '20 resources',
     detail: 'cloud_resume_infra provisions 20 AWS resources with Terraform — $0.00/month actual cost verified via Cost Explorer.',
   },
   {
@@ -65,9 +92,9 @@ export const highlightMetrics: Highlight[] = [
     detail: 'k8s-platform-lab automated health checks — k3s cluster with ArgoCD, Prometheus, and Grafana all passing.',
   },
   {
-    label: 'Pipeline time',
-    value: '~60 sec',
-    detail: 'devops_platform end-to-end CI/CD: Checkout → Build → Docker → Push GHCR → Deploy in ~60 seconds.',
+    label: 'Current role',
+    value: 'Teledyne',
+    detail: 'DevOps Engineer at Teledyne Technologies Inc in Newark, NJ.',
   },
   {
     label: 'Certifications',
@@ -242,9 +269,9 @@ export const projectSummaries: ProjectSummary[] = [
       'Provisioned 20 AWS resources with Terraform (S3, CloudFront, ACM, Lambda, DynamoDB, API Gateway, IAM). Python Lambda handles atomic visitor count increments with unit tests. GitHub Actions runs Terraform, Lambda tests, and frontend build in parallel on every PR — deploys on merge to main.',
     stack: ['Terraform', 'AWS', 'S3', 'CloudFront', 'Lambda', 'DynamoDB', 'API Gateway', 'ACM', 'Python', 'GitHub Actions'],
     metrics: [
-      { label: 'AWS Resources', value: '20' },
-      { label: 'Lambda Tests', value: '4 passing' },
-      { label: 'Actual Cost', value: '$0.00 / month' },
+      { label: 'Terraform-managed', value: '20 AWS resources' },
+      { label: 'Lambda tests', value: '4 passing' },
+      { label: 'Monthly cost', value: '$0.00 verified' },
     ],
     outcomes: [
       '20 AWS resources provisioned by Terraform with zero console clicks; Lambda IAM role scoped to GetItem + UpdateItem on a single table ARN; 4/4 unit tests passing; live at resume.achille.tech.',
@@ -392,7 +419,7 @@ export const testimonialQuotes: Testimonial[] = [
       'Ali translated infrastructure needs into repeatable automation and helped the broader team operate Kubernetes environments with much more confidence.',
     author: 'Analytics Platform Stakeholder',
     role: 'Technical Product Owner',
-    company: 'Dominion Systems',
+    company: 'Cloud Operations Team',
   },
 ]
 
@@ -414,7 +441,7 @@ export const contactItems: ContactItem[] = [
   },
   {
     label: 'Location',
-    value: 'Remote / Hybrid / On-site (US-wide)',
+    value: 'Newark, NJ',
   },
 ]
 

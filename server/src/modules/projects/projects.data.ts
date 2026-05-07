@@ -114,9 +114,9 @@ export const projects: ProjectSummary[] = [
       'Provisioned 20 AWS resources with Terraform (S3, CloudFront, ACM, Lambda, DynamoDB, API Gateway, IAM). Python Lambda handles atomic visitor count increments with mocked unit tests. GitHub Actions runs Terraform, Lambda tests, and frontend build in parallel on every PR — deploys on merge to main.',
     stack: ['Terraform', 'AWS', 'S3', 'CloudFront', 'Lambda', 'DynamoDB', 'API Gateway', 'ACM', 'Python', 'GitHub Actions'],
     metrics: [
-      { label: 'AWS Resources', value: '20' },
-      { label: 'Lambda Tests', value: '4 passing' },
-      { label: 'Actual Cost', value: '$0.00 / month' },
+      { label: 'Terraform-managed', value: '20 AWS resources' },
+      { label: 'Lambda tests', value: '4 passing' },
+      { label: 'Monthly cost', value: '$0.00 verified' },
     ],
     outcomes: [
       '20 AWS resources provisioned by Terraform with zero console clicks; Lambda IAM role scoped to GetItem + UpdateItem on a single table ARN; 4/4 unit tests passing; live at resume.achille.tech.',

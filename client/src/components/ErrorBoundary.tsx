@@ -37,7 +37,7 @@ export class ErrorBoundary extends Component<
                 tone="subdued"
               >
                 <span className="eyebrow justify-center">Client error</span>
-                <h2 className="text-3xl font-semibold tracking-[-0.04em] text-ink">
+                <h2 className="text-3xl font-semibold tracking-normal text-ink">
                   Rendering failed
                 </h2>
                 <p className="section-intro mx-auto">{this.state.error.message}</p>

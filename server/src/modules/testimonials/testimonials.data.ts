@@ -20,6 +20,6 @@ export const testimonials: Testimonial[] = [
       'Ali translated infrastructure needs into repeatable automation and helped the broader team operate Kubernetes environments with much more confidence.',
     author: 'Analytics Platform Stakeholder',
     role: 'Technical Product Owner',
-    company: 'Dominion Systems',
+    company: 'Cloud Operations Team',
   },
 ]

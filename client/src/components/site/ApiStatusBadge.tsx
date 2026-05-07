@@ -38,7 +38,7 @@ export function ApiStatusBadge({ health, state }: ApiStatusBadgeProps) {
   return (
     <div
       className={cx(
-        'inline-flex flex-wrap items-center gap-2 rounded-full border px-3 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.16em] backdrop-blur-sm',
+        'inline-flex max-w-full flex-wrap items-center gap-2 rounded-lg border px-3 py-2 text-[0.65rem] font-semibold uppercase tracking-normal backdrop-blur-sm',
         toneClasses[state],
       )}
     >

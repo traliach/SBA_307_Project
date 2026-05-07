@@ -15,23 +15,23 @@
     "start": "node dist/server.js"
   },
   "dependencies": {
-    "cors": "latest",
-    "dotenv": "latest",
-    "express": "latest",
-    "helmet": "latest",
-    "jsonwebtoken": "latest",
-    "mongoose": "latest",
+    "cors": "*",
+    "dotenv": "^17.4.2",
+    "express": "*",
+    "helmet": "*",
+    "jsonwebtoken": "*",
+    "mongoose": "*",
     "nodemailer": "^8.0.3",
-    "zod": "latest"
+    "zod": "*"
   },
   "devDependencies": {
-    "@types/cors": "latest",
-    "@types/express": "latest",
-    "@types/jsonwebtoken": "latest",
+    "@types/cors": "*",
+    "@types/express": "*",
+    "@types/jsonwebtoken": "*",
     "@types/node": "^24.12.0",
     "@types/nodemailer": "^7.0.11",
-    "nodemon": "latest",
-    "tsx": "latest",
+    "nodemon": "*",
+    "tsx": "*",
     "typescript": "~5.9.3"
   }
 }

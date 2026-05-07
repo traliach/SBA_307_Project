@@ -91,6 +91,7 @@ export interface ContactSubmissionInput {
   email: string
   inquiryType: string
   message: string
+  website?: string
 }
 
 export interface ContactSubmissionResult {
@@ -101,6 +102,7 @@ export interface ContactSubmissionResult {
 
 export interface TestimonialSubmissionInput extends Testimonial {
   email: string
+  website?: string
 }
 
 export interface TestimonialSubmissionResult {

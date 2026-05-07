@@ -215,6 +215,12 @@
     @apply flex flex-col gap-2.5;
   }
 
+  .spam-trap-field {
+    @apply pointer-events-none absolute h-px w-px overflow-hidden whitespace-nowrap border-0 p-0;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+  }
+
   .field > span {
     @apply text-sm font-semibold text-text;
   }

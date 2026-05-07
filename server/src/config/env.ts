@@ -139,6 +139,34 @@ const envSchema = z.object({
       typeof value === 'string' && value.trim().length === 0 ? undefined : value,
     z.string().min(1).optional(),
   ),
+}).superRefine((value, context) => {
+  const adminAuthConfigured = Boolean(
+    value.ADMIN_EMAIL && value.ADMIN_PASSWORD && value.JWT_SECRET,
+  )
+
+  if (
+    value.NODE_ENV === 'production' &&
+    adminAuthConfigured &&
+    !value.ADMIN_MFA_SECRET
+  ) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'ADMIN_MFA_SECRET is required when admin auth is enabled in production.',
+      path: ['ADMIN_MFA_SECRET'],
+    })
+  }
+
+  if (
+    value.NODE_ENV === 'production' &&
+    value.JWT_SECRET &&
+    value.JWT_SECRET.length < 32
+  ) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'JWT_SECRET must be at least 32 characters in production.',
+      path: ['JWT_SECRET'],
+    })
+  }
 })
 
 // Parse (and validate) process.env right now, at module load time.

@@ -466,6 +466,7 @@ export function createInitialContactForm(): ContactSubmissionInput {
     email: '',
     inquiryType: 'devops-role',
     message: '',
+    website: '',
   }
 }
 
@@ -484,6 +485,7 @@ export function createInitialTestimonialForm(): TestimonialSubmissionInput {
     role: '',
     company: '',
     quote: '',
+    website: '',
   }
 }
 

@@ -9,7 +9,74 @@ process.env.JWT_SECRET = 'test-secret-value-should-be-long-enough'
 process.env.JWT_EXPIRES_IN = '12h'
 process.env.ADMIN_MFA_SECRET = ''
 
+const {
+  enforcePublicSubmissionRateLimit,
+  isSpamTrapFilled,
+} = await import('../dist/utils/public-submission-guard.js')
 const { app } = await import('../dist/app.js')
+
+function createMockRateLimitResponse() {
+  const headers = new Map()
+
+  return {
+    body: null,
+    headers,
+    statusCode: 200,
+    setHeader(name, value) {
+      headers.set(name, value)
+    },
+    status(code) {
+      this.statusCode = code
+      return this
+    },
+    json(body) {
+      this.body = body
+      return this
+    },
+  }
+}
+
+function createMockRateLimitRequest(ip) {
+  return {
+    ip,
+    socket: {
+      remoteAddress: ip,
+    },
+  }
+}
+
+assert.equal(isSpamTrapFilled(''), false)
+assert.equal(isSpamTrapFilled('https://spam.example'), true)
+
+for (let attempt = 0; attempt < 5; attempt += 1) {
+  const allowed = enforcePublicSubmissionRateLimit(
+    createMockRateLimitRequest('203.0.113.20'),
+    createMockRateLimitResponse(),
+    {
+      scope: 'smoke-test',
+      email: `person-${attempt}@example.com`,
+    },
+  )
+  assert.equal(allowed, true)
+}
+
+const blockedRateLimitResponse = createMockRateLimitResponse()
+const blocked = enforcePublicSubmissionRateLimit(
+  createMockRateLimitRequest('203.0.113.20'),
+  blockedRateLimitResponse,
+  {
+    scope: 'smoke-test',
+    email: 'person-6@example.com',
+  },
+)
+
+assert.equal(blocked, false)
+assert.equal(blockedRateLimitResponse.statusCode, 429)
+assert.equal(
+  blockedRateLimitResponse.body.message,
+  'Too many submissions. Please try again later.',
+)
+assert.ok(blockedRateLimitResponse.headers.get('Retry-After'))
 
 const server = await new Promise((resolve, reject) => {
   const nextServer = app.listen(0, '127.0.0.1', () => resolve(nextServer))
@@ -82,6 +149,14 @@ try {
   const noTokenAdmin = await request('/api/admin/projects')
   assert.equal(noTokenAdmin.response.status, 401)
   assert.equal(noTokenAdmin.body.message, 'Missing admin authorization token.')
+
+  const invalidTokenAdmin = await request('/api/admin/projects', {
+    headers: {
+      Authorization: 'Bearer invalid-token',
+    },
+  })
+  assert.equal(invalidTokenAdmin.response.status, 401)
+  assert.equal(invalidTokenAdmin.body.message, 'Invalid or expired admin token.')
 
   const authedAdmin = await request('/api/admin/projects', {
     headers: {

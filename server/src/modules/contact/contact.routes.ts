@@ -16,6 +16,11 @@ import { Router } from 'express'
 import { z } from 'zod'
 import { logInfo } from '../../utils/logger.js'
 import { sendContactNotification } from '../../utils/mailer.js'
+import {
+  acceptSpamTrapSubmission,
+  enforcePublicSubmissionRateLimit,
+  isSpamTrapFilled,
+} from '../../utils/public-submission-guard.js'
 import { createContactSubmission } from './contact.store.js'
 
 // ─── Validation schema ───────────────────────────────────────────────────────
@@ -39,6 +44,11 @@ export const contactRouter = Router()
 // POST /api/contact
 contactRouter.post('/', async (request, response, next) => {
   try {
+    if (isSpamTrapFilled(request.body?.website)) {
+      acceptSpamTrapSubmission(response, 'Message received and saved. Thanks for reaching out.')
+      return
+    }
+
     // safeParse returns { success: true, data } or { success: false, error }
     // instead of throwing, which lets us send a proper HTTP response.
     const result = contactSchema.safeParse(request.body)
@@ -58,6 +68,15 @@ contactRouter.post('/', async (request, response, next) => {
         message: firstError,   // user-facing sentence
         issues: fieldErrors,   // machine-readable field map (useful for future inline errors)
       })
+      return
+    }
+
+    if (
+      !enforcePublicSubmissionRateLimit(request, response, {
+        scope: 'contact',
+        email: result.data.email,
+      })
+    ) {
       return
     }
 

@@ -64,10 +64,21 @@ jobs:
       - name: Audit dependencies
         run: npm audit --audit-level=high
 
+  secret-scan:
+    name: Secret scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Scan repository history for secrets
+        uses: gitleaks/gitleaks-action@v2
+
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    needs: [server, client, audit]
+    needs: [server, client, audit, secret-scan]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - name: Trigger Render deploy

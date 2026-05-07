@@ -2,6 +2,11 @@ import { Router } from 'express'
 import { z } from 'zod'
 import { isDatabaseReady } from '../../config/database.js'
 import { logInfo } from '../../utils/logger.js'
+import {
+  acceptSpamTrapSubmission,
+  enforcePublicSubmissionRateLimit,
+  isSpamTrapFilled,
+} from '../../utils/public-submission-guard.js'
 import { getTestimonials } from './testimonials.store.js'
 import { TestimonialModel } from './testimonials.model.js'
 
@@ -25,6 +30,11 @@ testimonialsRouter.get('/', async (_request, response, next) => {
 
 testimonialsRouter.post('/', async (request, response, next) => {
   try {
+    if (isSpamTrapFilled(request.body?.website)) {
+      acceptSpamTrapSubmission(response, 'Thank you. Your testimonial has been submitted for review.')
+      return
+    }
+
     if (!isDatabaseReady()) {
       response.status(503).json({
         message: 'Testimonials are temporarily unavailable for submission.',
@@ -39,6 +49,15 @@ testimonialsRouter.post('/', async (request, response, next) => {
         message: 'Please provide a valid testimonial submission.',
         issues: result.error.flatten(),
       })
+      return
+    }
+
+    if (
+      !enforcePublicSubmissionRateLimit(request, response, {
+        scope: 'testimonial',
+        email: result.data.email,
+      })
+    ) {
       return
     }
 

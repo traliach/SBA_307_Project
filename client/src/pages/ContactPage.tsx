@@ -171,6 +171,18 @@ export function ContactPage({
             </div>
 
             <form className="contact-form" onSubmit={onSubmit}>
+              <label aria-hidden="true" className="spam-trap-field">
+                <span>Website</span>
+                <input
+                  autoComplete="off"
+                  name="website"
+                  onChange={onChange}
+                  tabIndex={-1}
+                  type="text"
+                  value={contactForm.website ?? ''}
+                />
+              </label>
+
               <div className="field-grid">
                 <label className="field">
                   <span>Name</span>

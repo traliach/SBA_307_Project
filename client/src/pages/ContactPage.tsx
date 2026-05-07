@@ -303,8 +303,8 @@ export function ContactPage({
         <CtaBand
           actions={
             <>
-              <ButtonLink download href={profile.links.resume} rel="noreferrer" target="_blank" variant="secondary">
-                Download resume
+              <ButtonLink href={profile.links.resume} rel="noreferrer" target="_blank" variant="secondary">
+                View resume
               </ButtonLink>
               <ButtonLink className="text-white hover:text-white" href="/work" variant="ghost">
                 Review work first

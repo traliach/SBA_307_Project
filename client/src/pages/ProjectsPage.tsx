@@ -79,14 +79,13 @@ export function ProjectsPage({ projects }: ProjectsPageProps) {
           Start a conversation
         </ButtonLink>
         <ButtonLink
-          download
           className="w-full sm:w-auto"
-          href="/ali-achille-traore-resume.pdf"
+          href="/resume"
           rel="noreferrer"
           target="_blank"
           variant="secondary"
         >
-          Download resume
+          View resume
         </ButtonLink>
       </div>
     </SiteSection>

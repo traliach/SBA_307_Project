@@ -14,12 +14,6 @@ function stripProjectMetadata(document: ProjectRecord) {
   return project
 }
 
-const SCALAR_FIELDS = [
-  'summary', 'challenge', 'solution', 'role', 'timeframe', 'featured',
-] as const
-
-const ARRAY_FIELDS = ['stack', 'outcomes'] as const
-
 async function readMongoProjects() {
   const documents = (await ProjectModel.find()
     .sort({ order: 1 })
@@ -48,47 +42,8 @@ async function readMongoProjects() {
     anyUpdate = true
   }
 
-  // Update content for existing projects when seed values have changed.
-  let contentSynced = 0
-  for (const seedProject of seedProjects) {
-    const doc = documents.find((d) => d.title === seedProject.title)
-    if (!doc) continue // newly inserted above
-
-    const patch: Record<string, unknown> = {}
-
-    for (const field of SCALAR_FIELDS) {
-      if (doc[field] !== seedProject[field]) {
-        patch[field] = seedProject[field]
-      }
-    }
-
-    for (const field of ARRAY_FIELDS) {
-      if (JSON.stringify(doc[field]) !== JSON.stringify(seedProject[field])) {
-        patch[field] = seedProject[field]
-      }
-    }
-
-    if (JSON.stringify(doc.metrics) !== JSON.stringify(seedProject.metrics)) {
-      patch.metrics = seedProject.metrics
-    }
-
-    // URL fields may be undefined or empty string — normalise before comparing.
-    for (const field of ['repoUrl', 'liveUrl'] as const) {
-      if ((doc[field] ?? '') !== (seedProject[field] ?? '')) {
-        patch[field] = seedProject[field]
-      }
-    }
-
-    if (Object.keys(patch).length > 0) {
-      await ProjectModel.updateOne({ title: seedProject.title }, { $set: patch })
-      contentSynced++
-    }
-  }
-
-  if (contentSynced > 0) {
-    logInfo(`Synced content for ${contentSynced} existing project(s) from static data.`)
-    anyUpdate = true
-  }
+  // Existing Mongo projects are the admin-managed source of truth. Static seed
+  // data only bootstraps missing records so admin edits are not overwritten.
 
   if (anyUpdate) {
     const updated = (await ProjectModel.find()

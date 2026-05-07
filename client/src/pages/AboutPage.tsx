@@ -114,14 +114,13 @@ export function AboutPage({ profile }: AboutPageProps) {
                 Get in touch
               </ButtonLink>
               <ButtonLink
-                download
                 className="w-full sm:w-auto"
                 href={profile.links.resume}
                 rel="noreferrer"
                 target="_blank"
                 variant="secondary"
               >
-                Download resume
+                View resume
               </ButtonLink>
             </div>
 

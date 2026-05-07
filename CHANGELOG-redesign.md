@@ -48,7 +48,7 @@ Latest `audit:phase9` run passed against `http://localhost:5173` with the API av
 
 ## Follow-Up: Resume, Skills, and Call CTA
 
-- Replaced the linked resume asset with `client/public/ali-achille-traore-resume.pdf`, copied from `ALI ACHILLE TRAORE (1).pdf`.
-- Updated the profile resume link in both client fallback data and server seed data from the plain-text `.txt` file to the PDF.
+- Kept the main resume CTAs on the website-rendered `/resume` route so the resume comes from site/API content instead of the old plain-text `.txt` asset.
+- Added `client/public/ali-achille-traore-resume.pdf`, copied from `ALI ACHILLE TRAORE (1).pdf`, as a PDF source/reference while the public CTAs point to the live resume page.
 - Parsed the PDF resume and expanded the website/API skill groups to include the broader resume skills across AWS, Azure, GCP, CI/CD, Kubernetes, IaC, observability, DevSecOps, cloud-native architecture, languages, backend, frontend, and databases.
 - Changed "Book a call" CTAs to "Request a call" and anchored them to the contact form because no calendar scheduling integration exists yet.

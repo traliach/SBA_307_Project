@@ -53,6 +53,6 @@ export const profile: ProfileContent = {
     email: 'mailto:t.achille.tech@gmail.com',
     linkedin: 'https://www.linkedin.com/in/achille-traore',
     github: 'https://github.com/traliach',
-    resume: '/ali-achille-traore-resume.pdf',
+    resume: '/resume',
   },
 }

@@ -23,69 +23,94 @@ import { TermsPage } from './TermsPage'
 import { WorkDetailPage } from './WorkDetailPage'
 import { WorkIndexPage } from './WorkIndexPage'
 import { findProjectBySlug, getProjectDisplayTitle } from '../utils/projects'
+import { absoluteUrl, getDefaultOgImageUrl } from '../utils/seo'
 import type { ProjectSummary } from '../types/site'
+
+interface RouteMetadata {
+  title: string
+  description: string
+  path: string
+  image?: string
+  robots?: string
+  type?: 'website' | 'article'
+}
 
 const pageMetadata = {
   '/': {
     title: 'Ali Achille Traore | DevOps Engineer and Full-Stack Developer',
     description:
       'Portfolio for Ali Achille Traore, focused on DevOps engineering, AWS cloud infrastructure, CI/CD, Kubernetes, and full-stack delivery.',
+    path: '/',
   },
   '/about': {
     title: 'About | Ali Achille Traore',
     description:
       'Background, strengths, timeline, and engineering focus for Ali Achille Traore.',
+    path: '/about',
   },
   '/services': {
     title: 'Services | Ali Achille Traore',
     description:
       'DevOps consulting services for cloud foundations, CI/CD modernization, Terraform, Kubernetes, observability, security, and full-stack delivery.',
+    path: '/services',
   },
   '/work': {
     title: 'Work | Ali Achille Traore',
     description:
       'Case studies covering AWS infrastructure, Kubernetes platforms, CI/CD modernization, observability, and full-stack delivery.',
+    path: '/work',
   },
   '/projects': {
     title: 'Work | Ali Achille Traore',
     description:
       'Case studies covering cloud delivery, CI/CD, infrastructure automation, and platform reliability.',
+    path: '/work',
   },
   '/skills': {
     title: 'Skills | Ali Achille Traore',
     description:
       'Curated technical skills across cloud platforms, automation, infrastructure as code, and full-stack application work.',
+    path: '/skills',
   },
   '/contact': {
     title: 'Contact | Ali Achille Traore',
     description:
       'Contact Ali Achille Traore for DevOps roles, cloud delivery work, freelance projects, and engineering conversations.',
+    path: '/contact',
   },
   '/blog': {
     title: 'Blog | Ali Achille Traore',
     description:
       'Hidden article index template for future DevOps, cloud, Kubernetes, observability, and full-stack engineering notes.',
+    path: '/blog',
+    robots: 'noindex,follow',
   },
   '/portal': {
     title: 'Client Portal Preview | Ali Achille Traore',
     description:
       'Hidden coming-soon preview for a future client portal with static delivery workspace mock data.',
+    path: '/portal',
+    robots: 'noindex,follow',
   },
   '/privacy': {
     title: 'Privacy | Ali Achille Traore',
     description:
       'Privacy policy for the achille.tech portfolio contact forms and submitted information.',
+    path: '/privacy',
   },
   '/terms': {
     title: 'Terms | Ali Achille Traore',
     description:
       'Terms of use for the achille.tech portfolio, project information, and contact forms.',
+    path: '/terms',
   },
   '/404': {
     title: 'Page Not Found | Ali Achille Traore',
     description: 'The requested achille.tech portfolio page was not found.',
+    path: '/404',
+    robots: 'noindex,follow',
   },
-} as const
+} satisfies Record<string, RouteMetadata>
 
 const optionalFooterLinks = optionalRoutes
   .filter((route) => route.enabled)
@@ -120,7 +145,7 @@ const footerSections = [
   },
 ] as const
 
-function getMetadata(currentPath: string, projects: ProjectSummary[]) {
+function getMetadata(currentPath: string, projects: ProjectSummary[]): RouteMetadata {
   if (currentPath.startsWith('/blog/')) {
     const slug = currentPath.replace('/blog/', '')
     const article = findBlogArticleBySlug(slug)
@@ -129,7 +154,17 @@ function getMetadata(currentPath: string, projects: ProjectSummary[]) {
       return {
         title: `${article.title} | Blog | Ali Achille Traore`,
         description: article.excerpt,
+        path: `/blog/${article.slug}`,
+        robots: 'index,follow',
+        type: 'article',
       }
+    }
+
+    return {
+      title: 'Article Not Found | Ali Achille Traore',
+      description: 'The requested achille.tech article was not found.',
+      path: currentPath,
+      robots: 'noindex,follow',
     }
   }
 
@@ -141,7 +176,16 @@ function getMetadata(currentPath: string, projects: ProjectSummary[]) {
       return {
         title: `${getProjectDisplayTitle(project)} | Work | Ali Achille Traore`,
         description: project.summary,
+        path: currentPath,
+        robots: 'index,follow',
       }
+    }
+
+    return {
+      title: 'Project Not Found | Ali Achille Traore',
+      description: 'The requested achille.tech project case study was not found.',
+      path: currentPath,
+      robots: 'noindex,follow',
     }
   }
 
@@ -149,28 +193,63 @@ function getMetadata(currentPath: string, projects: ProjectSummary[]) {
     title: 'Ali Achille Traore | Portfolio',
     description:
       'Portfolio for Ali Achille Traore covering DevOps, cloud delivery, and full-stack engineering.',
+    path: currentPath,
+    robots: 'noindex,follow',
   }
+}
+
+function ensureMeta(attribute: 'name' | 'property', value: string) {
+  let meta = document.querySelector(`meta[${attribute}="${value}"]`)
+
+  if (!meta) {
+    meta = document.createElement('meta')
+    meta.setAttribute(attribute, value)
+    document.head.appendChild(meta)
+  }
+
+  return meta
+}
+
+function setMeta(attribute: 'name' | 'property', value: string, content: string) {
+  ensureMeta(attribute, value).setAttribute('content', content)
+}
+
+function setCanonical(url: string) {
+  let canonical = document.querySelector('link[rel="canonical"]')
+
+  if (!canonical) {
+    canonical = document.createElement('link')
+    canonical.setAttribute('rel', 'canonical')
+    document.head.appendChild(canonical)
+  }
+
+  canonical.setAttribute('href', url)
 }
 
 function updateMetadata(currentPath: string, projects: ProjectSummary[]) {
   const metadata = getMetadata(currentPath, projects)
+  const canonicalUrl = absoluteUrl(metadata.path)
+  const imageUrl = metadata.image ? absoluteUrl(metadata.image) : getDefaultOgImageUrl()
+  const robots = metadata.robots ?? 'index,follow'
+  const type = metadata.type ?? 'website'
 
   document.title = metadata.title
 
-  const description = document.querySelector('meta[name="description"]')
-  description?.setAttribute('content', metadata.description)
-
-  const ogTitle = document.querySelector('meta[property="og:title"]')
-  ogTitle?.setAttribute('content', metadata.title)
-
-  const ogDescription = document.querySelector('meta[property="og:description"]')
-  ogDescription?.setAttribute('content', metadata.description)
-
-  const twitterTitle = document.querySelector('meta[name="twitter:title"]')
-  twitterTitle?.setAttribute('content', metadata.title)
-
-  const twitterDescription = document.querySelector('meta[name="twitter:description"]')
-  twitterDescription?.setAttribute('content', metadata.description)
+  setCanonical(canonicalUrl)
+  setMeta('name', 'description', metadata.description)
+  setMeta('name', 'robots', robots)
+  setMeta('property', 'og:type', type)
+  setMeta('property', 'og:url', canonicalUrl)
+  setMeta('property', 'og:title', metadata.title)
+  setMeta('property', 'og:description', metadata.description)
+  setMeta('property', 'og:image', imageUrl)
+  setMeta('property', 'og:image:alt', 'Ali Achille Traore portfolio preview')
+  setMeta('name', 'twitter:card', 'summary_large_image')
+  setMeta('name', 'twitter:url', canonicalUrl)
+  setMeta('name', 'twitter:title', metadata.title)
+  setMeta('name', 'twitter:description', metadata.description)
+  setMeta('name', 'twitter:image', imageUrl)
+  setMeta('name', 'twitter:image:alt', 'Ali Achille Traore portfolio preview')
 }
 
 export function PublicSite() {

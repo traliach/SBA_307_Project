@@ -174,7 +174,11 @@ export function ServicesPage() {
             ]}
           />
 
-          <div className="flex flex-wrap gap-2">
+          <div
+            aria-label="Service filters"
+            className="flex flex-wrap gap-2"
+            role="toolbar"
+          >
             {serviceFilters.map((item) => (
               <button
                 aria-pressed={filter === item.value}

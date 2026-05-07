@@ -8,6 +8,7 @@ import {
   Tag,
   TrustChips,
 } from '../components/site/ui'
+import { JsonLd } from '../components/site/JsonLd'
 import {
   bodyClass,
   finePrintClass,
@@ -19,6 +20,7 @@ import {
   findBlogArticleBySlug,
   getRelatedBlogArticles,
 } from '../content/blog'
+import { createArticleJsonLd, createBreadcrumbJsonLd } from '../utils/seo'
 import { NotFoundPage } from './NotFoundPage'
 
 interface BlogDetailPageProps {
@@ -42,11 +44,36 @@ export function BlogDetailPage({ slug }: BlogDetailPageProps) {
 
   return (
     <>
+      <JsonLd data={createArticleJsonLd(article)} />
+      <JsonLd
+        data={createBreadcrumbJsonLd([
+          { name: 'Home', path: '/' },
+          { name: 'Blog', path: '/blog' },
+          { name: article.title, path: `/blog/${article.slug}` },
+        ])}
+      />
+
       <SiteSection className="pt-10 sm:pt-14 lg:pt-16">
         <div className="reveal mx-auto max-w-4xl space-y-8">
-          <a className={textLinkClass} href="/blog">
-            Back to blog
-          </a>
+          <nav aria-label="Breadcrumb">
+            <ol className="flex flex-wrap items-center gap-2 text-sm font-semibold text-text-muted">
+              <li>
+                <a className={textLinkClass} href="/">
+                  Home
+                </a>
+              </li>
+              <li aria-hidden>/</li>
+              <li>
+                <a className={textLinkClass} href="/blog">
+                  Blog
+                </a>
+              </li>
+              <li aria-hidden>/</li>
+              <li className="text-text" aria-current="page">
+                {article.title}
+              </li>
+            </ol>
+          </nav>
 
           <PageIntro
             description={article.excerpt}

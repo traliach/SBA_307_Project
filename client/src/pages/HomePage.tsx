@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { ApiStatusBadge } from '../components/site/ApiStatusBadge'
+import { JsonLd } from '../components/site/JsonLd'
 import { ProjectCaseStudyCard } from '../components/site/ProjectCaseStudyCard'
 import {
   ButtonLink,
@@ -24,6 +25,7 @@ import type {
   ProjectSummary,
   Testimonial,
 } from '../types/site'
+import { createPersonJsonLd } from '../utils/seo'
 
 const HeroOpsVisual = lazy(() => import('../components/home/HeroOpsVisual'))
 
@@ -152,6 +154,8 @@ export function HomePage({
 
   return (
     <>
+      <JsonLd data={createPersonJsonLd(profile)} />
+
       <SiteSection className="pt-10 sm:pt-14 lg:pt-16">
         <div className="reveal grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(340px,0.9fr)] lg:items-center">
           <div className="min-w-0 space-y-8">

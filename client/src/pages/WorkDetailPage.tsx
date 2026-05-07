@@ -1,4 +1,5 @@
 import { ProjectCaseStudyCard } from '../components/site/ProjectCaseStudyCard'
+import { JsonLd } from '../components/site/JsonLd'
 import {
   ArchitectureDiagram,
   ButtonLink,
@@ -28,6 +29,7 @@ import {
   getProjectTags,
   getRelatedProjects,
 } from '../utils/projects'
+import { createProjectBreadcrumbJsonLd } from '../utils/seo'
 import { NotFoundPage } from './NotFoundPage'
 
 interface WorkDetailPageProps {
@@ -101,12 +103,30 @@ export function WorkDetailPage({ projects, slug }: WorkDetailPageProps) {
 
   return (
     <>
+      <JsonLd data={createProjectBreadcrumbJsonLd(project)} />
+
       <SiteSection className="pt-10 sm:pt-14 lg:pt-16">
         <div className="reveal grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-end">
           <div className="space-y-6">
-            <a className={textLinkClass} href="/work">
-              Back to work
-            </a>
+            <nav aria-label="Breadcrumb">
+              <ol className="flex flex-wrap items-center gap-2 text-sm font-semibold text-text-muted">
+                <li>
+                  <a className={textLinkClass} href="/">
+                    Home
+                  </a>
+                </li>
+                <li aria-hidden>/</li>
+                <li>
+                  <a className={textLinkClass} href="/work">
+                    Work
+                  </a>
+                </li>
+                <li aria-hidden>/</li>
+                <li className="text-text" aria-current="page">
+                  {displayTitle}
+                </li>
+              </ol>
+            </nav>
 
             <PageIntro
               description={project.summary}

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#111111" />
+    <meta name="theme-color" content="#0B1220" />
     <meta name="robots" content="index,follow" />
     <meta name="application-name" content="Ali Achille Traore Portfolio" />
     <meta
@@ -36,7 +36,9 @@
     <script>
       (function () {
         var t = localStorage.getItem('theme')
-        if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        if (t === 'light') {
+          document.documentElement.classList.add('light')
+        } else {
           document.documentElement.classList.add('dark')
         }
       })()

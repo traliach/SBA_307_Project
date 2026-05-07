@@ -3,12 +3,12 @@ import { useEffect, useState } from 'react'
 export function useDarkMode() {
   const [dark, setDark] = useState(() => {
     const stored = localStorage.getItem('theme')
-    if (stored) return stored === 'dark'
-    return window.matchMedia('(prefers-color-scheme: dark)').matches
+    return stored === 'light' ? false : true
   })
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', dark)
+    document.documentElement.classList.toggle('light', !dark)
     localStorage.setItem('theme', dark ? 'dark' : 'light')
   }, [dark])
 

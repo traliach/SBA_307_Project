@@ -49,12 +49,11 @@ export function PortfolioHeader({
 
   const toggleBtnClass = cx(
     'inline-flex h-9 w-9 items-center justify-center rounded-lg border p-0 transition duration-200 sm:h-auto sm:w-auto sm:p-2.5',
-    'border-line/80 bg-white text-muted hover:border-accent/25 hover:text-ink',
-    'dark:border-white/[0.08] dark:bg-[#161920] dark:text-gray-400 dark:hover:border-amber-400/30 dark:hover:text-gray-100',
+    'border-border bg-surface text-text-muted hover:border-accent/40 hover:text-text',
   )
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line/60 bg-canvas/90 backdrop-blur-xl dark:border-white/[0.06] dark:bg-[#0f1117]/90">
+    <header className="sticky top-0 z-40 border-b border-border bg-bg/90 backdrop-blur-xl">
       <div
         className={cx(
           siteContainerClass,
@@ -62,10 +61,10 @@ export function PortfolioHeader({
         )}
       >
         <a className="group min-w-0 flex-1 lg:flex-none" href="/">
-          <span className="block truncate text-[0.68rem] font-semibold uppercase tracking-normal text-muted transition-colors group-hover:text-accent-deep dark:text-gray-500 dark:group-hover:text-amber-400">
+          <span className="block truncate text-[0.68rem] font-semibold uppercase tracking-normal text-text-muted transition-colors group-hover:text-accent-deep">
             {name}
           </span>
-          <span className="mt-1 block max-w-[170px] truncate text-sm font-medium text-ink sm:max-w-none sm:text-base dark:text-gray-100">
+          <span className="mt-1 block max-w-[170px] truncate text-sm font-medium text-text sm:max-w-none sm:text-base">
             {title}
           </span>
         </a>
@@ -110,7 +109,7 @@ export function PortfolioHeader({
           <button
             aria-expanded={menuOpen}
             aria-label="Toggle navigation menu"
-            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-line bg-white p-0 text-sm font-semibold text-muted transition duration-200 hover:border-accent/25 hover:text-ink dark:border-white/[0.08] dark:bg-[#161920] dark:text-gray-400 dark:hover:text-gray-100"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-surface p-0 text-sm font-semibold text-text-muted transition duration-200 hover:border-accent/40 hover:text-text"
             onClick={() => setMenuOpen((current) => !current)}
             type="button"
           >
@@ -125,7 +124,7 @@ export function PortfolioHeader({
       {/* Mobile menu */}
       <div
         className={cx(
-          'overflow-hidden border-t border-line/40 bg-white/95 backdrop-blur-xl transition-all duration-300 lg:hidden dark:border-white/[0.06] dark:bg-[#161920]/95',
+          'overflow-hidden border-t border-border bg-surface/95 backdrop-blur-xl transition-all duration-300 lg:hidden',
           menuOpen ? 'max-h-96 opacity-100' : 'max-h-0 border-t-0 opacity-0',
         )}
       >
@@ -135,10 +134,10 @@ export function PortfolioHeader({
               <a
                 aria-current={currentPath === item.href ? 'page' : undefined}
                 className={cx(
-                  'rounded-lg px-4 py-3 text-sm font-medium text-muted transition duration-200 dark:text-gray-400',
+                  'rounded-lg px-4 py-3 text-sm font-medium text-text-muted transition duration-200',
                   currentPath === item.href
-                    ? 'bg-surface-tinted text-ink dark:bg-[#1c2028] dark:text-gray-100'
-                    : 'hover:bg-surface-tinted hover:text-ink dark:hover:bg-[#1c2028] dark:hover:text-gray-100',
+                    ? 'bg-elevated text-text'
+                    : 'hover:bg-elevated hover:text-text',
                 )}
                 href={item.href}
                 key={item.href}

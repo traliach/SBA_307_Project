@@ -132,17 +132,17 @@ export function PublicSite() {
         <div className={siteContainerClass}>
           <div className="flex flex-col gap-6 py-8 sm:py-10 lg:flex-row lg:items-end lg:justify-between">
             <div className="space-y-2">
-              <p className="text-[0.68rem] font-semibold uppercase tracking-normal text-stone-500">
+              <p className="text-[0.68rem] font-semibold uppercase tracking-normal text-text-muted">
                 {portfolio.profile.name}
               </p>
-              <p className="font-display text-lg font-semibold tracking-normal text-ink sm:text-xl">
+              <p className="font-display text-lg font-semibold tracking-normal text-text sm:text-xl">
                 {portfolio.profile.title}
               </p>
-              <p className="max-w-2xl text-sm leading-7 text-muted">
+              <p className="max-w-2xl text-sm leading-7 text-text-muted">
                 {portfolio.profile.summary}
               </p>
               {visitorCount != null && (
-                <p className="text-[0.72rem] font-semibold uppercase tracking-normal text-stone-500">
+                <p className="text-[0.72rem] font-semibold uppercase tracking-normal text-text-muted">
                   {visitorCount.toLocaleString()} portfolio visits
                 </p>
               )}
@@ -151,14 +151,14 @@ export function PublicSite() {
             <div className="flex items-center gap-3">
               <a
                 aria-label="Email"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-line bg-white text-muted transition hover:border-accent/30 hover:text-accent-deep"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface text-text-muted transition hover:border-accent/40 hover:text-accent-deep"
                 href={portfolio.profile.links.email}
               >
                 <svg className="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
               </a>
               <a
                 aria-label="LinkedIn"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-line bg-white text-muted transition hover:border-accent/30 hover:text-accent-deep"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface text-text-muted transition hover:border-accent/40 hover:text-accent-deep"
                 href={portfolio.profile.links.linkedin}
                 rel="noreferrer"
                 target="_blank"
@@ -167,7 +167,7 @@ export function PublicSite() {
               </a>
               <a
                 aria-label="GitHub"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-line bg-white text-muted transition hover:border-accent/30 hover:text-accent-deep"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface text-text-muted transition hover:border-accent/40 hover:text-accent-deep"
                 href={portfolio.profile.links.github}
                 rel="noreferrer"
                 target="_blank"

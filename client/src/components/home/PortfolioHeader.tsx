@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { optionalRoutes } from '../../content/routeFlags'
 import type { ProfileContent } from '../../types/site'
 import { useDarkMode } from '../../hooks/useDarkMode'
 import {
@@ -22,6 +23,9 @@ const navItems = [
   { href: '/work', label: 'Work' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
+  ...optionalRoutes
+    .filter((route) => route.enabled)
+    .map((route) => ({ href: route.href, label: route.label })),
 ]
 
 function isActiveNavItem(currentPath: string, href: string) {

@@ -6,14 +6,22 @@ export function NotFoundPage() {
       <SurfaceCard className="mx-auto flex max-w-3xl flex-col gap-8 text-center" tone="subdued">
         <PageIntro
           align="center"
-          description="The route is not available in this portfolio."
+          description="The route is not available in this portfolio. Use one of the primary paths below to get back to the work, services, or contact form."
           eyebrow="404"
           size="page"
           title="Page not found."
         />
 
-        <div className="flex justify-center">
-          <ButtonLink href="/">Back to overview</ButtonLink>
+        <div className="grid gap-3 sm:flex sm:justify-center">
+          <ButtonLink className="w-full sm:w-auto" href="/">
+            Home
+          </ButtonLink>
+          <ButtonLink className="w-full sm:w-auto" href="/work" variant="secondary">
+            Work
+          </ButtonLink>
+          <ButtonLink className="w-full sm:w-auto" href="/contact" variant="ghost">
+            Contact
+          </ButtonLink>
         </div>
       </SurfaceCard>
     </SiteSection>

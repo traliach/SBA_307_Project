@@ -155,7 +155,7 @@ export function ContactPage({
             </SurfaceCard>
           </div>
 
-          <SurfaceCard className="flex flex-col gap-8" padding="roomy">
+          <SurfaceCard className="flex flex-col gap-8 scroll-mt-28" id="request" padding="roomy">
             <div className="space-y-5">
               <Eyebrow>Request</Eyebrow>
               <div className="space-y-4">
@@ -303,7 +303,7 @@ export function ContactPage({
         <CtaBand
           actions={
             <>
-              <ButtonLink href={profile.links.resume} rel="noreferrer" target="_blank" variant="secondary">
+              <ButtonLink download href={profile.links.resume} rel="noreferrer" target="_blank" variant="secondary">
                 Download resume
               </ButtonLink>
               <ButtonLink className="text-white hover:text-white" href="/work" variant="ghost">

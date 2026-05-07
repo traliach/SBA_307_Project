@@ -136,8 +136,8 @@ export function PortfolioHeader({
           >
             <LinkedInIcon />
           </a>
-          <a className={cx(buttonToneClasses.primary, 'px-4 py-2.5')} href="/contact">
-            Book a call
+          <a className={cx(buttonToneClasses.primary, 'px-4 py-2.5')} href="/contact#request">
+            Request a call
           </a>
           <button
             aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
@@ -203,8 +203,8 @@ export function PortfolioHeader({
           </nav>
 
           <div className="mt-4 grid gap-3 border-t border-border pt-4">
-            <a className={cx(buttonToneClasses.primary, 'w-full')} href="/contact">
-              Book a call
+            <a className={cx(buttonToneClasses.primary, 'w-full')} href="/contact#request">
+              Request a call
             </a>
             <div className="grid grid-cols-2 gap-3">
               <a

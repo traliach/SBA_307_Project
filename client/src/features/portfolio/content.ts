@@ -29,11 +29,11 @@ export const fallbackProfile: ProfileContent = {
   availability:
     'Open to DevOps engineering roles, platform engineering work, and freelance cloud or full-stack delivery conversations.',
   summary:
-    'Newark-based DevOps Engineer and Full-Stack Developer with 5+ years designing cloud infrastructure, CI/CD pipelines, Kubernetes platforms, and production React/Node applications.',
+    'Newark-based DevOps Engineer and Full-Stack Developer with 5+ years designing cloud infrastructure, CI/CD pipelines, Kubernetes platforms, observability systems, and production React/Node applications.',
   intro:
-    'I help teams build calmer release systems: AWS infrastructure with Terraform, GitHub Actions and Jenkins pipelines, Kubernetes platforms, observability, and full-stack applications with React, TypeScript, Node.js, and MongoDB.',
+    'I help teams build calmer release systems: AWS and Azure infrastructure with Terraform, GitHub Actions and Jenkins pipelines, Kubernetes platforms, observability, DevSecOps checks, and full-stack applications with React, TypeScript, Node.js, and MongoDB.',
   about:
-    'I work on the systems teams depend on when releases, infrastructure, or production support need to be reliable: CI/CD pipelines, AWS infrastructure, Kubernetes deployments, observability, and application delivery. At Teledyne Technologies Inc, I support DevOps delivery across AWS, Kubernetes, Terraform, GitHub Actions, Jenkins, observability, and security-minded release workflows. Before that, I worked as an AWS Cloud Engineer at Creative Newtech Ltd, automating infrastructure and improving cloud operations across AWS environments.',
+    'I work on the systems teams depend on when releases, infrastructure, or production support need to be reliable: CI/CD pipelines, AWS and Azure infrastructure, Kubernetes deployments, observability, DevSecOps controls, automation, and application delivery. At Teledyne Technologies Inc, I support DevOps delivery across AWS, Kubernetes, Terraform, GitHub Actions, Jenkins, observability, and security-minded release workflows. Before that, I worked as an AWS Cloud Engineer at Creative Newtech Ltd, automating infrastructure and improving cloud operations across AWS environments.',
   certifications: [
     'AWS Certified DevOps Engineer – Professional',
     'AWS Certified Cloud Practitioner',
@@ -41,11 +41,12 @@ export const fallbackProfile: ProfileContent = {
     'Google IT Support Professional Certificate',
   ],
   strengths: [
-    'CI/CD modernization with GitHub Actions, Jenkins, GitLab CI/CD, and Azure DevOps',
-    'Infrastructure as Code with Terraform, remote state, and repeatable AWS environments',
-    'Kubernetes operations with EKS, Helm, Kustomize, ArgoCD GitOps, and self-hosted k3s',
-    'DevSecOps practices with pipeline scanning, IAM/RBAC, and secrets-aware delivery',
-    'Full-stack delivery with React, TypeScript, Node.js, Express, MongoDB, and PostgreSQL',
+    'Cloud infrastructure across AWS, Azure, and GCP services with FinOps and cost optimization practices',
+    'CI/CD modernization with Jenkins, GitHub Actions, GitLab CI/CD, Azure DevOps, blue-green releases, and canary releases',
+    'Kubernetes operations with EKS, AKS, GKE, Helm, Kustomize, ArgoCD, FluxCD, and service mesh patterns',
+    'DevSecOps practices with SAST, DAST, SCA, Trivy, Aqua, IAM/RBAC, secrets management, and compliance support',
+    'Observability with Prometheus, Grafana, ELK, OpenTelemetry, Splunk, Datadog, New Relic, and CloudWatch',
+    'Automation and full-stack delivery with Python, Bash, React, TypeScript, Node.js, Express, MongoDB, and PostgreSQL',
   ],
   timeline: [
     {
@@ -71,7 +72,7 @@ export const fallbackProfile: ProfileContent = {
     email: 'mailto:t.achille.tech@gmail.com',
     linkedin: 'https://www.linkedin.com/in/achille-traore',
     github: 'https://github.com/traliach',
-    resume: '/ali-achille-traore-resume.txt',
+    resume: '/ali-achille-traore-resume.pdf',
   },
 }
 
@@ -335,46 +336,60 @@ export const projectSummaries: ProjectSummary[] = [
 
 export const skillGroups: SkillGroup[] = [
   {
-    eyebrow: 'Cloud and IaC',
-    title: 'AWS, Terraform, and multi-cloud infrastructure',
+    eyebrow: 'Cloud platforms',
+    title: 'AWS, Azure, GCP, and FinOps',
     description:
-      'Infrastructure as code and cloud delivery across AWS, Azure, and GCP — provisioning, configuration management, and cost optimization.',
-    items: ['AWS', 'Azure', 'GCP', 'Terraform', 'CloudFormation', 'Pulumi', 'Ansible', 'FinOps'],
+      'Cloud infrastructure across AWS, Azure, and GCP with multi-cloud, hybrid architecture, and cost optimization practices.',
+    items: ['AWS EC2', 'S3', 'RDS', 'EKS', 'Lambda', 'VPC', 'IAM', 'CloudWatch', 'Azure VM', 'AKS', 'App Services', 'VNet', 'Key Vault', 'GCP Compute Engine', 'GKE', 'Cloud Storage', 'FinOps'],
   },
   {
     eyebrow: 'CI/CD and delivery',
-    title: 'Release workflows that hold up in production',
+    title: 'Pipeline automation and release strategies',
     description:
-      'Pipeline tooling covering continuous integration, delivery, and artifact management across multiple platforms.',
-    items: ['GitHub Actions', 'Jenkins', 'GitLab CI/CD', 'Azure DevOps', 'Docker Compose', 'JFrog', 'SonarQube'],
+      'Pipeline tooling and release practices covering continuous integration, delivery, artifact management, and progressive rollout patterns.',
+    items: ['Jenkins', 'GitHub Actions', 'GitLab CI/CD', 'Azure DevOps Pipelines', 'Pipeline design', 'Pipeline automation', 'Blue-green deployments', 'Canary releases', 'Continuous delivery', 'JFrog', 'SonarQube', 'GHCR'],
   },
   {
     eyebrow: 'Containers and orchestration',
-    title: 'Kubernetes, Helm, and GitOps',
+    title: 'Kubernetes, Helm, GitOps, and service mesh',
     description:
       'Container build, cluster operations, and GitOps delivery workflows across managed and self-hosted Kubernetes environments.',
-    items: ['Docker', 'Kubernetes', 'k3s', 'Helm', 'Kustomize', 'ArgoCD', 'FluxCD', 'OpenShift'],
+    items: ['Docker', 'Kubernetes', 'EKS', 'AKS', 'GKE', 'k3s', 'Helm', 'Kustomize', 'ArgoCD', 'FluxCD', 'OpenShift', 'Istio', 'Linkerd', 'Container lifecycle management'],
   },
   {
-    eyebrow: 'DevSecOps and security',
-    title: 'Security tooling embedded in delivery pipelines',
+    eyebrow: 'Infrastructure as Code',
+    title: 'Terraform modules, state, and configuration automation',
     description:
-      'Vulnerability scanning, secrets management, and compliance practices integrated into CI/CD workflows and cloud environments.',
-    items: ['Trivy', 'Aqua', 'SAST / DAST', 'HashiCorp Vault', 'AWS Secrets Manager', 'IAM and RBAC'],
+      'Repeatable infrastructure provisioning, configuration management, and automation scripting across cloud environments.',
+    items: ['Terraform modules', 'Remote state', 'Workspaces', 'CloudFormation', 'Pulumi', 'ARM Templates', 'Ansible', 'Python automation', 'Bash scripting', 'Configuration drift management'],
   },
   {
     eyebrow: 'Observability and operations',
-    title: 'Prometheus, Grafana, and ELK Stack',
+    title: 'Metrics, logs, tracing, and incident visibility',
     description:
       'Monitoring, alerting, and log management tooling enabling proactive incident detection and performance visibility.',
-    items: ['Prometheus', 'Grafana', 'ELK Stack', 'CloudWatch', 'OpenTelemetry', 'Datadog', 'New Relic'],
+    items: ['Prometheus', 'Grafana', 'ELK Stack', 'Elasticsearch', 'Logstash', 'Kibana', 'OpenTelemetry', 'Splunk', 'Datadog', 'New Relic', 'CloudWatch', 'Metrics and alerting', 'Log management'],
+  },
+  {
+    eyebrow: 'DevSecOps and security',
+    title: 'Pipeline security, secrets, and compliance support',
+    description:
+      'Vulnerability scanning, secrets management, and compliance practices integrated into CI/CD workflows and cloud environments.',
+    items: ['SAST', 'DAST', 'SCA', 'Trivy', 'Aqua', 'HashiCorp Vault', 'AWS Secrets Manager', 'IAM', 'RBAC', 'Vulnerability management', 'SOC 2', 'ISO 27001'],
+  },
+  {
+    eyebrow: 'Cloud-native architecture',
+    title: 'Microservices, serverless, and distributed systems',
+    description:
+      'Architecture practices for cloud-native systems, APIs, event-driven workloads, and reliable platform operations.',
+    items: ['Microservices', 'Serverless computing', 'Event-driven architecture', 'API Gateway', 'Distributed systems', 'Hybrid cloud architecture', 'Multi-cloud strategy', 'Linux', 'Networking'],
   },
   {
     eyebrow: 'Languages',
-    title: 'TypeScript, Python, JavaScript, Bash',
+    title: 'Python, Bash, TypeScript, and JavaScript',
     description:
       'Primary languages used across full-stack applications, infrastructure automation scripts, and DevOps tooling.',
-    items: ['TypeScript', 'JavaScript', 'Python', 'Bash'],
+    items: ['Python', 'Bash', 'TypeScript', 'JavaScript'],
   },
   {
     eyebrow: 'Backend and APIs',

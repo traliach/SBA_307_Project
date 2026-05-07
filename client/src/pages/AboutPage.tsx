@@ -114,6 +114,7 @@ export function AboutPage({ profile }: AboutPageProps) {
                 Get in touch
               </ButtonLink>
               <ButtonLink
+                download
                 className="w-full sm:w-auto"
                 href={profile.links.resume}
                 rel="noreferrer"

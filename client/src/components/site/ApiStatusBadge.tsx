@@ -44,7 +44,7 @@ export function ApiStatusBadge({ health, state }: ApiStatusBadgeProps) {
     >
       <span className={cx('h-1.5 w-1.5 rounded-full', dotClasses[state])} />
       <span>{labels[state]}</span>
-      <span className="normal-case text-[0.7rem] font-medium tracking-normal opacity-70">
+      <span className="normal-case text-[0.7rem] font-medium tracking-normal">
         {detail}
       </span>
     </div>

@@ -142,7 +142,7 @@ export function WorkDetailPage({ projects, slug }: WorkDetailPageProps) {
             </div>
 
             <div className="grid gap-3 sm:flex sm:flex-wrap">
-              <ButtonLink className="w-full sm:w-auto" href="/contact">
+              <ButtonLink className="w-full sm:w-auto" href="/contact#request">
                 Discuss similar work
               </ButtonLink>
               <ButtonLink className="w-full sm:w-auto" href="/services" variant="secondary">
@@ -286,8 +286,8 @@ export function WorkDetailPage({ projects, slug }: WorkDetailPageProps) {
         <CtaBand
           actions={
             <>
-              <ButtonLink href="/contact" variant="secondary">
-                Book a call
+              <ButtonLink href="/contact#request" variant="secondary">
+                Request a call
               </ButtonLink>
               <ButtonLink className="text-white hover:text-white" href="/work" variant="ghost">
                 View all work

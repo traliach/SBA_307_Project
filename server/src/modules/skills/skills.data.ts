@@ -2,39 +2,60 @@ import type { SkillGroup } from '../../types/content.js'
 
 export const skillGroups: SkillGroup[] = [
   {
-    eyebrow: 'Cloud and IaC',
-    title: 'AWS, Terraform, and multi-cloud infrastructure',
+    eyebrow: 'Cloud platforms',
+    title: 'AWS, Azure, GCP, and FinOps',
     description:
-      'Infrastructure as code and cloud delivery across AWS, Azure, and GCP — 50+ components automated with Terraform and Ansible.',
-    items: ['AWS', 'Terraform', 'CloudFormation', 'Ansible', 'Azure', 'GCP'],
+      'Cloud infrastructure across AWS, Azure, and GCP with multi-cloud, hybrid architecture, and cost optimization practices.',
+    items: ['AWS EC2', 'S3', 'RDS', 'EKS', 'Lambda', 'VPC', 'IAM', 'CloudWatch', 'Azure VM', 'AKS', 'App Services', 'VNet', 'Key Vault', 'GCP Compute Engine', 'GKE', 'Cloud Storage', 'FinOps'],
   },
   {
     eyebrow: 'CI/CD and delivery',
-    title: 'Release workflows that hold up in production',
+    title: 'Pipeline automation and release strategies',
     description:
-      'Pipeline tooling used to reduce manual release steps and cut build/deploy time by ~30% in production.',
-    items: ['GitHub Actions', 'Jenkins', 'Azure DevOps', 'Docker Compose', 'JFrog', 'SonarQube', 'GHCR'],
+      'Pipeline tooling and release practices covering continuous integration, delivery, artifact management, and progressive rollout patterns.',
+    items: ['Jenkins', 'GitHub Actions', 'GitLab CI/CD', 'Azure DevOps Pipelines', 'Pipeline design', 'Pipeline automation', 'Blue-green deployments', 'Canary releases', 'Continuous delivery', 'JFrog', 'SonarQube', 'GHCR'],
   },
   {
     eyebrow: 'Containers and orchestration',
-    title: 'Kubernetes, OpenShift, and Docker',
+    title: 'Kubernetes, Helm, GitOps, and service mesh',
     description:
-      'Container build and cluster operations sustaining ~99.9% uptime across 10+ Kubernetes and OpenShift environments.',
-    items: ['Docker', 'Kubernetes', 'k3s', 'ArgoCD', 'Helm', 'OpenShift', 'Docker Compose'],
+      'Container build, cluster operations, and GitOps delivery workflows across managed and self-hosted Kubernetes environments.',
+    items: ['Docker', 'Kubernetes', 'EKS', 'AKS', 'GKE', 'k3s', 'Helm', 'Kustomize', 'ArgoCD', 'FluxCD', 'OpenShift', 'Istio', 'Linkerd', 'Container lifecycle management'],
+  },
+  {
+    eyebrow: 'Infrastructure as Code',
+    title: 'Terraform modules, state, and configuration automation',
+    description:
+      'Repeatable infrastructure provisioning, configuration management, and automation scripting across cloud environments.',
+    items: ['Terraform modules', 'Remote state', 'Workspaces', 'CloudFormation', 'Pulumi', 'ARM Templates', 'Ansible', 'Python automation', 'Bash scripting', 'Configuration drift management'],
   },
   {
     eyebrow: 'Observability and operations',
-    title: 'Prometheus, Grafana, and Kibana',
+    title: 'Metrics, logs, tracing, and incident visibility',
     description:
-      'Monitoring and incident response tooling that improved detection time by ~25% and cut resolution time by ~35%.',
-    items: ['Prometheus', 'Grafana', 'Kibana', 'CloudWatch', 'Linux'],
+      'Monitoring, alerting, and log management tooling enabling proactive incident detection and performance visibility.',
+    items: ['Prometheus', 'Grafana', 'ELK Stack', 'Elasticsearch', 'Logstash', 'Kibana', 'OpenTelemetry', 'Splunk', 'Datadog', 'New Relic', 'CloudWatch', 'Metrics and alerting', 'Log management'],
+  },
+  {
+    eyebrow: 'DevSecOps and security',
+    title: 'Pipeline security, secrets, and compliance support',
+    description:
+      'Vulnerability scanning, secrets management, and compliance practices integrated into CI/CD workflows and cloud environments.',
+    items: ['SAST', 'DAST', 'SCA', 'Trivy', 'Aqua', 'HashiCorp Vault', 'AWS Secrets Manager', 'IAM', 'RBAC', 'Vulnerability management', 'SOC 2', 'ISO 27001'],
+  },
+  {
+    eyebrow: 'Cloud-native architecture',
+    title: 'Microservices, serverless, and distributed systems',
+    description:
+      'Architecture practices for cloud-native systems, APIs, event-driven workloads, and reliable platform operations.',
+    items: ['Microservices', 'Serverless computing', 'Event-driven architecture', 'API Gateway', 'Distributed systems', 'Hybrid cloud architecture', 'Multi-cloud strategy', 'Linux', 'Networking'],
   },
   {
     eyebrow: 'Languages',
-    title: 'TypeScript, JavaScript, Python, Ruby',
+    title: 'Python, Bash, TypeScript, and JavaScript',
     description:
       'Primary languages used across full-stack applications, DevOps automation scripts, and infrastructure tooling.',
-    items: ['TypeScript', 'JavaScript', 'Python', 'Ruby'],
+    items: ['Python', 'Bash', 'TypeScript', 'JavaScript'],
   },
   {
     eyebrow: 'Backend and APIs',

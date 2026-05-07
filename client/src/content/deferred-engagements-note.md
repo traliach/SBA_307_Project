@@ -7,7 +7,7 @@ risk, environment, and expected deliverables.
 Current positioning:
 
 - Keep consulting visible as an option across Services, Contact, and CTA copy.
-- Use "Request scope", "Book a call", or "Discuss the work" instead of "Buy",
+- Use "Request scope", "Request a call", or "Discuss the work" instead of "Buy",
   "Start at $X", or package pricing.
 - Avoid fixed-price cards unless Achille later confirms a repeatable offer.
 - Do not add `/pricing` to the nav.

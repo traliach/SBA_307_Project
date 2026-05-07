@@ -175,8 +175,8 @@ export function WorkIndexPage({ projects }: WorkIndexPageProps) {
               <ButtonLink href="/services" variant="secondary">
                 View services
               </ButtonLink>
-              <ButtonLink className="text-white hover:text-white" href="/contact" variant="ghost">
-                Book a call
+              <ButtonLink className="text-white hover:text-white" href="/contact#request" variant="ghost">
+                Request a call
               </ButtonLink>
             </>
           }

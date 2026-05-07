@@ -79,8 +79,9 @@ export function ProjectsPage({ projects }: ProjectsPageProps) {
           Start a conversation
         </ButtonLink>
         <ButtonLink
+          download
           className="w-full sm:w-auto"
-          href="/resume"
+          href="/ali-achille-traore-resume.pdf"
           rel="noreferrer"
           target="_blank"
           variant="secondary"

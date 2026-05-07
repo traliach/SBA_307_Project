@@ -285,16 +285,19 @@ export function ServicesPage() {
         <FaqAccordion
           items={[
             {
-              question: 'Do these services require backend changes to this site?',
-              answer: 'No. This phase only adds public client-side pages and keeps the existing API contracts untouched.',
+              question: 'How does a consultation usually start?',
+              answer:
+                'Start with a short scope conversation. I review the current stack, the release or reliability problem, timeline, and what outcome would make the work useful.',
             },
             {
-              question: 'Can this support job-search positioning and consulting?',
-              answer: 'Yes. The copy emphasizes senior DevOps/SRE capability while keeping consulting CTAs concrete and optional.',
+              question: 'Do you use fixed pricing?',
+              answer:
+                'Not by default. Pricing depends on the work, risk, timeline, and level of involvement, so the first step is understanding the scope before quoting anything.',
             },
             {
-              question: 'What should a first message include?',
-              answer: 'Share the current stack, the release or reliability problem, and the outcome you need first.',
+              question: 'What should the first message include?',
+              answer:
+                'Share the current stack, the release or reliability problem, the timeline, and the outcome you need first.',
             },
           ]}
         />

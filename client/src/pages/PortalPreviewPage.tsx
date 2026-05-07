@@ -110,7 +110,7 @@ export function PortalPreviewPage() {
       <SiteSection className="pt-0" tone="compact">
         <div className="reveal overflow-hidden rounded-lg border border-border bg-surface shadow-panel">
           <div className="grid lg:grid-cols-[230px_minmax(0,1fr)]">
-            <aside className="border-b border-border bg-bg p-4 lg:border-b-0 lg:border-r">
+            <div className="border-b border-border bg-bg p-4 lg:border-b-0 lg:border-r">
               <div className="space-y-5">
                 <div>
                   <p className={finePrintClass}>Portal preview</p>
@@ -136,7 +136,7 @@ export function PortalPreviewPage() {
                   ))}
                 </nav>
               </div>
-            </aside>
+            </div>
 
             <div className="grid gap-5 p-4 sm:p-5 lg:p-6">
               <div className="grid gap-4 md:grid-cols-3" id="portal-overview">
@@ -161,7 +161,11 @@ export function PortalPreviewPage() {
                     <Tag>Preview data</Tag>
                   </div>
 
-                  <div className="overflow-x-auto">
+                  <div
+                    aria-label="Environment health table"
+                    className="overflow-x-auto"
+                    tabIndex={0}
+                  >
                     <table className="w-full min-w-[620px] text-left text-sm">
                       <thead className="border-b border-border text-text-muted">
                         <tr>

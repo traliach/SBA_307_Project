@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react'
 import { ApiStatusBadge } from '../components/site/ApiStatusBadge'
 import { JsonLd } from '../components/site/JsonLd'
 import { ProjectCaseStudyCard } from '../components/site/ProjectCaseStudyCard'
+import { FeaturedCaseStudy } from '../components/work/FeaturedCaseStudy'
 import {
   ButtonLink,
   CtaBand,
@@ -151,6 +152,8 @@ export function HomePage({
   projects,
 }: HomePageProps) {
   const featuredProjects = getFeaturedProjects(projects)
+  const primaryFeaturedProject = featuredProjects[0]
+  const supportingFeaturedProjects = featuredProjects.slice(1)
 
   return (
     <>
@@ -262,11 +265,19 @@ export function HomePage({
           </SurfaceCard>
         </div>
 
-        <div className="reveal stagger-2 mt-8 grid gap-5 xl:grid-cols-3">
-          {featuredProjects.map((project) => (
-            <ProjectCaseStudyCard key={project.title} project={project} />
-          ))}
-        </div>
+        {primaryFeaturedProject ? (
+          <div className="reveal stagger-2 mt-8 grid gap-6">
+            <FeaturedCaseStudy project={primaryFeaturedProject} />
+
+            {supportingFeaturedProjects.length ? (
+              <div className="grid gap-5 lg:grid-cols-2">
+                {supportingFeaturedProjects.map((project) => (
+                  <ProjectCaseStudyCard key={project.title} project={project} />
+                ))}
+              </div>
+            ) : null}
+          </div>
+        ) : null}
       </SiteSection>
 
       <SiteSection>

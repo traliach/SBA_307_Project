@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { ProjectCaseStudyCard } from '../components/site/ProjectCaseStudyCard'
+import { FeaturedCaseStudy } from '../components/work/FeaturedCaseStudy'
 import {
   ButtonLink,
   CtaBand,
@@ -78,6 +79,9 @@ export function WorkIndexPage({ projects }: WorkIndexPageProps) {
     matchesWorkFilter(project, activeFilter),
   )
   const featuredProject = orderedProjects[0]
+  const listedProjects = featuredProject
+    ? visibleProjects.filter((project) => project.title !== featuredProject.title)
+    : visibleProjects
   const domains = Array.from(new Set(orderedProjects.map(getProjectDomain))).slice(0, 6)
 
   return (
@@ -117,7 +121,7 @@ export function WorkIndexPage({ projects }: WorkIndexPageProps) {
                 the full library below.
               </p>
             </div>
-            <ProjectCaseStudyCard layout="full" project={featuredProject} />
+            <FeaturedCaseStudy hideSectionLabel project={featuredProject} />
           </div>
         </SiteSection>
       ) : null}
@@ -161,7 +165,7 @@ export function WorkIndexPage({ projects }: WorkIndexPageProps) {
           </div>
 
           <div className="grid gap-5 lg:grid-cols-2">
-            {visibleProjects.map((project) => (
+            {listedProjects.map((project) => (
               <ProjectCaseStudyCard key={project.title} project={project} />
             ))}
           </div>

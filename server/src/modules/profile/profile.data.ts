@@ -14,7 +14,7 @@ export const profile: ProfileContent = {
   intro:
     'I help teams build calmer release systems: AWS and Azure infrastructure with Terraform, GitHub Actions and Jenkins pipelines, Kubernetes platforms, observability, DevSecOps checks, and full-stack applications with React, TypeScript, Node.js, and MongoDB.',
   about:
-    'I work on the systems teams depend on when releases, infrastructure, or production support need to be reliable: CI/CD pipelines, AWS and Azure infrastructure, Kubernetes deployments, observability, DevSecOps controls, automation, and application delivery. At Teledyne Technologies Inc, I support DevOps delivery across AWS, Kubernetes, Terraform, GitHub Actions, Jenkins, observability, and security-minded release workflows. Before that, I worked as an AWS Cloud Engineer at Creative Newtech Ltd, automating infrastructure and improving cloud operations across AWS environments.',
+    'I work on the systems teams depend on when releases, infrastructure, or production support need to be reliable: CI/CD pipelines, AWS and Azure infrastructure, Kubernetes deployments, observability, DevSecOps controls, automation, and application delivery. At Teledyne Technologies Inc, an industrial technology company serving high-reliability markets, I support DevOps delivery across AWS, Kubernetes, Terraform, GitHub Actions, Jenkins, observability, and security-minded release workflows. Before that, I worked as an AWS Cloud Engineer at Creative Newtech Ltd, automating infrastructure and improving cloud operations across AWS environments.',
   certifications: [
     'AWS Certified DevOps Engineer – Professional',
     'AWS Certified Cloud Practitioner',
@@ -34,7 +34,7 @@ export const profile: ProfileContent = {
       title: 'DevOps Engineer, Teledyne Technologies Inc',
       period: 'Sept 2024 - Present',
       detail:
-        'Supporting cloud-native DevOps delivery across AWS, Kubernetes, Terraform, CI/CD automation, observability, and secure production deployment workflows in Newark, NJ.',
+        'Supporting cloud-native DevOps delivery across AWS, Kubernetes, Terraform, CI/CD automation, observability, and secure production deployment workflows at an industrial technology company serving high-reliability markets.',
     },
     {
       title: 'AWS Cloud Engineer, Creative Newtech Ltd',

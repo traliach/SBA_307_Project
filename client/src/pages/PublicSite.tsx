@@ -8,6 +8,7 @@ import { ScrollProgressBar } from '../components/site/ScrollProgressBar'
 import { siteContainerClass } from '../components/site/styles'
 import { AboutPage } from './AboutPage'
 import { ContactPage } from './ContactPage'
+import { ComponentPreviewPage } from './ComponentPreviewPage'
 import { HomePage } from './HomePage'
 import { NotFoundPage } from './NotFoundPage'
 import { ProjectsPage } from './ProjectsPage'
@@ -112,6 +113,8 @@ export function PublicSite() {
             testimonialSubmitState={portfolio.testimonialSubmitState}
           />
         )
+      case '/_dev/components':
+        return import.meta.env.DEV ? <ComponentPreviewPage /> : <NotFoundPage />
       default:
         return <NotFoundPage />
     }

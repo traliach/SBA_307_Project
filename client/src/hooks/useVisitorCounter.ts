@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react'
 
 const counterUrl = import.meta.env.VITE_VISITOR_COUNTER_URL?.trim() ?? ''
 
+export const isVisitorCounterConfigured = Boolean(counterUrl)
+
 export function useVisitorCounter() {
   const [count, setCount] = useState<number | null>(null)
 
   useEffect(() => {
-    if (!counterUrl) return
+    if (!isVisitorCounterConfigured) return
 
     fetch(counterUrl)
       .then((res) => res.json())

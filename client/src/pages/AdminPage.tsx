@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useAdminPanel } from '../hooks/useAdminPanel'
-import { useVisitorCounter } from '../hooks/useVisitorCounter'
+import {
+  isVisitorCounterConfigured,
+  useVisitorCounter,
+} from '../hooks/useVisitorCounter'
 import type {
   AdminContactSubmission,
   AdminProject,
@@ -1096,13 +1099,23 @@ export function AdminPage() {
           <strong>{contactCounts.new}</strong>
           <p className="admin-meta">New inbound contact items needing review.</p>
         </article>
-        {visitorCount !== null && (
-          <article className="surface admin-summary-card">
-            <span className="eyebrow">Visitors</span>
-            <strong>{visitorCount.toLocaleString()}</strong>
-            <p className="admin-meta">Total visits to resume.achille.tech.</p>
-          </article>
-        )}
+        <article className="surface admin-summary-card">
+          <span className="eyebrow">Visitors</span>
+          <strong>
+            {visitorCount !== null
+              ? visitorCount.toLocaleString()
+              : isVisitorCounterConfigured
+                ? 'Unavailable'
+                : 'Not configured'}
+          </strong>
+          <p className="admin-meta">
+            {visitorCount !== null
+              ? 'Total visits to resume.achille.tech.'
+              : isVisitorCounterConfigured
+                ? 'Counter endpoint did not return a count.'
+                : 'Set VITE_VISITOR_COUNTER_URL to show the resume counter.'}
+          </p>
+        </article>
       </section>
 
       {notice ? (

@@ -15,6 +15,10 @@ const PRIVACY_SECTIONS = [
     body: 'The portfolio uses a React client, an Express API, MongoDB Atlas for stored submissions, and email delivery for contact notifications.',
   },
   {
+    title: 'Cookies and tracking',
+    body: 'This site does not use advertising or marketing cookies. Essential cookies may be used for admin authentication, and a local browser preference may be used to remember the selected color theme.',
+  },
+  {
     title: 'Your choices',
     body: 'You can request deletion or correction of a submitted message by emailing the address listed on the Contact page.',
   },

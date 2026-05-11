@@ -15,7 +15,7 @@ export const surfaceToneClasses = {
   contrast:
     'rounded-lg border border-primary/30 bg-primary text-white shadow-panel',
   warm:
-    'rounded-lg border border-warning/30 bg-warm-soft shadow-card',
+    'rounded-lg border border-accent/25 bg-elevated shadow-card',
 } as const
 
 export const surfacePaddingClasses = {

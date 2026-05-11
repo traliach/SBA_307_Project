@@ -23,9 +23,9 @@ const skillSpanClasses = [
   'xl:col-span-12', // 9. Databases (full width)
 ]
 
-const skillTones: Array<'default' | 'subdued' | 'accent' | 'warm'> = [
+const skillTones: Array<'default' | 'subdued' | 'accent'> = [
   'accent',   // 1. Cloud and IaC
-  'warm',     // 2. CI/CD and delivery
+  'subdued',  // 2. CI/CD and delivery
   'accent',   // 3. Containers and orchestration
   'subdued',  // 4. DevSecOps and security
   'subdued',  // 5. Observability and operations

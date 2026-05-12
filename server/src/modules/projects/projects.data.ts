@@ -7,24 +7,25 @@ export const projects: ProjectSummary[] = [
     role: 'Full-Stack Developer',
     featured: true,
     summary:
-      'Full-stack marketplace with Customer, Owner, and Admin role flows — JWT auth, RBAC, deal lifecycle workflow, Stripe payments, and an AI chat assistant powered by Groq.',
+      'Full-stack restaurant deal marketplace with a polished discovery experience, Customer, Owner, and Admin role flows, JWT auth, RBAC, deal lifecycle workflow, Stripe payments, and an AI chat assistant powered by Groq.',
     challenge:
-      'Build a production-quality marketplace where restaurant owners submit deals, admins review and publish them, and customers can browse, filter, and purchase — all with proper role isolation and workflow enforcement.',
+      'Build a production-quality marketplace where customers can quickly compare verified local food offers, restaurant owners can publish promotions in a structured way, and admins can review content without breaking role boundaries.',
     solution:
-      'Designed a REST API with Express + TypeScript enforcing a Draft → Submitted → Published/Rejected lifecycle. MongoDB schemas and indexes support a public feed, admin queue, and owner portal. React 19 SPA with Redux Toolkit, Stripe Elements, and a floating Groq-powered AI chat widget that translates natural language into deal filters.',
+      'Designed a REST API with Express + TypeScript enforcing a Draft → Submitted → Published/Rejected lifecycle. MongoDB schemas and indexes support a public feed, admin queue, and owner portal. React 19 SPA with Redux Toolkit delivers a modern deal discovery UI, Stripe Elements handles checkout, and a Groq-powered AI chat widget translates natural language into deal filters.',
     stack: ['MongoDB', 'Express', 'React 19', 'Node.js', 'TypeScript', 'Redux Toolkit', 'Stripe', 'Groq API', 'Tailwind CSS v4'],
     metrics: [
       { label: 'Roles', value: '3 (Customer / Owner / Admin)' },
       { label: 'Auth', value: 'JWT + RBAC' },
-      { label: 'Payments', value: 'Stripe' },
+      { label: 'Live deploy', value: 'Dealbite on Netlify' },
     ],
     outcomes: [
+      'Modern deal discovery experience helps customers browse verified offers and compare active promotions quickly.',
       'Server-enforced deal status workflow with admin review queue and owner portal.',
       'AI chat widget converts plain-language queries into live deal filters.',
       'Shopping cart with localStorage persistence, order history, and Stripe checkout.',
     ],
     repoUrl: 'https://github.com/traliach/restaurant-deals-web',
-    liveUrl: 'https://perscholascapstoneaat.netlify.app',
+    liveUrl: 'https://dealbite.netlify.app',
   },
   {
     title: 'Global PACS — Hybrid Cloud Medical Imaging',

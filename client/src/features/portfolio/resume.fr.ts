@@ -115,9 +115,9 @@ export const projectsFr = [
     timeframe: '2026',
     stack: ['MongoDB', 'Express', 'React 19', 'Node.js', 'TypeScript', 'Redux Toolkit', 'Stripe', 'Groq API', 'Tailwind CSS v4'],
     outcomes: [
+      'Expérience moderne de découverte d\'offres permettant aux clients de parcourir des promotions vérifiées et de comparer rapidement les offres actives.',
       'Workflow de validation des offres côté serveur avec file d\'approbation administrateur et portail propriétaire.',
       'Widget IA convertissant des requêtes en langage naturel en filtres d\'offres en temps réel.',
-      'Panier avec persistance via localStorage, historique des commandes et paiement Stripe.',
     ],
     featured: true,
   },

@@ -30,6 +30,39 @@ async function readMongoProjects() {
 
   let anyUpdate = false
 
+  // One-time content refresh for the renamed Netlify deployment while keeping
+  // the stable title so Mongo does not create a duplicate case study.
+  const restaurantDealsSeed = seedProjects.find(
+    (project) => project.title === 'Restaurant Deals — MERN Marketplace',
+  )
+
+  if (restaurantDealsSeed) {
+    const restaurantDealsDocument = documents.find(
+      (document) => document.title === restaurantDealsSeed.title,
+    )
+
+    if (
+      restaurantDealsDocument &&
+      restaurantDealsDocument.liveUrl !== restaurantDealsSeed.liveUrl
+    ) {
+      await ProjectModel.updateOne(
+        { _id: restaurantDealsDocument._id },
+        {
+          $set: {
+            summary: restaurantDealsSeed.summary,
+            challenge: restaurantDealsSeed.challenge,
+            solution: restaurantDealsSeed.solution,
+            metrics: restaurantDealsSeed.metrics,
+            outcomes: restaurantDealsSeed.outcomes,
+            liveUrl: restaurantDealsSeed.liveUrl,
+          },
+        },
+      ).exec()
+      logInfo('Synced Restaurant Deals project content from static data.')
+      anyUpdate = true
+    }
+  }
+
   // Insert new projects not yet in MongoDB.
   const existingTitles = new Set(documents.map((d) => d.title))
   const newProjects = seedProjects.filter((p) => !existingTitles.has(p.title))

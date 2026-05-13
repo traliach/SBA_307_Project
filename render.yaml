@@ -2,10 +2,10 @@ services:
   - type: web
     name: resume-platform-api
     runtime: node
-    rootDir: server
+    rootDir: .
     plan: free
-    buildCommand: npm ci && npm run build
-    startCommand: npm run start
+    buildCommand: npm ci && npm run build:server
+    startCommand: npm run start:server
     envVars:
       - key: NODE_ENV
         value: production

@@ -337,16 +337,23 @@ export function usePortfolioData() {
 
     try {
       const result = await submitContact(contactForm)
-      setSubmitState('success')
+      const notificationSent =
+        !result.emailNotification || result.emailNotification === 'sent'
+
+      setSubmitState(notificationSent ? 'success' : 'error')
       setSubmitMessage(result.message)
       setContactForm(createInitialContactForm()) // wipe the fields for the next message
-      console.info('[portfolio] contact form success')
+      console.info('[portfolio] contact form success', {
+        emailNotification: result.emailNotification ?? 'unknown',
+      })
 
-      // Auto-dismiss the success banner after 5 seconds so it doesn't linger.
-      setTimeout(() => {
-        setSubmitMessage('')
-        setSubmitState('idle')
-      }, 5000)
+      if (notificationSent) {
+        // Auto-dismiss the success banner after 5 seconds so it doesn't linger.
+        setTimeout(() => {
+          setSubmitMessage('')
+          setSubmitState('idle')
+        }, 5000)
+      }
     } catch (error) {
       setSubmitState('error')
       // If the server returned a message (e.g. "Message must be at least 10

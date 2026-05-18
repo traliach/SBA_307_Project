@@ -123,7 +123,8 @@ const envSchema = z.object({
 
   // ─── SMTP / email settings ─────────────────────────────────────────────
   // These are used by the mailer utility to send contact-form notifications.
-  // If SMTP_USER or SMTP_PASS are absent the mailer is silently disabled.
+  // If SMTP_USER or SMTP_PASS are absent the contact route reports that the
+  // message was saved but no notification email was sent.
 
   SMTP_HOST: z.string().default('smtp.gmail.com'),
   // Port 587 uses STARTTLS (starts plain, upgrades to encrypted).

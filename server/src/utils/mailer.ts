@@ -8,14 +8,21 @@
  * the same protocol your email app uses to talk to Gmail, Outlook, etc.
  *
  * If the SMTP credentials are absent (e.g. during local development without
- * a .env file) the transport is null and notifications are silently skipped.
- * This keeps the rest of the app working even without email configured.
+ * a .env file), the caller gets a skipped result instead of pretending email
+ * delivery happened.
  */
 
 import nodemailer from 'nodemailer'
 import { env } from '../config/env.js'
 import { logError, logInfo, logWarn } from './logger.js'
 import type { ContactSubmission } from '../types/content.js'
+
+export type ContactNotificationStatus = 'sent' | 'skipped' | 'failed'
+
+export interface ContactNotificationResult {
+  message: string
+  status: ContactNotificationStatus
+}
 
 /**
  * Tries to build a Nodemailer "transport" — the object that knows how to
@@ -36,6 +43,9 @@ function createTransport() {
     // `secure: true` tells Nodemailer to use full TLS from the start (port 465).
     // With port 587 we set it to false and let STARTTLS upgrade the connection.
     secure: env.SMTP_PORT === 465,
+    connectionTimeout: 5000,
+    greetingTimeout: 5000,
+    socketTimeout: 7000,
     auth: {
       user: env.SMTP_USER,        // Gmail address used to send
       pass: env.SMTP_PASS,        // Google App Password (not your login password)
@@ -50,16 +60,19 @@ const transport = createTransport()
 /**
  * Sends an email to the site owner whenever a new contact submission arrives.
  *
- * This function is "fire-and-forget" — it does NOT return a promise that the
- * caller awaits.  That means:
- *   - The API responds to the visitor immediately (fast UX).
- *   - If the email fails, the submission is already saved to the database so
- *     no data is lost — only the notification is missed (logged as an error).
+ * The submission is already saved before this runs, so a failed notification
+ * does not lose the message. Returning the delivery status lets the API show a
+ * truthful response instead of silently swallowing email configuration issues.
  */
-export function sendContactNotification(submission: ContactSubmission) {
+export async function sendContactNotification(
+  submission: ContactSubmission,
+): Promise<ContactNotificationResult> {
   if (!transport) {
     logWarn('SMTP not configured — skipping contact email notification.')
-    return
+    return {
+      status: 'skipped',
+      message: 'Email notification was skipped because SMTP is not configured.',
+    }
   }
 
   // The subject line includes the inquiry type and sender name so the owner
@@ -93,24 +106,28 @@ export function sendContactNotification(submission: ContactSubmission) {
   <p style="white-space:pre-wrap;line-height:1.6">${submission.message}</p>
 </div>`.trim()
 
-  // sendMail returns a Promise.  We attach .then/.catch instead of awaiting
-  // so that this function returns immediately (fire-and-forget pattern).
-  transport
-    .sendMail({
+  try {
+    await transport.sendMail({
       from: `"Portfolio Contact" <${env.SMTP_USER}>`, // shown in the "From" field
-      to: env.SMTP_USER,                               // send to yourself
+      to: env.ADMIN_EMAIL ?? env.SMTP_USER,            // send to the site owner
       replyTo: submission.email,                       // hitting Reply goes to the visitor
       subject,
       text,   // fallback plain text
       html,   // preferred rich HTML
     })
-    .then(() => {
-      logInfo(`Contact notification sent for submission ${submission.id}`)
-    })
-    .catch((error: unknown) => {
-      // Log but don't crash — the submission is already persisted, so we only
-      // lost the notification, not the data.
-      const detail = error instanceof Error ? error.message : String(error)
-      logError(`Failed to send contact notification for ${submission.id}: ${detail}`)
-    })
+
+    logInfo(`Contact notification sent for submission ${submission.id}`)
+    return {
+      status: 'sent',
+      message: 'Email notification sent.',
+    }
+  } catch (error: unknown) {
+    const detail = error instanceof Error ? error.message : String(error)
+    logError(`Failed to send contact notification for ${submission.id}: ${detail}`)
+
+    return {
+      status: 'failed',
+      message: 'Email notification failed to send.',
+    }
+  }
 }

@@ -95,6 +95,7 @@ export interface ContactSubmissionInput {
 }
 
 export interface ContactSubmissionResult {
+  emailNotification?: 'sent' | 'skipped' | 'failed'
   id: string
   message: string
   receivedAt: string

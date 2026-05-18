@@ -8,8 +8,8 @@
  * Flow:
  *   1. Validate the request body with Zod (field-level error messages).
  *   2. Store the submission in MongoDB (or a JSON file as fallback).
- *   3. Fire off an email notification to the site owner (non-blocking).
- *   4. Respond 201 Created with a confirmation message.
+ *   3. Send an email notification to the site owner.
+ *   4. Respond with the saved submission and notification status.
  */
 
 import { Router } from 'express'
@@ -85,15 +85,18 @@ contactRouter.post('/', async (request, response, next) => {
 
     logInfo(`Stored contact submission ${submission.id} from ${submission.email}`)
 
-    // Fire-and-forget: we don't await this because a slow SMTP server should
-    // not delay the HTTP response the visitor is waiting for.
-    sendContactNotification(submission)
+    const notification = await sendContactNotification(submission)
+    const notificationSent = notification.status === 'sent'
 
-    // 201 Created — the resource was successfully stored.
-    response.status(201).json({
+    // 201 Created when the full save + notification path succeeds.
+    // 202 Accepted when the message was saved but email needs attention.
+    response.status(notificationSent ? 201 : 202).json({
       id: submission.id,
+      emailNotification: notification.status,
       receivedAt: submission.receivedAt,
-      message: 'Message received and saved. Thanks for reaching out.',
+      message: notificationSent
+        ? 'Message received and email notification sent. Thanks for reaching out.'
+        : 'Message received and saved, but the notification email was not sent. Check SMTP settings or use the direct email link.',
     })
   } catch (error) {
     // Pass unexpected errors to Express's global error handler (app.ts).

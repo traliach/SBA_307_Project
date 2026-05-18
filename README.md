@@ -139,6 +139,10 @@ SMTP_USER=your@gmail.com
 SMTP_PASS=your-app-password
 ```
 
+`SMTP_USER` and `SMTP_PASS` are required for contact-form notification emails.
+Notifications are sent to `ADMIN_EMAIL` when it is set, otherwise they fall back
+to `SMTP_USER`.
+
 For production, set `VITE_API_BASE_URL` in Vercel environment variables:
 
 ```env

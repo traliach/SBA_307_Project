@@ -95,6 +95,7 @@ export interface ContactSubmissionInput {
 }
 
 export interface ContactSubmissionResult {
+  emailNotificationMethod?: 'gmail-api' | 'smtp' | 'none'
   emailNotification?: 'sent' | 'skipped' | 'failed'
   id: string
   message: string

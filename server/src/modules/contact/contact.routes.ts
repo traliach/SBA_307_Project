@@ -38,6 +38,25 @@ const contactSchema = z.object({
     .max(2000, 'Message must be under 2000 characters.'),
 })
 
+function createNotificationMessage(
+  status: 'sent' | 'skipped' | 'failed',
+  method: 'gmail-api' | 'smtp' | 'none',
+) {
+  if (status === 'sent') {
+    return 'Message received and email notification sent. Thanks for reaching out.'
+  }
+
+  if (method === 'gmail-api') {
+    return 'Message received and saved, but Gmail API notification failed. Check the Render Gmail OAuth environment variables and server logs.'
+  }
+
+  if (method === 'smtp') {
+    return 'Message received and saved, but SMTP notification failed. On Render Free, use the Gmail API environment variables instead of SMTP.'
+  }
+
+  return 'Message received and saved, but no notification route is configured. Add Gmail API environment variables or SMTP settings.'
+}
+
 // Express Router lets us group related routes and mount them as a block in app.ts.
 export const contactRouter = Router()
 
@@ -92,11 +111,10 @@ contactRouter.post('/', async (request, response, next) => {
     // 202 Accepted when the message was saved but email needs attention.
     response.status(notificationSent ? 201 : 202).json({
       id: submission.id,
+      emailNotificationMethod: notification.method,
       emailNotification: notification.status,
       receivedAt: submission.receivedAt,
-      message: notificationSent
-        ? 'Message received and email notification sent. Thanks for reaching out.'
-        : 'Message received and saved, but the notification email was not sent. Check SMTP settings or use the direct email link.',
+      message: createNotificationMessage(notification.status, notification.method),
     })
   } catch (error) {
     // Pass unexpected errors to Express's global error handler (app.ts).

@@ -19,8 +19,10 @@ import { logError, logInfo, logWarn } from './logger.js'
 import type { ContactSubmission } from '../types/content.js'
 
 export type ContactNotificationStatus = 'sent' | 'skipped' | 'failed'
+export type ContactNotificationMethod = 'gmail-api' | 'smtp' | 'none'
 
 export interface ContactNotificationResult {
+  method: ContactNotificationMethod
   message: string
   status: ContactNotificationStatus
 }
@@ -193,6 +195,7 @@ export async function sendContactNotification(
   if (!isGmailApiConfigured() && !transport) {
     logWarn('SMTP not configured — skipping contact email notification.')
     return {
+      method: 'none',
       status: 'skipped',
       message: 'Email notification was skipped because SMTP is not configured.',
     }
@@ -229,8 +232,10 @@ export async function sendContactNotification(
   <p style="white-space:pre-wrap;line-height:1.6">${submission.message}</p>
 </div>`.trim()
 
+  const method = isGmailApiConfigured() ? 'gmail-api' : 'smtp'
+
   try {
-    if (isGmailApiConfigured()) {
+    if (method === 'gmail-api') {
       await sendViaGmailApi({
         html,
         replyTo: submission.email,
@@ -248,16 +253,18 @@ export async function sendContactNotification(
       })
     }
 
-    logInfo(`Contact notification sent for submission ${submission.id}`)
+    logInfo(`Contact notification sent for submission ${submission.id} via ${method}`)
     return {
+      method,
       status: 'sent',
       message: 'Email notification sent.',
     }
   } catch (error: unknown) {
     const detail = error instanceof Error ? error.message : String(error)
-    logError(`Failed to send contact notification for ${submission.id}: ${detail}`)
+    logError(`Failed to send contact notification for ${submission.id} via ${method}: ${detail}`)
 
     return {
+      method,
       status: 'failed',
       message: 'Email notification failed to send.',
     }

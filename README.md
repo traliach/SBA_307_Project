@@ -151,6 +151,9 @@ instead. Set `SMTP_USER` to `t.achille.tech@gmail.com`, then set
 Google OAuth client with the `https://www.googleapis.com/auth/gmail.send` scope.
 When those three Gmail API variables are present, the API sends notifications
 over HTTPS instead of SMTP.
+If the contact form reports `SMTP notification failed`, one of the Gmail API
+variables is missing and the server fell back to SMTP. If it reports `Gmail API
+notification failed`, check the Render logs for the OAuth or Gmail API error.
 
 For production, set `VITE_API_BASE_URL` in Vercel environment variables:
 

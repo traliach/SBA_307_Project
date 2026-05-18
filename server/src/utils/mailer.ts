@@ -6,6 +6,7 @@
  *
  * It uses `nodemailer`, a Node.js library that speaks the SMTP protocol —
  * the same protocol your email app uses to talk to Gmail, Outlook, etc.
+ * On hosts that block SMTP ports, it can instead use the Gmail API over HTTPS.
  *
  * If the SMTP credentials are absent (e.g. during local development without
  * a .env file), the caller gets a skipped result instead of pretending email
@@ -57,6 +58,128 @@ function createTransport() {
 // Nodemailer reuses the same SMTP connection for subsequent sends.
 const transport = createTransport()
 
+function isGmailApiConfigured() {
+  return Boolean(
+    env.SMTP_USER &&
+      env.GMAIL_CLIENT_ID &&
+      env.GMAIL_CLIENT_SECRET &&
+      env.GMAIL_REFRESH_TOKEN,
+  )
+}
+
+function stripHeaderValue(value: string) {
+  return value.replace(/[\r\n]+/g, ' ').trim()
+}
+
+function encodeBase64Url(value: string) {
+  return Buffer.from(value, 'utf8')
+    .toString('base64')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=+$/g, '')
+}
+
+function createRawGmailMessage({
+  html,
+  replyTo,
+  subject,
+  text,
+}: {
+  html: string
+  replyTo: string
+  subject: string
+  text: string
+}) {
+  const boundary = `portfolio-contact-${Date.now()}`
+  const headers = [
+    `From: "Portfolio Contact" <${env.SMTP_USER}>`,
+    `To: ${env.SMTP_USER}`,
+    `Reply-To: ${stripHeaderValue(replyTo)}`,
+    `Subject: ${stripHeaderValue(subject)}`,
+    'MIME-Version: 1.0',
+    `Content-Type: multipart/alternative; boundary="${boundary}"`,
+  ]
+
+  return encodeBase64Url(
+    [
+      ...headers,
+      '',
+      `--${boundary}`,
+      'Content-Type: text/plain; charset="UTF-8"',
+      'Content-Transfer-Encoding: 8bit',
+      '',
+      text,
+      `--${boundary}`,
+      'Content-Type: text/html; charset="UTF-8"',
+      'Content-Transfer-Encoding: 8bit',
+      '',
+      html,
+      `--${boundary}--`,
+      '',
+    ].join('\r\n'),
+  )
+}
+
+async function getGmailAccessToken() {
+  const response = await fetch('https://oauth2.googleapis.com/token', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: new URLSearchParams({
+      client_id: env.GMAIL_CLIENT_ID!,
+      client_secret: env.GMAIL_CLIENT_SECRET!,
+      grant_type: 'refresh_token',
+      refresh_token: env.GMAIL_REFRESH_TOKEN!,
+    }),
+  })
+
+  if (!response.ok) {
+    const detail = await response.text().catch(() => '')
+    throw new Error(`Gmail token request failed: ${response.status} ${detail.slice(0, 200)}`)
+  }
+
+  const data = (await response.json()) as { access_token?: unknown }
+
+  if (typeof data.access_token !== 'string' || !data.access_token) {
+    throw new Error('Gmail token response did not include an access token.')
+  }
+
+  return data.access_token
+}
+
+async function sendViaGmailApi({
+  html,
+  replyTo,
+  subject,
+  text,
+}: {
+  html: string
+  replyTo: string
+  subject: string
+  text: string
+}) {
+  const accessToken = await getGmailAccessToken()
+  const raw = createRawGmailMessage({ html, replyTo, subject, text })
+
+  const response = await fetch(
+    'https://gmail.googleapis.com/gmail/v1/users/me/messages/send',
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ raw }),
+    },
+  )
+
+  if (!response.ok) {
+    const detail = await response.text().catch(() => '')
+    throw new Error(`Gmail send failed: ${response.status} ${detail.slice(0, 200)}`)
+  }
+}
+
 /**
  * Sends an email to the site owner whenever a new contact submission arrives.
  *
@@ -67,7 +190,7 @@ const transport = createTransport()
 export async function sendContactNotification(
   submission: ContactSubmission,
 ): Promise<ContactNotificationResult> {
-  if (!transport) {
+  if (!isGmailApiConfigured() && !transport) {
     logWarn('SMTP not configured — skipping contact email notification.')
     return {
       status: 'skipped',
@@ -107,14 +230,23 @@ export async function sendContactNotification(
 </div>`.trim()
 
   try {
-    await transport.sendMail({
-      from: `"Portfolio Contact" <${env.SMTP_USER}>`, // shown in the "From" field
-      to: env.SMTP_USER,                               // send to yourself
-      replyTo: submission.email,                       // hitting Reply goes to the visitor
-      subject,
-      text,   // fallback plain text
-      html,   // preferred rich HTML
-    })
+    if (isGmailApiConfigured()) {
+      await sendViaGmailApi({
+        html,
+        replyTo: submission.email,
+        subject,
+        text,
+      })
+    } else {
+      await transport!.sendMail({
+        from: `"Portfolio Contact" <${env.SMTP_USER}>`, // shown in the "From" field
+        to: env.SMTP_USER,                               // send to yourself
+        replyTo: submission.email,                       // hitting Reply goes to the visitor
+        subject,
+        text,   // fallback plain text
+        html,   // preferred rich HTML
+      })
+    }
 
     logInfo(`Contact notification sent for submission ${submission.id}`)
     return {

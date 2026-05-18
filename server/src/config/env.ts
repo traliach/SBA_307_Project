@@ -140,6 +140,24 @@ const envSchema = z.object({
       typeof value === 'string' && value.trim().length === 0 ? undefined : value,
     z.string().min(1).optional(),
   ),
+
+  // Gmail API fallback for hosts that block outbound SMTP ports. It sends over
+  // HTTPS and uses SMTP_USER as the Gmail account/from/to address.
+  GMAIL_CLIENT_ID: z.preprocess(
+    (value) =>
+      typeof value === 'string' && value.trim().length === 0 ? undefined : value,
+    z.string().min(1).optional(),
+  ),
+  GMAIL_CLIENT_SECRET: z.preprocess(
+    (value) =>
+      typeof value === 'string' && value.trim().length === 0 ? undefined : value,
+    z.string().min(1).optional(),
+  ),
+  GMAIL_REFRESH_TOKEN: z.preprocess(
+    (value) =>
+      typeof value === 'string' && value.trim().length === 0 ? undefined : value,
+    z.string().min(1).optional(),
+  ),
 }).superRefine((value, context) => {
   const adminAuthConfigured = Boolean(
     value.ADMIN_EMAIL && value.ADMIN_PASSWORD && value.JWT_SECRET,

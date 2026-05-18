@@ -137,10 +137,20 @@ SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
 SMTP_USER=your@gmail.com
 SMTP_PASS=your-app-password
+GMAIL_CLIENT_ID=
+GMAIL_CLIENT_SECRET=
+GMAIL_REFRESH_TOKEN=
 ```
 
-`SMTP_USER` and `SMTP_PASS` are required for contact-form notification emails.
-Notifications are sent to `SMTP_USER`.
+Contact-form notifications are sent to `SMTP_USER`. Use `SMTP_PASS` for the
+SMTP path, or use the Gmail API variables below for hosts that block SMTP.
+
+Render Free blocks outbound SMTP ports, so production can use the Gmail API
+instead. Set `SMTP_USER` to `t.achille.tech@gmail.com`, then set
+`GMAIL_CLIENT_ID`, `GMAIL_CLIENT_SECRET`, and `GMAIL_REFRESH_TOKEN` from a
+Google OAuth client with the `https://www.googleapis.com/auth/gmail.send` scope.
+When those three Gmail API variables are present, the API sends notifications
+over HTTPS instead of SMTP.
 
 For production, set `VITE_API_BASE_URL` in Vercel environment variables:
 

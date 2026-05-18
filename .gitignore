@@ -17,5 +17,5 @@ crash.log
 infra/.tfvars
 infra/.terraform.lock.hcl
 infra/connect-atlas.sh
-
+client_secret_*.json
 

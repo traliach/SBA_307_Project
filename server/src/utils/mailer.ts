@@ -109,7 +109,7 @@ export async function sendContactNotification(
   try {
     await transport.sendMail({
       from: `"Portfolio Contact" <${env.SMTP_USER}>`, // shown in the "From" field
-      to: env.ADMIN_EMAIL ?? env.SMTP_USER,            // send to the site owner
+      to: env.SMTP_USER,                               // send to yourself
       replyTo: submission.email,                       // hitting Reply goes to the visitor
       subject,
       text,   // fallback plain text
